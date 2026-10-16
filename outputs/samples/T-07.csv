@@ -1,0 +1,13 @@
+test_id,risk_id,item_rank,item_key,row_id,date,service,category,narrative,amount,supplier,tag
+T-07,R-03,1,spend_vs_award.csv:line 2,Over500_2026_P04_-_published|Data to publish|905,2026-07-22 11:56:20.457,"Finance, Property & Procurement",Supplies & Services,IT,129125.0,NEC SOFTWARE SOLUTIONS UK LIMITED,general_procurement
+T-07,R-03,1,spend_vs_award.csv:line 2,Over500_2026_P04_-_published|Data to publish|492,2026-07-22 11:56:20.457,"Finance, Property & Procurement",Supplies & Services,IT,91629.15,NEC SOFTWARE SOLUTIONS UK LIMITED,general_procurement
+T-07,R-03,1,spend_vs_award.csv:line 2,Over500_2026_P04_-_published|Data to publish|487,2026-07-22 11:56:20.457,"Finance, Property & Procurement",Supplies & Services,IT,52054.0,NEC SOFTWARE SOLUTIONS UK LIMITED,general_procurement
+T-07,R-03,2,spend_vs_award.csv:line 3,Over500_2026_P03_-_published|Data to publish|396,2026-06-10 11:29:10.023,"Transformation, Customer & ICT",Supplies & Services,IT,24000.0,BookingLab Limited,general_procurement
+T-07,R-03,3,spend_vs_award.csv:line 4,Over500_2026_P03_-_published|Data to publish|384,2026-06-04 09:05:04.010,Development & Housing,Supplies & Services,IT,12105.85,Exacom Systems Ltd,general_procurement
+T-07,R-03,4,spend_vs_award.csv:line 6,Over500_2026_P02_-_published|Data to publish|460,2026-05-20 11:38:06.860,Education & SEND,Supplies & Services,IT,8979.02,Softcat Ltd,general_procurement
+T-07,R-03,4,spend_vs_award.csv:line 6,Over500_2026_P03_-_published|Data to publish|375,2026-06-17 16:52:38.753,"Transformation, Customer & ICT",Supplies & Services,IT,2025.98,Softcat Ltd,general_procurement
+T-07,R-03,5,spend_vs_award.csv:line 7,Over500_2026_P03_-_published|Data to publish|371,2026-06-08 12:55:50.877,Community Services,Supplies & Services,IT,48579.2,IDOX SOFTWARE LTD,general_procurement
+T-07,R-03,5,spend_vs_award.csv:line 7,Over500_2026_P02_-_published|Data to publish|462,2026-05-20 15:37:03.343,Development & Housing,Supplies & Services,IT,2647.21,IDOX SOFTWARE LTD,general_procurement
+T-07,R-03,6,spend_vs_award.csv:line 8,Over500_2026_P03_-_published|Data to publish|2130,2026-06-09 12:39:10.073,Development & Housing,Third Party Payments,Private Contractors,38775.0,TWO SAINTS LTD,general_procurement
+T-07,R-03,6,spend_vs_award.csv:line 8,Over500_2026_P04_-_published|Data to publish|3181,2026-07-22 09:56:33.040,Development & Housing,Third Party Payments,Private Contractors,38775.0,TWO SAINTS LTD,general_procurement
+T-07,R-03,6,spend_vs_award.csv:line 8,Over500_2026_P02_-_published|Data to publish|2160,2026-05-12 12:36:24.243,Development & Housing,Third Party Payments,Private Contractors,27147.69,TWO SAINTS LTD,general_procurement

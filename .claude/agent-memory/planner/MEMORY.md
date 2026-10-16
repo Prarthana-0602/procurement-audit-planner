@@ -1,0 +1,1 @@
+- [Sample filter columns](sample-filter-columns.md) — tag vs primary_tag by file; tier filter value

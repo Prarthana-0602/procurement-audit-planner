@@ -1,0 +1,9 @@
+test_id,risk_id,item_rank,item_key,row_id,date,service,category,narrative,amount,supplier,tag
+T-05,R-02,1,threshold_clustering.csv:line 13,Over500_2026_P03_-_published|Data to publish|649,2026-06-18 08:41:59.737,Chief Executive,Supplies & Services,General Expenses,24244.0,Triple Value Impact,general_procurement
+T-05,R-02,2,threshold_clustering.csv:line 14,Over500_2026_P02_-_published|Data to publish|560,2026-05-12 13:16:19.520,Development & Housing,Supplies & Services,Professional Fees,24227.07,DevComms South East Ltd,general_procurement
+T-05,R-02,3,threshold_clustering.csv:line 16,Over500_2026_P03_-_published|Data to publish|13,2026-06-01 16:04:46.123,Children's Social Care,Employees,Training,24088.98,The Better Group Ltd,general_procurement
+T-05,R-02,4,threshold_clustering.csv:line 17,Over500_2026_P03_-_published|Data to publish|396,2026-06-10 11:29:10.023,"Transformation, Customer & ICT",Supplies & Services,IT,24000.0,BookingLab Limited,general_procurement
+T-05,R-02,5,threshold_clustering.csv:line 32,Over500_2026_P02_-_published|Data to publish|530,2026-05-27 12:56:02.700,Adult Social Care,Supplies & Services,Catering,23694.03,Elior UK PLC,general_procurement
+T-05,R-02,6,threshold_clustering.csv:line 34,Over500_2026_P03_-_published|Data to publish|683,2026-06-08 15:19:01.680,Environment,Third Party Payments,Payment to contractor,23591.22,VolkerHighways Ltd,general_procurement
+T-05,R-02,7,threshold_clustering.csv:line 35,Over500_2026_P03_-_published|Data to publish|440,2026-06-16 13:25:27.470,Adult Social Care,Supplies & Services,Catering,23516.69,Elior UK PLC,general_procurement
+T-05,R-02,8,threshold_clustering.csv:line 39,Over500_2026_P04_-_published|Data to publish|533,2026-07-28 12:57:29.070,Adult Social Care,Supplies & Services,Catering,23173.08,Elior UK PLC,general_procurement

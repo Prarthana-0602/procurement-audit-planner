@@ -1,0 +1,945 @@
+{
+ "generated": "2026-10-16 09:22 UTC",
+ "pack_version": 3,
+ "register_revision": 1,
+ "computed": {
+  "scope.approved": 4,
+  "scope.rejected": 1,
+  "scope.tests": 10,
+  "scope.samples": 10,
+  "scope.sample_rows": 359,
+  "scope.rules_total": 74,
+  "scope.rules_cited": 49,
+  "scope.rules_not_tested": 25,
+  "scope.register_revision": 1,
+  "scope.pack_version": 3,
+  "T-01.population": 150,
+  "T-01.items": 20,
+  "T-01.rows": 54,
+  "T-02.population": 183,
+  "T-02.items": 20,
+  "T-02.rows": 45,
+  "T-03.population": 183,
+  "T-03.items": 10,
+  "T-03.rows": 30,
+  "T-04.population": 40,
+  "T-04.items": 20,
+  "T-04.rows": 59,
+  "T-05.population": 8,
+  "T-05.items": 8,
+  "T-05.rows": 8,
+  "T-10.population": 5,
+  "T-10.items": 5,
+  "T-10.rows": 14,
+  "T-06.population": 5,
+  "T-06.items": 5,
+  "T-06.rows": 7,
+  "T-07.population": 6,
+  "T-07.items": 6,
+  "T-07.rows": 12,
+  "T-08.population": 311,
+  "T-08.items": 30,
+  "T-08.rows": 88,
+  "T-09.population": 315,
+  "T-09.items": 15,
+  "T-09.rows": 42,
+  "R-01.score": 8,
+  "R-01.likelihood": 2,
+  "R-01.impact": 4,
+  "R-01.sample_size": 20,
+  "R-02.score": 9,
+  "R-02.likelihood": 3,
+  "R-02.impact": 3,
+  "R-02.sample_size": 20,
+  "R-03.score": 9,
+  "R-03.likelihood": 3,
+  "R-03.impact": 3,
+  "R-03.sample_size": 20,
+  "R-05.score": 12,
+  "R-05.likelihood": 3,
+  "R-05.impact": 4,
+  "R-05.sample_size": 30
+ },
+ "samples": {
+  "T-01": {
+   "file": "off_contract.csv",
+   "kind": "supplier",
+   "population": 150,
+   "items": 20,
+   "rows": 54,
+   "size_cap": 20,
+   "method": "top",
+   "rows_per_item": 3,
+   "filter": [
+    {
+     "col": "primary_tag",
+     "op": "==",
+     "value": "general_procurement"
+    }
+   ],
+   "sort": [
+    {
+     "by": "annualised_estimate",
+     "desc": true
+    }
+   ]
+  },
+  "T-02": {
+   "file": "high_value_suppliers.csv",
+   "kind": "supplier",
+   "population": 183,
+   "items": 20,
+   "rows": 45,
+   "size_cap": 20,
+   "method": "spread",
+   "rows_per_item": 3,
+   "filter": [
+    {
+     "col": "primary_tag",
+     "op": "==",
+     "value": "general_procurement"
+    }
+   ],
+   "sort": [
+    {
+     "by": "annualised_estimate",
+     "desc": true
+    }
+   ]
+  },
+  "T-03": {
+   "file": "high_value_suppliers.csv",
+   "kind": "supplier",
+   "population": 183,
+   "items": 10,
+   "rows": 30,
+   "size_cap": 20,
+   "method": "top",
+   "rows_per_item": 3,
+   "filter": [
+    {
+     "col": "primary_tag",
+     "op": "==",
+     "value": "general_procurement"
+    }
+   ],
+   "sort": [
+    {
+     "by": "gbp",
+     "desc": true
+    }
+   ]
+  },
+  "T-04": {
+   "file": "split_purchases.csv",
+   "kind": "group",
+   "population": 40,
+   "items": 20,
+   "rows": 59,
+   "size_cap": 20,
+   "method": "top",
+   "rows_per_item": 3,
+   "filter": [
+    {
+     "col": "tag",
+     "op": "==",
+     "value": "general_procurement"
+    },
+    {
+     "col": "tier",
+     "op": "==",
+     "value": "25000"
+    }
+   ],
+   "sort": [
+    {
+     "by": "total_gbp",
+     "desc": true
+    }
+   ]
+  },
+  "T-05": {
+   "file": "threshold_clustering.csv",
+   "kind": "transaction",
+   "population": 8,
+   "items": 8,
+   "rows": 8,
+   "size_cap": 20,
+   "method": "top",
+   "rows_per_item": 3,
+   "filter": [
+    {
+     "col": "tag",
+     "op": "==",
+     "value": "general_procurement"
+    },
+    {
+     "col": "tier",
+     "op": "==",
+     "value": "25000"
+    }
+   ],
+   "sort": [
+    {
+     "by": "amount",
+     "desc": true
+    }
+   ]
+  },
+  "T-10": {
+   "file": "split_purchases.csv",
+   "kind": "group",
+   "population": 5,
+   "items": 5,
+   "rows": 14,
+   "size_cap": 20,
+   "method": "top",
+   "rows_per_item": 3,
+   "filter": [
+    {
+     "col": "tag",
+     "op": "==",
+     "value": "general_procurement"
+    },
+    {
+     "col": "tier",
+     "op": "in",
+     "value": [
+      "500000",
+      "2500000"
+     ]
+    }
+   ],
+   "sort": [
+    {
+     "by": "total_gbp",
+     "desc": true
+    }
+   ]
+  },
+  "T-06": {
+   "file": "expired_notice_spend.csv",
+   "kind": "supplier",
+   "population": 5,
+   "items": 5,
+   "rows": 7,
+   "size_cap": 20,
+   "method": "top",
+   "rows_per_item": 3,
+   "filter": [
+    {
+     "col": "primary_tag",
+     "op": "==",
+     "value": "general_procurement"
+    }
+   ],
+   "sort": [
+    {
+     "by": "annualised_estimate",
+     "desc": true
+    }
+   ]
+  },
+  "T-07": {
+   "file": "spend_vs_award.csv",
+   "kind": "supplier",
+   "population": 6,
+   "items": 6,
+   "rows": 12,
+   "size_cap": 20,
+   "method": "top",
+   "rows_per_item": 3,
+   "filter": [
+    {
+     "col": "primary_tag",
+     "op": "==",
+     "value": "general_procurement"
+    }
+   ],
+   "sort": [
+    {
+     "by": "ratio",
+     "desc": true
+    }
+   ]
+  },
+  "T-08": {
+   "file": "off_contract.csv",
+   "kind": "supplier",
+   "population": 311,
+   "items": 30,
+   "rows": 88,
+   "size_cap": 30,
+   "method": "top",
+   "rows_per_item": 3,
+   "filter": [
+    {
+     "col": "primary_tag",
+     "op": "==",
+     "value": "care_education_placement"
+    }
+   ],
+   "sort": [
+    {
+     "by": "annualised_estimate",
+     "desc": true
+    }
+   ]
+  },
+  "T-09": {
+   "file": "high_value_suppliers.csv",
+   "kind": "supplier",
+   "population": 315,
+   "items": 15,
+   "rows": 42,
+   "size_cap": 30,
+   "method": "spread",
+   "rows_per_item": 3,
+   "filter": [
+    {
+     "col": "primary_tag",
+     "op": "==",
+     "value": "care_education_placement"
+    }
+   ],
+   "sort": [
+    {
+     "by": "annualised_estimate",
+     "desc": true
+    }
+   ]
+  }
+ },
+ "figures": [
+  {
+   "key": "R-01.likelihood",
+   "value": 2,
+   "text": "2",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-01.impact",
+   "value": 4,
+   "text": "4",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-01.score",
+   "value": 8,
+   "text": "8",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-02.likelihood",
+   "value": 3,
+   "text": "3",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-02.impact",
+   "value": 3,
+   "text": "3",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-02.score",
+   "value": 9,
+   "text": "9",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-03.likelihood",
+   "value": 3,
+   "text": "3",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-03.impact",
+   "value": 3,
+   "text": "3",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-03.score",
+   "value": 9,
+   "text": "9",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-05.likelihood",
+   "value": 3,
+   "text": "3",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-05.impact",
+   "value": 4,
+   "text": "4",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-05.score",
+   "value": 12,
+   "text": "12",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "scope.approved",
+   "value": 4,
+   "text": "4",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "$.tests.off_contract.by_tag.general_procurement.count",
+   "value": 150,
+   "text": "150",
+   "source": "analytics.json",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "$.tests.threshold_clustering.by_tag.general_procurement.count",
+   "value": 47,
+   "text": "47",
+   "source": "analytics.json",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "$.tests.expired_notice_spend.by_tag.general_procurement.count",
+   "value": 5,
+   "text": "5",
+   "source": "analytics.json",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "$.tests.off_contract.by_tag.care_education_placement.count",
+   "value": 311,
+   "text": "311",
+   "source": "analytics.json",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "@scope.approved",
+   "value": 4,
+   "text": "4",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "$.tests.off_contract.by_tag.general_procurement.count",
+   "value": 150,
+   "text": "150",
+   "source": "analytics.json",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "$.tests.split_purchases.by_tag.general_procurement.count",
+   "value": 132,
+   "text": "132",
+   "source": "analytics.json",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "$.tests.expired_notice_spend.by_tag.general_procurement.count",
+   "value": 5,
+   "text": "5",
+   "source": "analytics.json",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-01.population",
+   "value": 150,
+   "text": "150",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-01.items",
+   "value": 20,
+   "text": "20",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-01.rows",
+   "value": 54,
+   "text": "54",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-02.population",
+   "value": 183,
+   "text": "183",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-02.items",
+   "value": 20,
+   "text": "20",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-02.rows",
+   "value": 45,
+   "text": "45",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-03.population",
+   "value": 183,
+   "text": "183",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-03.items",
+   "value": 10,
+   "text": "10",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-03.rows",
+   "value": 30,
+   "text": "30",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-04.population",
+   "value": 40,
+   "text": "40",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-04.items",
+   "value": 20,
+   "text": "20",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-04.rows",
+   "value": 59,
+   "text": "59",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-05.population",
+   "value": 8,
+   "text": "8",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-05.items",
+   "value": 8,
+   "text": "8",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-05.rows",
+   "value": 8,
+   "text": "8",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-10.population",
+   "value": 5,
+   "text": "5",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-10.items",
+   "value": 5,
+   "text": "5",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-10.rows",
+   "value": 14,
+   "text": "14",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-06.population",
+   "value": 5,
+   "text": "5",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-06.items",
+   "value": 5,
+   "text": "5",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-06.rows",
+   "value": 7,
+   "text": "7",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-07.population",
+   "value": 6,
+   "text": "6",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-07.items",
+   "value": 6,
+   "text": "6",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-07.rows",
+   "value": 12,
+   "text": "12",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-08.population",
+   "value": 311,
+   "text": "311",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-08.items",
+   "value": 30,
+   "text": "30",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-08.rows",
+   "value": 88,
+   "text": "88",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-09.population",
+   "value": 315,
+   "text": "315",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-09.items",
+   "value": 15,
+   "text": "15",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "T-09.rows",
+   "value": 42,
+   "text": "42",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "scope.samples",
+   "value": 10,
+   "text": "10",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "scope.sample_rows",
+   "value": 359,
+   "text": "359",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "scope.rules_total",
+   "value": 74,
+   "text": "74",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "scope.rules_cited",
+   "value": 49,
+   "text": "49",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "scope.rules_not_tested",
+   "value": 25,
+   "text": "25",
+   "source": "computed by build_pack.py",
+   "doc": "planning-memo.md"
+  },
+  {
+   "key": "R-01.sample_size",
+   "value": 20,
+   "text": "20",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-01.items",
+   "value": 20,
+   "text": "20",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-01.population",
+   "value": 150,
+   "text": "150",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-01.rows",
+   "value": 54,
+   "text": "54",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-02.items",
+   "value": 20,
+   "text": "20",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-02.population",
+   "value": 183,
+   "text": "183",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-02.rows",
+   "value": 45,
+   "text": "45",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-03.items",
+   "value": 10,
+   "text": "10",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-03.population",
+   "value": 183,
+   "text": "183",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-03.rows",
+   "value": 30,
+   "text": "30",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "R-02.sample_size",
+   "value": 20,
+   "text": "20",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-04.items",
+   "value": 20,
+   "text": "20",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-04.population",
+   "value": 40,
+   "text": "40",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-04.rows",
+   "value": 59,
+   "text": "59",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-05.items",
+   "value": 8,
+   "text": "8",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-05.population",
+   "value": 8,
+   "text": "8",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-05.rows",
+   "value": 8,
+   "text": "8",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-10.items",
+   "value": 5,
+   "text": "5",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-10.population",
+   "value": 5,
+   "text": "5",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-10.rows",
+   "value": 14,
+   "text": "14",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "R-03.sample_size",
+   "value": 20,
+   "text": "20",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-06.items",
+   "value": 5,
+   "text": "5",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-06.population",
+   "value": 5,
+   "text": "5",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-06.rows",
+   "value": 7,
+   "text": "7",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-07.items",
+   "value": 6,
+   "text": "6",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-07.population",
+   "value": 6,
+   "text": "6",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-07.rows",
+   "value": 12,
+   "text": "12",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "R-05.sample_size",
+   "value": 30,
+   "text": "30",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-08.items",
+   "value": 30,
+   "text": "30",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-08.population",
+   "value": 311,
+   "text": "311",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-08.rows",
+   "value": 88,
+   "text": "88",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-09.items",
+   "value": 15,
+   "text": "15",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-09.population",
+   "value": 315,
+   "text": "315",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  },
+  {
+   "key": "T-09.rows",
+   "value": 42,
+   "text": "42",
+   "source": "computed by build_pack.py",
+   "doc": "audit-program.md"
+  }
+ ]
+}

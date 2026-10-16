@@ -1,0 +1,493 @@
+{
+ "version": 3,
+ "memo": {
+  "background": "The register approved by the auditor puts {{@scope.approved}} risks in scope. Analysis of the full published spend population shows {{$.tests.off_contract.by_tag.general_procurement.count|int}} general procurement suppliers with an annualised estimate above the quote tier and no exact notice match [metric:$.tests.off_contract.by_tag.general_procurement.count], {{$.tests.split_purchases.by_tag.general_procurement.count|int}} split-purchase candidates [metric:$.tests.split_purchases.by_tag.general_procurement.count] and {{$.tests.expired_notice_spend.by_tag.general_procurement.count|int}} suppliers paid after every matching notice ended [metric:$.tests.expired_notice_spend.by_tag.general_procurement.count]. These are indicators to investigate, not findings.",
+  "approach": "The audit tests each in-scope risk against the controls the Contract Procedure Rules require, starting with the largest general procurement indicators, then the split and threshold indicators, then expiry and variation, and finally care and education placements as a separate test population that is never mixed with general procurement. Each test draws a deterministic sample from the analytics lists and asks the council for the supporting records listed in the request list. The split-purchase tests cover the quote tier and, in a separate test, the two upper tiers, so the highest-value groups are not left out of the sampled population.",
+  "limitations": [
+   "All annualised figures are estimates built from the published spend window and may be inflated by one-off or seasonal payments [metric:$.caveats].",
+   "Contracts Finder carries only contracts above its own publication level and call-offs may sit under a notice in another name, so absence of a notice is an indicator and not evidence that no contract exists.",
+   "No agreed-action or follow-up data is available, so the plan cannot test whether past audit actions were closed.",
+   "Spend carries no Companies House numbers, so joins to notices rely on normalised names and near-miss names are left for the auditor.",
+   "The auditor asked that placement commissioning be considered in light of the adverse Personal Budgets opinion; this plan tests placements separately and does not extend to personal budget payments, which are excluded from the spend population as payments to individuals.",
+   "Off-contract indicators also fire for grants, premises and agency staff spend; these tags are outside the approved risks, so no test samples them. The auditor is asked to confirm that they stay out of scope.",
+   "Schools are not covered by a procurement test and personal budget payments are excluded from the spend population as payments to individuals; the auditor is asked to confirm that both exclusions stand."
+  ]
+ },
+ "risks": [
+  {
+   "risk_id": "R-01",
+   "rationale": "Approved. {{$.tests.off_contract.by_tag.general_procurement.count|int}} general procurement suppliers sit above the quote tier with no exact notice match [metric:$.tests.off_contract.by_tag.general_procurement.count], so quote, notice and exception evidence is to be requested [rule:CPR-59].",
+   "controls": [
+    {
+     "id": "C-01",
+     "description": "Purchases at or above the quote tier follow invitations to quote through the Procurement Portal, and larger ones follow full tender [rule:CPR-59] [rule:CPR-61] [rule:CPR-63] [rule:CPR-65] [rule:CPR-17]."
+    },
+    {
+     "id": "C-02",
+     "description": "A contract notice is published and the award is notified so it appears on the contracts register [rule:CPR-60] [rule:CPR-62] [rule:CPR-64] [rule:CPR-66] [rule:CPR-11] [rule:CPR-12] [rule:CPR-40] [rule:CPR-08]. The notice is approved and issued by the Service Lead for Procurement and Commissioning or their delegate [rule:CPR-13]. Details of every invitation to tender are published [rule:CPR-07]."
+    },
+    {
+     "id": "C-03",
+     "description": "Any exception or waiver of competition is approved by the right officer, fully documented and reported [rule:CPR-23] [rule:CPR-24] [rule:CPR-25] [rule:CPR-26] [rule:CPR-27] [rule:CPR-28] [rule:CPR-29] [rule:CPR-30] [rule:CPR-31] [rule:CPR-32] [rule:CPR-67]."
+    },
+    {
+     "id": "C-04",
+     "description": "The award is approved at the level the contract value requires and a written record of the procurement is kept [rule:CPR-02] [rule:CPR-03] [rule:CPR-04] [rule:CPR-05] [rule:CPR-54] [rule:CPR-55] [rule:CPR-56] [rule:CPR-57] [rule:CPR-36] [rule:CPR-37] [rule:CPR-34] [rule:CPR-35]."
+    },
+    {
+     "id": "C-05",
+     "description": "Use of a purchasing scheme or framework is supported by advice that the council may use it [rule:CPR-33] [rule:CPR-69]."
+    }
+   ],
+   "tests": [
+    {
+     "id": "T-01",
+     "control_ids": [
+      "C-01",
+      "C-02"
+     ],
+     "step": "For the largest general procurement suppliers flagged with no exact notice match, obtain the quotes or tender record and the published notice, or the basis for none, and compare with the quote rule [rule:CPR-59] and the indicator count [metric:$.tests.off_contract.by_tag.general_procurement.count]. Confirm any notice was approved and issued by the Service Lead for Procurement and Commissioning or their delegate [rule:CPR-13]. Confirm the invitation to tender was published where required [rule:CPR-07].",
+     "sample": {
+      "file": "off_contract.csv",
+      "filter": [
+       {
+        "col": "primary_tag",
+        "op": "==",
+        "value": "general_procurement"
+       }
+      ],
+      "sort": [
+       {
+        "by": "annualised_estimate",
+        "desc": true
+       }
+      ],
+      "n": 20,
+      "method": "top",
+      "rows_per_item": 3
+     },
+     "pbc": [
+      "PBC-01",
+      "PBC-02"
+     ]
+    },
+    {
+     "id": "T-02",
+     "control_ids": [
+      "C-03",
+      "C-05"
+     ],
+     "step": "For a spread of general procurement suppliers above the quote tier, obtain any exception, waiver or framework basis and confirm approval by the named officer [rule:CPR-30] [rule:CPR-33]; population in metric [metric:$.tests.high_value_suppliers.by_tag.general_procurement.count].",
+     "sample": {
+      "file": "high_value_suppliers.csv",
+      "filter": [
+       {
+        "col": "primary_tag",
+        "op": "==",
+        "value": "general_procurement"
+       }
+      ],
+      "sort": [
+       {
+        "by": "annualised_estimate",
+        "desc": true
+       }
+      ],
+      "n": 20,
+      "method": "spread",
+      "rows_per_item": 3
+     },
+     "pbc": [
+      "PBC-03"
+     ]
+    },
+    {
+     "id": "T-03",
+     "control_ids": [
+      "C-04"
+     ],
+     "step": "For the sampled suppliers, obtain the award approval at the level the contract value requires and confirm it is signed by the named approver: the relevant Service Director for the lowest band [rule:CPR-54]; the Service Director on the written report approved by the relevant board for the next band [rule:CPR-55]; the Service Director with the Portfolio Holder for a Key Decision [rule:CPR-56]; the Executive for the highest band [rule:CPR-57]. Also confirm the procurement record is held [rule:CPR-36].",
+     "sample": {
+      "file": "high_value_suppliers.csv",
+      "filter": [
+       {
+        "col": "primary_tag",
+        "op": "==",
+        "value": "general_procurement"
+       }
+      ],
+      "sort": [
+       {
+        "by": "gbp",
+        "desc": true
+       }
+      ],
+      "n": 10,
+      "method": "top",
+      "rows_per_item": 3
+     },
+     "pbc": [
+      "PBC-04"
+     ]
+    }
+   ]
+  },
+  {
+   "risk_id": "R-02",
+   "rationale": "Approved. {{$.tests.threshold_clustering.by_tag.general_procurement.count|int}} general procurement payments sit just below a threshold [metric:$.tests.threshold_clustering.by_tag.general_procurement.count] and the anti-splitting rule applies [rule:CPR-15].",
+   "controls": [
+    {
+     "id": "C-06",
+     "description": "Contract value is a genuine estimate over the whole term and purchases are not artificially split [rule:CPR-14] [rule:CPR-15]."
+    },
+    {
+     "id": "C-07",
+     "description": "Repeat or similar purchases are valued together and advice is sought on the applicable procedure [rule:CPR-16]."
+    }
+   ],
+   "tests": [
+    {
+     "id": "T-04",
+     "control_ids": [
+      "C-06",
+      "C-07"
+     ],
+     "step": "For general procurement supplier sets with several payments whose combined value crosses the quote tier, obtain the value estimate and order history and judge whether one need was split [rule:CPR-15] [metric:$.tests.split_purchases.by_tag.general_procurement.count].",
+     "sample": {
+      "file": "split_purchases.csv",
+      "filter": [
+       {
+        "col": "tag",
+        "op": "==",
+        "value": "general_procurement"
+       },
+       {
+        "col": "tier",
+        "op": "==",
+        "value": "25000"
+       }
+      ],
+      "sort": [
+       {
+        "by": "total_gbp",
+        "desc": true
+       }
+      ],
+      "n": 20,
+      "method": "top",
+      "rows_per_item": 3
+     },
+     "pbc": [
+      "PBC-05"
+     ]
+    },
+    {
+     "id": "T-05",
+     "control_ids": [
+      "C-06"
+     ],
+     "step": "For general procurement payments just below the quote tier, obtain the order, estimate and approval and check how the value was set [rule:CPR-14] [metric:$.tests.threshold_clustering.by_tag.general_procurement.count].",
+     "sample": {
+      "file": "threshold_clustering.csv",
+      "filter": [
+       {
+        "col": "tag",
+        "op": "==",
+        "value": "general_procurement"
+       },
+       {
+        "col": "tier",
+        "op": "==",
+        "value": "25000"
+       }
+      ],
+      "sort": [
+       {
+        "by": "amount",
+        "desc": true
+       }
+      ],
+      "n": 20,
+      "method": "top",
+      "rows_per_item": 3
+     },
+     "pbc": [
+      "PBC-05"
+     ]
+    },
+    {
+     "id": "T-10",
+     "control_ids": [
+      "C-06",
+      "C-07"
+     ],
+     "step": "For the highest-value general procurement supplier sets in the upper tiers, obtain the value estimate and the approval at the level the combined value requires, and judge whether one need was split [rule:CPR-15] [rule:CPR-56] [rule:CPR-57] [metric:$.tests.split_purchases.by_tag.general_procurement.count].",
+     "sample": {
+      "file": "split_purchases.csv",
+      "filter": [
+       {
+        "col": "tag",
+        "op": "==",
+        "value": "general_procurement"
+       },
+       {
+        "col": "tier",
+        "op": "in",
+        "value": [
+         "500000",
+         "2500000"
+        ]
+       }
+      ],
+      "sort": [
+       {
+        "by": "total_gbp",
+        "desc": true
+       }
+      ],
+      "n": 20,
+      "method": "top",
+      "rows_per_item": 3
+     },
+     "pbc": [
+      "PBC-05"
+     ]
+    }
+   ]
+  },
+  {
+   "risk_id": "R-03",
+   "rationale": "Approved. {{$.tests.expired_notice_spend.by_tag.general_procurement.count|int}} general procurement suppliers were paid after every matching notice ended [metric:$.tests.expired_notice_spend.by_tag.general_procurement.count]; extensions and variations need approval [rule:CPR-70] [rule:CPR-71].",
+   "controls": [
+    {
+     "id": "C-08",
+     "description": "An extension to an existing contract has the approval of the statutory finance officer [rule:CPR-70]."
+    },
+    {
+     "id": "C-09",
+     "description": "A variation of scope has prior written approval from the Monitoring Officer and the statutory finance officer, and board approval where it follows an extension [rule:CPR-71] [rule:CPR-72]."
+    }
+   ],
+   "tests": [
+    {
+     "id": "T-06",
+     "control_ids": [
+      "C-08"
+     ],
+     "step": "For each general procurement supplier paid after notice expiry, obtain the extension approval or the replacement contract [rule:CPR-70] [metric:$.tests.expired_notice_spend.by_tag.general_procurement.count]. Check the approval is signed by the statutory finance officer.",
+     "sample": {
+      "file": "expired_notice_spend.csv",
+      "filter": [
+       {
+        "col": "primary_tag",
+        "op": "==",
+        "value": "general_procurement"
+       }
+      ],
+      "sort": [
+       {
+        "by": "annualised_estimate",
+        "desc": true
+       }
+      ],
+      "n": 5,
+      "method": "top",
+      "rows_per_item": 3
+     },
+     "pbc": [
+      "PBC-06"
+     ]
+    },
+    {
+     "id": "T-07",
+     "control_ids": [
+      "C-09"
+     ],
+     "step": "For general procurement suppliers whose annualised estimate is well above the award, obtain variation approvals and the award basis [rule:CPR-71] [metric:$.tests.spend_vs_award.by_tag.general_procurement.count]. Check the approval is signed by both the Monitoring Officer and the statutory finance officer, and for any extension that the relevant board approved it [rule:CPR-72].",
+     "sample": {
+      "file": "spend_vs_award.csv",
+      "filter": [
+       {
+        "col": "primary_tag",
+        "op": "==",
+        "value": "general_procurement"
+       }
+      ],
+      "sort": [
+       {
+        "by": "ratio",
+        "desc": true
+       }
+      ],
+      "n": 6,
+      "method": "top",
+      "rows_per_item": 3
+     },
+     "pbc": [
+      "PBC-06"
+     ]
+    }
+   ]
+  },
+  {
+   "risk_id": "R-05",
+   "rationale": "Approved with the auditor's likelihood amendment. Care and education placements are tested on their own: {{$.tests.off_contract.by_tag.care_education_placement.count|int}} placement suppliers show no exact notice match [metric:$.tests.off_contract.by_tag.care_education_placement.count] and the social care exemption needs a recorded basis [rule:CPR-73].",
+   "controls": [
+    {
+     "id": "C-10",
+     "description": "Where the social care exemption is used, the reasons for the choice of provider are recorded on the individual's case notes by the responsible Service Directors [rule:CPR-73]."
+    },
+    {
+     "id": "C-11",
+     "description": "Where the exemption applies above the threshold the relevant board approves the contract; Provider Selection Regime decisions are recorded [rule:CPR-74] [rule:CPR-68]."
+    }
+   ],
+   "tests": [
+    {
+     "id": "T-08",
+     "control_ids": [
+      "C-10"
+     ],
+     "step": "For the largest placement providers with no exact notice match, obtain the recorded reasons for the choice of provider and the commissioning basis [rule:CPR-73] [metric:$.tests.off_contract.by_tag.care_education_placement.count]. Confirm the record is made by the responsible Service Director.",
+     "sample": {
+      "file": "off_contract.csv",
+      "filter": [
+       {
+        "col": "primary_tag",
+        "op": "==",
+        "value": "care_education_placement"
+       }
+      ],
+      "sort": [
+       {
+        "by": "annualised_estimate",
+        "desc": true
+       }
+      ],
+      "n": 30,
+      "method": "top",
+      "rows_per_item": 3
+     },
+     "pbc": [
+      "PBC-07"
+     ]
+    },
+    {
+     "id": "T-09",
+     "control_ids": [
+      "C-11"
+     ],
+     "step": "For a spread of placement providers above the quote tier, confirm board approval of the exemption and the Provider Selection Regime record [rule:CPR-74] [metric:$.tests.high_value_suppliers.by_tag.care_education_placement.count].",
+     "sample": {
+      "file": "high_value_suppliers.csv",
+      "filter": [
+       {
+        "col": "primary_tag",
+        "op": "==",
+        "value": "care_education_placement"
+       }
+      ],
+      "sort": [
+       {
+        "by": "annualised_estimate",
+        "desc": true
+       }
+      ],
+      "n": 15,
+      "method": "spread",
+      "rows_per_item": 3
+     },
+     "pbc": [
+      "PBC-08"
+     ]
+    }
+   ]
+  }
+ ],
+ "pbc_items": [
+  {
+   "id": "PBC-01",
+   "item": "Quotes, tender evaluation records and the order or contract for each sampled general procurement supplier."
+  },
+  {
+   "id": "PBC-02",
+   "item": "The published contract notice and award notification, or the council's stated reason none exists. Evidence of who approved and issued each notice. The council's publication log of invitations to tender."
+  },
+  {
+   "id": "PBC-03",
+   "item": "Exception or waiver reports, officer approvals, and framework or purchasing scheme call-off evidence."
+  },
+  {
+   "id": "PBC-04",
+   "item": "For each sampled supplier, the award approval at the Appendix A level for its contract value (Service Director, board-approved report, Portfolio Holder Key Decision or Executive decision, as applicable), showing the approver, and the procurement record."
+  },
+  {
+   "id": "PBC-05",
+   "item": "Value estimates, order history and approvals for the flagged payment sets."
+  },
+  {
+   "id": "PBC-06",
+   "item": "Extension and variation approvals, replacement contracts and the award value basis. Each approval to show the approving officer (statutory finance officer for extensions; Monitoring Officer and statutory finance officer for variations)."
+  },
+  {
+   "id": "PBC-07",
+   "item": "Placement commissioning records showing the reasons for the choice of provider. Records to show the responsible Service Director."
+  },
+  {
+   "id": "PBC-08",
+   "item": "Board approvals of social care exemptions and Provider Selection Regime decision records."
+  }
+ ],
+ "rules_not_tested": [
+  {
+   "rule_ids": [
+    "CPR-01"
+   ],
+   "reason": "A consideration duty on a service contract (social value) that leaves no transaction evidence in the spend data and is outside the approved risks."
+  },
+  {
+   "rule_ids": [
+    "CPR-06"
+   ],
+   "reason": "Describes the publication of expenditure over the reporting level, which is the source of the data analysed, not a control tested."
+  },
+  {
+   "rule_ids": [
+    "CPR-09",
+    "CPR-10",
+    "CPR-18",
+    "CPR-19",
+    "CPR-20",
+    "CPR-21",
+    "CPR-22",
+    "CPR-38",
+    "CPR-39",
+    "CPR-41",
+    "CPR-42",
+    "CPR-43",
+    "CPR-45",
+    "CPR-46",
+    "CPR-47",
+    "CPR-48",
+    "CPR-49",
+    "CPR-50",
+    "CPR-51",
+    "CPR-52",
+    "CPR-53"
+   ],
+   "reason": "Tender mechanics, contract terms, bonds, insurance and sealing procedures; testing needs individual procurement files and no approved risk addresses them, so they are not tested in this plan."
+  },
+  {
+   "rule_ids": [
+    "CPR-58"
+   ],
+   "reason": "Applies to purchases below the quote tier; the approved risks concern spend at or above it."
+  },
+  {
+   "rule_ids": [
+    "CPR-44"
+   ],
+   "reason": "A payment-term clause in contracts. The spend data holds payment dates but not invoice-valid dates, so the thirty-day term cannot be recalculated from it; it would be checked only on obtaining contract files, which no approved risk requires."
+  }
+ ]
+}

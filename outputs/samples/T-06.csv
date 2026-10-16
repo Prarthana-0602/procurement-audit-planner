@@ -1,0 +1,8 @@
+test_id,risk_id,item_rank,item_key,row_id,date,service,category,narrative,amount,supplier,tag
+T-06,R-03,1,expired_notice_spend.csv:line 2,Over500_2026_P03_-_published|Data to publish|704,2026-06-16 13:09:42.107,Environment,Third Party Payments,Payment to contractor,91306.75,Hope & Clay (Construction) Ltd,general_procurement
+T-06,R-03,2,expired_notice_spend.csv:line 4,Over500_2026_P02_-_published|Data to publish|467,2026-05-08 11:35:23.757,"Finance, Property & Procurement",Supplies & Services,IT,5469.78,G7 BUSINESS SOLUTIONS LIMITED,general_procurement
+T-06,R-03,2,expired_notice_spend.csv:line 4,Over500_2026_P03_-_published|Data to publish|531,2026-06-10 11:29:10.023,"Finance, Property & Procurement",Supplies & Services,IT,5469.78,G7 BUSINESS SOLUTIONS LIMITED,general_procurement
+T-06,R-03,2,expired_notice_spend.csv:line 4,Over500_2026_P03_-_published|Data to publish|721,2026-06-10 14:59:11.577,"Finance, Property & Procurement",Supplies & Services,Consultants,1365.0,G7 BUSINESS SOLUTIONS LIMITED,general_procurement
+T-06,R-03,3,expired_notice_spend.csv:line 5,Over500_2026_P02_-_published|Data to publish|459,2026-05-15 16:25:43.577,Children's Social Care,Supplies & Services,IT,12071.67,CACI Limited,general_procurement
+T-06,R-03,4,expired_notice_spend.csv:line 6,Over500_2026_P03_-_published|Data to publish|686,2026-06-22 11:02:35.843,Environment,Third Party Payments,Payment to contractor,1102.0,Morton Pattison Ltd,general_procurement
+T-06,R-03,5,expired_notice_spend.csv:line 7,Over500_2026_P03_-_published|Data to publish|821,2026-06-03 12:35:52.123,Chief Executive,Supplies & Services,Professional Fees,800.0,Davis and Associates Consultancy Limited,general_procurement
