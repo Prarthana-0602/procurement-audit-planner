@@ -151,28 +151,44 @@ audit-planner/
 
 ### Skill: `extract-rules` (human-invoked; Phase 1)
 
-Converts `data/contract-rules.pdf` → `outputs/rules.json`. Array of:
+Converts `data/contract-rules.pdf` → `outputs/rules.json`. One object with
+five top-level keys: `source`, `parameters`, `rules`, `excluded`, `notes`.
+Each entry in `rules` looks like:
 
 ```json
 {
-  "rule_id": "CPR-05",
-  "clause": "5.2",
-  "condition": "goods/services purchase, total value £10,001–£100,000",
-  "threshold_low": 10001,
-  "threshold_high": 100000,
-  "required_action": "obtain three written quotations",
-  "approver": "head of service",
+  "rule_id": "CPR-03",
+  "clause": "Appendix B row B1",
+  "page": 12,
+  "type": "procedure",
+  "scope": ["goods_services"],
+  "condition": "goods/services, total value £25,000 or more and less than the Threshold",
+  "threshold_low": {"amount": 25000, "param": null, "inclusive": true},
+  "threshold_high": {"amount": null, "param": "THRESHOLD_GOODS_SERVICES", "inclusive": false},
+  "required_action": "invitations to quote to at least three appropriate sources",
+  "approver": null,
+  "evidence_source": ["contracts"],
   "verbatim_quote": "exact sentence(s) from the PDF"
 }
 ```
 
-- One entry per TESTABLE rule (threshold, required action, or approver);
-  background text excluded.
-- `verbatim_quote` copy-exact (verified by QA later). Amounts as GBP integers;
-  open-ended thresholds null.
+- `source`: `{file, pages}`. `parameters`: every threshold the PDF names but
+  does not state (for example "the Threshold"), always `null`; never filled
+  in from memory. A threshold bound is `null` (open-ended) or
+  `{amount, param, inclusive}` with exactly one of `amount` (GBP integer) or
+  `param` (a declared parameter name).
+- `rules`: one entry per TESTABLE rule (threshold, required action, or
+  approver); background text excluded. IDs are sequential (`CPR-01`, ...).
+  `page` is the PDF page; `evidence_source` is a list from `spend`,
+  `contracts`, `committee-papers`, `document-request`.
+- `verbatim_quote` copy-exact, verified on its stated page by
+  `.claude/skills/extract-rules/verify_quotes.py` (QA reruns it later).
 - Anti-aggregation / no-splitting rule flagged `"type": "anti-avoidance"`.
-- Ambiguous/untestable clauses go in a trailing `"excluded"` array with a
-  one-line reason, never guessed.
+- Every clause of the PDF is in `rules` or `excluded`. `excluded` holds
+  background and ambiguous/untestable clauses, each with a one-line reason,
+  never guessed.
+- `notes`: contradictions, gaps and placeholders in the PDF, each with
+  verbatim evidence quotes.
 
 ### Skill: `risk-assessment` (agent-loaded; Phase 1)
 
