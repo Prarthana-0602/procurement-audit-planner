@@ -1,0 +1,11 @@
+row_id,tier,date,supplier,norm_supplier,amount,tag
+wb|Data to publish|3,25000,2026-01-10,Supplier Number 0 Ltd,SUPPLIER NUMBER 0,24000.0,general_procurement
+wb|Data to publish|4,25000,2026-02-10,Supplier Number 0 Ltd,SUPPLIER NUMBER 0,24001.0,general_procurement
+wb|Data to publish|5,25000,2026-03-10,Supplier Number 0 Ltd,SUPPLIER NUMBER 0,24002.0,general_procurement
+wb|Data to publish|6,25000,2026-04-10,Supplier Number 0 Ltd,SUPPLIER NUMBER 0,24003.0,general_procurement
+wb|Data to publish|7,25000,2026-05-10,Supplier Number 0 Ltd,SUPPLIER NUMBER 0,24004.0,general_procurement
+wb|Data to publish|8,25000,2026-01-11,Supplier Number 1 Ltd,SUPPLIER NUMBER 1,24100.0,general_procurement
+wb|Data to publish|9,25000,2026-02-11,Supplier Number 1 Ltd,SUPPLIER NUMBER 1,24101.0,general_procurement
+wb|Data to publish|10,25000,2026-03-11,Supplier Number 1 Ltd,SUPPLIER NUMBER 1,24102.0,general_procurement
+wb|Data to publish|11,25000,2026-04-11,Supplier Number 1 Ltd,SUPPLIER NUMBER 1,24103.0,general_procurement
+wb|Data to publish|12,25000,2026-05-11,Supplier Number 1 Ltd,SUPPLIER NUMBER 1,24104.0,general_procurement

@@ -1,0 +1,21 @@
+{
+ "population": {
+  "rows_analysed": 30,
+  "gbp_analysed": 123456.5
+ },
+ "tests": {
+  "off_contract": {
+   "status": "ran",
+   "count": 6,
+   "gbp": 90000.0
+  },
+  "threshold_clustering": {
+   "status": "ran",
+   "count": 4,
+   "gbp": 99000.0
+  }
+ },
+ "caveats": [
+  "Annualised estimates are 3-month totals x 4."
+ ]
+}

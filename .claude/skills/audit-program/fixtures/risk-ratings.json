@@ -1,0 +1,38 @@
+{
+ "risks": [
+  {
+   "id": "R-01",
+   "title": "Spend above the quote tier with no contract notice",
+   "description": "Indicator that spend of {{$.tests.off_contract.gbp|gbp}} may lack a notice [rule:CPR-01].",
+   "likelihood": {
+    "score": 2,
+    "justification": "One test [metric:$.tests.off_contract.count]."
+   },
+   "impact": {
+    "score": 4,
+    "justification": "Notice rule [rule:CPR-02]."
+   },
+   "evidence": [
+    "Off-contract [metric:$.tests.off_contract.count]"
+   ],
+   "proposed_focus": "Request quote evidence."
+  },
+  {
+   "id": "R-02",
+   "title": "Payments just below a threshold",
+   "description": "Indicator of clustering [rule:CPR-03].",
+   "likelihood": {
+    "score": 3,
+    "justification": "Tests [metric:$.tests.threshold_clustering.count]."
+   },
+   "impact": {
+    "score": 3,
+    "justification": "Aggregation rule [rule:CPR-03]."
+   },
+   "evidence": [
+    "Clustering [metric:$.tests.threshold_clustering.count]"
+   ],
+   "proposed_focus": "Review the flagged payments."
+  }
+ ]
+}

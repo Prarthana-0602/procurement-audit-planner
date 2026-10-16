@@ -1,0 +1,129 @@
+{
+ "version": 1,
+ "memo": {
+  "background": "The register holds {{@scope.approved}} approved risks; {{$.population.rows_analysed}} payments were analysed.",
+  "approach": "Test the flagged populations against the notice and aggregation rules [rule:CPR-02].",
+  "limitations": [
+   "Annualised estimate only [metric:$.tests.off_contract.gbp]."
+  ]
+ },
+ "risks": [
+  {
+   "risk_id": "R-01",
+   "rationale": "Approved by the auditor; off-contract indicator [metric:$.tests.off_contract.count].",
+   "controls": [
+    {
+     "id": "C-01",
+     "description": "A quote or notice is held for suppliers above the quote tier [rule:CPR-01]."
+    },
+    {
+     "id": "C-02",
+     "description": "Awards above the publication level are advertised [rule:CPR-02]."
+    }
+   ],
+   "tests": [
+    {
+     "id": "T-01",
+     "control_ids": [
+      "C-01",
+      "C-02"
+     ],
+     "step": "Obtain quote and notice evidence for the sampled suppliers [rule:CPR-01] [metric:$.tests.off_contract.count].",
+     "sample": {
+      "file": "off_contract.csv",
+      "filter": [
+       {
+        "col": "primary_tag",
+        "op": "==",
+        "value": "general_procurement"
+       }
+      ],
+      "sort": [
+       {
+        "by": "annualised_estimate",
+        "desc": true
+       }
+      ],
+      "n": 3,
+      "rows_per_item": 2
+     },
+     "pbc": [
+      "PBC-01"
+     ]
+    }
+   ]
+  },
+  {
+   "risk_id": "R-02",
+   "rationale": "Amended by the auditor; clustering indicator [metric:$.tests.threshold_clustering.count].",
+   "controls": [
+    {
+     "id": "C-03",
+     "description": "Purchases are not split to avoid a threshold [rule:CPR-03]."
+    }
+   ],
+   "tests": [
+    {
+     "id": "T-02",
+     "control_ids": [
+      "C-03"
+     ],
+     "step": "Review payments just below the threshold for one underlying need [rule:CPR-03].",
+     "sample": {
+      "file": "threshold_clustering.csv",
+      "sort": [
+       {
+        "by": "amount",
+        "desc": true
+       }
+      ],
+      "n": 5,
+      "method": "spread"
+     },
+     "pbc": [
+      "PBC-02"
+     ]
+    },
+    {
+     "id": "T-03",
+     "control_ids": [
+      "C-03"
+     ],
+     "step": "Check how combined value was estimated [rule:CPR-03] [metric:$.tests.threshold_clustering.count].",
+     "sample": {
+      "file": "split_purchases.csv",
+      "sort": [
+       {
+        "by": "total_gbp",
+        "desc": true
+       }
+      ],
+      "n": 2
+     },
+     "pbc": [
+      "PBC-02"
+     ]
+    }
+   ]
+  }
+ ],
+ "pbc_items": [
+  {
+   "id": "PBC-01",
+   "item": "Quote and notice evidence for the sampled suppliers."
+  },
+  {
+   "id": "PBC-02",
+   "item": "Estimate of total value for each flagged purchase."
+  }
+ ],
+ "rules_not_tested": [
+  {
+   "rule_ids": [
+    "CPR-04",
+    "CPR-05"
+   ],
+   "reason": "Evidence is in documents the council holds, not in spend or notices."
+  }
+ ]
+}

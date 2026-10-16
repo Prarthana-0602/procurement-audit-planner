@@ -1,0 +1,4 @@
+tier,supplier,norm_supplier,payments,total_gbp,tag,row_ids
+25000,Supplier Number 0 Ltd,SUPPLIER NUMBER 0,2,48000.0,general_procurement,wb|Data to publish|3;wb|Data to publish|4
+25000,Supplier Number 1 Ltd,SUPPLIER NUMBER 1,2,48000.0,general_procurement,wb|Data to publish|8;wb|Data to publish|9
+25000,Supplier Number 2 Ltd,SUPPLIER NUMBER 2,2,48000.0,general_procurement,wb|Data to publish|13;wb|Data to publish|14
