@@ -1,0 +1,231 @@
+{
+ "documents": [
+  {
+   "file": "audit-completed-work-2024-25-annual.pdf",
+   "pages": 2
+  },
+  {
+   "file": "risk-management-strategy-2024-27.pdf",
+   "pages": 35
+  }
+ ],
+ "audit_opinions": [
+  {
+   "id": "OP-01",
+   "source_file": "audit-completed-work-2024-25-annual.pdf",
+   "pdf_page": 1,
+   "service": "Finance, Property and Procurement",
+   "audit_title": "Contract Letting",
+   "opinion": "Reasonable Assurance",
+   "quote": "Contract Letting | Reasonable Assurance"
+  },
+  {
+   "id": "OP-02",
+   "source_file": "audit-completed-work-2024-25-annual.pdf",
+   "pdf_page": 1,
+   "service": "Transformation",
+   "audit_title": "Systems Security (Firewall, Antivirus, Traffic Management)",
+   "opinion": "Reasonable Assurance",
+   "quote": "Systems Security (Firewall, | Reasonable Assurance | Antivirus, Traffic Management)"
+  }
+ ],
+ "follow_ups": [
+  {
+   "id": "FU-01",
+   "source_file": "audit-completed-work-2024-25-annual.pdf",
+   "pdf_page": 2,
+   "audit_title": "Garland (now Burghfield",
+   "report_opinion": "Weak",
+   "implementation_opinion": "Unsatisfactory",
+   "quote": "Garland (now Burghfield | Weak | Unsatisfactory"
+  },
+  {
+   "id": "FU-02",
+   "source_file": "audit-completed-work-2024-25-annual.pdf",
+   "pdf_page": 1,
+   "audit_title": "Fixed Asset Register",
+   "implementation_opinion": "Satisfactory",
+   "quote": "Fixed Asset Register | Advisory – no | Satisfactory"
+  }
+ ],
+ "agreed_actions": [],
+ "risk_themes": [
+  {
+   "id": "RT-01",
+   "theme": "Contracts & Partnerships",
+   "source_file": "risk-management-strategy-2024-27.pdf",
+   "pdf_page": 33,
+   "quote": "Procurement contract"
+  }
+ ],
+ "scoring_method": {
+  "usable": true,
+  "impact_scale": {
+   "source_file": "risk-management-strategy-2024-27.pdf",
+   "pdf_page": 14,
+   "quote": "Major financial loss £1,000+"
+  },
+  "matrix": {
+   "source_file": "risk-management-strategy-2024-27.pdf",
+   "pdf_page": 18,
+   "quote": "5x5 Risk Matrix Assessments",
+   "cells": [
+    {
+     "likelihood": 1,
+     "impact": 1,
+     "score": 1
+    },
+    {
+     "likelihood": 2,
+     "impact": 1,
+     "score": 2
+    },
+    {
+     "likelihood": 3,
+     "impact": 1,
+     "score": 3
+    },
+    {
+     "likelihood": 4,
+     "impact": 1,
+     "score": 4
+    },
+    {
+     "likelihood": 5,
+     "impact": 1,
+     "score": 5
+    },
+    {
+     "likelihood": 1,
+     "impact": 2,
+     "score": 2
+    },
+    {
+     "likelihood": 2,
+     "impact": 2,
+     "score": 4
+    },
+    {
+     "likelihood": 3,
+     "impact": 2,
+     "score": 6
+    },
+    {
+     "likelihood": 4,
+     "impact": 2,
+     "score": 8
+    },
+    {
+     "likelihood": 5,
+     "impact": 2,
+     "score": 10
+    },
+    {
+     "likelihood": 1,
+     "impact": 3,
+     "score": 3
+    },
+    {
+     "likelihood": 2,
+     "impact": 3,
+     "score": 6
+    },
+    {
+     "likelihood": 3,
+     "impact": 3,
+     "score": 9
+    },
+    {
+     "likelihood": 4,
+     "impact": 3,
+     "score": 12
+    },
+    {
+     "likelihood": 5,
+     "impact": 3,
+     "score": 15
+    },
+    {
+     "likelihood": 1,
+     "impact": 4,
+     "score": 4
+    },
+    {
+     "likelihood": 2,
+     "impact": 4,
+     "score": 8
+    },
+    {
+     "likelihood": 3,
+     "impact": 4,
+     "score": 12
+    },
+    {
+     "likelihood": 4,
+     "impact": 4,
+     "score": 16
+    },
+    {
+     "likelihood": 5,
+     "impact": 4,
+     "score": 20
+    },
+    {
+     "likelihood": 1,
+     "impact": 5,
+     "score": 5
+    },
+    {
+     "likelihood": 2,
+     "impact": 5,
+     "score": 10
+    },
+    {
+     "likelihood": 3,
+     "impact": 5,
+     "score": 15
+    },
+    {
+     "likelihood": 4,
+     "impact": 5,
+     "score": 20
+    },
+    {
+     "likelihood": 5,
+     "impact": 5,
+     "score": 25
+    }
+   ]
+  }
+ },
+ "strategic_risk_register": {
+  "present": false,
+  "source_file": "risk-management-strategy-2024-27.pdf",
+  "pdf_page": 28,
+  "quote": "risk is reported as a Part II (confidential information) report to the"
+ },
+ "discrepancies": [
+  {
+   "id": "DI-01",
+   "description": "Text names Medium as (2); table scores it 3.",
+   "evidence": [
+    {
+     "source_file": "risk-management-strategy-2024-27.pdf",
+     "pdf_page": 14,
+     "quote": "Negligible (1), Minor (2), Medium (2), Major (4), or"
+    },
+    {
+     "source_file": "risk-management-strategy-2024-27.pdf",
+     "pdf_page": 18,
+     "quote": "5x5 Risk Matrix Assessments"
+    }
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "id": "GP-01",
+   "what": "No agreed-actions table in the papers."
+  }
+ ]
+}

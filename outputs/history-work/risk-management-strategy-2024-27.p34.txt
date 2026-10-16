@@ -1,0 +1,40 @@
+Risk Management Strategy
+
+Appendix 2 - Definitions of key terminology that is part of West
+Berkshire Council’s risk management framework
+Risk - is the effect (a positive or negative deviation from the expected) of uncertainty on
+objectives. Risk is often expressed as a combination of the consequences of an event and
+the associated likelihood.
+Risk management - is defined as the rigorous and coordinated process of identifying
+significant risks relevant to the achievement of the Council’s strategic and operational
+objectives, evaluating their individual and combined likelihood and potential consequences,
+and implementing the most effective way of managing and monitoring them.
+Risk aware – term relating to the risk culture within the organisation and denoting a higher
+maturity level of the risk management processes.
+Risk response - once a risk has been identified, assessed and analysed actions are put in
+place to respond/manage the risk. British Standard 31100 and ISO 31000 use the term
+‘Risk treatment’ as ‘the process of developing, selecting and implementing controls’ or ‘the
+process to modify risk’ respectively.
+Gross risk rating - likelihood and impact without additional, specific mitigation action. Size
+of the event when a risk materialises and representing the inherent level of risk.
+Current risk rating - this is the likelihood and impact at the time of assessment and each
+re-assessment, based on mitigation action already put in place but excluding further
+mitigation action planned.
+Expected Net risk rating - this is a future level of likelihood and impact based on any
+additional mitigation action (if any) planned to further address the triggers and the
+consequences of risks
+Risk appetite - the level of risk with which an organisation aims to operate (Source:
+Government Finance Function – Risk Appetite Guidance note V1.0, October 2020)), similar
+definitions are:
+The amount of risk that an organisation is willing to seek or accept in the pursuit of longterm objectives. (IRM 2011)
+The amount and the type of risk that an organisation is willing to pursue or retain (ISO
+Guide 73 (2009)
+Risk tolerance - The level of risk with which an organisation is willing to operate (HM
+Treasury and the Government Finance Function) (Source: Government Finance Function –
+Risk Appetite Guidance note V1.0, October 2020)
+Risk Control / Mitigation – Actions to reduce the likelihood and/or the magnitude of a risk,
+being owned by a Service Director.
+
+34
+
+

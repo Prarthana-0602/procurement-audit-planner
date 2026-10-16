@@ -1,0 +1,1 @@
+- [Verifier quote lessons](method_lessons.md) — fragment/opinion/length rules that tripped up history.json builds

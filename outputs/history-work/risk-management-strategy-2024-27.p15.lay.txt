@@ -1,0 +1,63 @@
+Risk Management Strategy
+
+4.4     It is unlikely that in many cases the probability of a risk occurring can be calculated in
+        a statistically robust fashion, as we do not have the data to do so. However, as an
+        indicator, the likelihood is defined by the following probability of a risk occurring:
+
+
+        Likelihood
+                          Incidents                                            Probability
+          Rating
+
+            5
+                          Risk will occur within a 12 month period                 100%
+          Certain
+            4
+                          Risk is almost certain to occur within a 12 month
+         Almost                                                                 70% - 99%
+                          period
+         Certain
+            3             Risk is likely to occur within a 12 month period
+                                                                                30% - 69%
+          Likely
+            2
+                          Risk is unlikely to occur within a 12 month period     2% - 29%
+         Unlikely
+            1             Risk is very rare and highly unlikely to occur
+                                                                                   –<2%
+           Rare           within a 12 month period
+Table 2. Likelihood Ratings
+
+4.5     Over the short and medium term, due to the ongoing international crisis as a result of
+        the coronavirus pandemic, risk management and in particular risk assessment, need
+        to consider this external context factor.
+
+
+
+5.     How we respond to risks – Risk Appetite / Risk Criteria
+5.1     The response to the identified risks is guided by the risk appetite and risk criteria.
+
+Risk Appetite
+
+5.2     The HM Treasury and the Government Finance Function define risk appetite as “The
+        level of risk with which an organisation aims to operate” (Source: Government Finance
+        Function – Risk Appetite Guidance v.2., August2021). A clearly understood and
+        articulated risk appetite statement assists with the risk awareness for the Council and
+        supports decision making in pursuit of its priority outcomes and objectives.
+
+5.3     The Council’s Risk Appetite Statement is an integral part of the Council’s Risk
+        Management Strategy and ensures that the opportunities the Council is willing to take
+        to achieve its strategic outcomes and objectives are measured, consistent and
+        compatible with the Council’s capacity to accept and manage risk and do not expose
+        the Council to unknown, unmanaged or unacceptable risks.
+
+5.4     This statement will be reviewed during the period of the strategy. The Council may
+        decide to move the line up or down based on a number of influencing factors including
+        financial and capacity, and the Council may have a higher ‘aspirational’ risk appetite
+        once sufficient assurance is gained and processes put in place to manage the higher
+        levels of risk.
+
+
+
+                                                                                                 15
+
