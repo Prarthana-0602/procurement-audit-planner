@@ -1,0 +1,1 @@
+- [Method lessons](method_lessons.md) — script/library quirks and method choices for the spend pipeline

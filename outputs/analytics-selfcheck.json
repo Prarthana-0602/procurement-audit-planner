@@ -1,0 +1,91 @@
+{
+ "status": "passed",
+ "generated_at": "2026-10-16T01:15:45",
+ "quote_tier": 25000,
+ "notice_tier": 25000,
+ "annualise_factor": 4.0,
+ "tests": {
+  "threshold_clustering": {
+   "item": "Over500_2026_P04_-_published|Data to publish|2239",
+   "expected": 24926.0,
+   "recomputed": 24926.0,
+   "result": "pass"
+  },
+  "split_purchases": {
+   "item": [
+    "Over500_2026_P03_-_published|Data to publish|2146",
+    "Over500_2026_P04_-_published|Data to publish|3194"
+   ],
+   "expected": 3984208.64,
+   "recomputed": 3984208.64,
+   "result": "pass"
+  },
+  "off_contract": {
+   "item": "VOLKERHIGHWAYS",
+   "expected": 29511688.84,
+   "recomputed": 29511688.84,
+   "result": "pass"
+  },
+  "duplicates": {
+   "item": [
+    "Over500_2026_P03_-_published|Data to publish|2164",
+    "Over500_2026_P03_-_published|Data to publish|2165",
+    "Over500_2026_P03_-_published|Data to publish|2166",
+    "Over500_2026_P03_-_published|Data to publish|2167",
+    "Over500_2026_P03_-_published|Data to publish|2189",
+    "Over500_2026_P03_-_published|Data to publish|2190",
+    "Over500_2026_P03_-_published|Data to publish|2311",
+    "Over500_2026_P03_-_published|Data to publish|3106",
+    "Over500_2026_P03_-_published|Data to publish|3107",
+    "Over500_2026_P03_-_published|Data to publish|2169",
+    "Over500_2026_P03_-_published|Data to publish|2170",
+    "Over500_2026_P03_-_published|Data to publish|2312",
+    "Over500_2026_P03_-_published|Data to publish|2313",
+    "Over500_2026_P03_-_published|Data to publish|3109",
+    "Over500_2026_P03_-_published|Data to publish|2173",
+    "Over500_2026_P03_-_published|Data to publish|2195",
+    "Over500_2026_P03_-_published|Data to publish|2315",
+    "Over500_2026_P03_-_published|Data to publish|2316",
+    "Over500_2026_P03_-_published|Data to publish|2317",
+    "Over500_2026_P03_-_published|Data to publish|3110",
+    "Over500_2026_P03_-_published|Data to publish|3111",
+    "Over500_2026_P03_-_published|Data to publish|2175",
+    "Over500_2026_P03_-_published|Data to publish|2176",
+    "Over500_2026_P03_-_published|Data to publish|2199",
+    "Over500_2026_P03_-_published|Data to publish|2200",
+    "Over500_2026_P03_-_published|Data to publish|2201",
+    "Over500_2026_P03_-_published|Data to publish|3112",
+    "Over500_2026_P03_-_published|Data to publish|3113",
+    "Over500_2026_P03_-_published|Data to publish|2177",
+    "Over500_2026_P03_-_published|Data to publish|2203",
+    "Over500_2026_P03_-_published|Data to publish|2204",
+    "Over500_2026_P03_-_published|Data to publish|2321",
+    "Over500_2026_P03_-_published|Data to publish|2322",
+    "Over500_2026_P03_-_published|Data to publish|2323",
+    "Over500_2026_P03_-_published|Data to publish|3114",
+    "Over500_2026_P03_-_published|Data to publish|3115"
+   ],
+   "expected": 711810.75,
+   "recomputed": 711810.75,
+   "result": "pass"
+  },
+  "expired_notice_spend": {
+   "item": "HOPE CLAY CONSTRUCTION",
+   "expected": "2024-10-11",
+   "recomputed": "2024-10-11",
+   "result": "pass"
+  },
+  "spend_vs_award": {
+   "item": "RM6259/CL766",
+   "expected": 6.1247,
+   "recomputed": 6.1247,
+   "result": "pass"
+  },
+  "high_value_suppliers": {
+   "item": "VOLKERHIGHWAYS",
+   "expected": 29511688.84,
+   "recomputed": 29511688.84,
+   "result": "pass"
+  }
+ }
+}

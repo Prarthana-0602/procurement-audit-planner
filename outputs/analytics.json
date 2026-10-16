@@ -1,0 +1,2377 @@
+{
+ "generated_at": "2026-10-16T08:15:45+00:00",
+ "agent": "spend-analyst",
+ "inputs": {
+  "rules_json": {
+   "file": "outputs/rules.json",
+   "rules": 74,
+   "quote_check": "PASS"
+  },
+  "spend_files": [
+   {
+    "file": "Over500_2026_P02_-_published.xlsx",
+    "sheet": "Data to publish",
+    "header_row": 1,
+    "rows_read": 2892,
+    "rows_blank": 378
+   },
+   {
+    "file": "Over500_2026_P03_-_published.xlsx",
+    "sheet": "Data to publish",
+    "header_row": 2,
+    "rows_read": 3547,
+    "rows_blank": 0
+   },
+   {
+    "file": "Over500_2026_P04_-_published.xlsx",
+    "sheet": "Data to publish",
+    "header_row": 2,
+    "rows_read": 4168,
+    "rows_blank": 0
+   }
+  ],
+  "contracts": {
+   "present": true,
+   "rows_read": 150,
+   "rows_kept": 141,
+   "rows_dropped": 9,
+   "earliest_published": "2021-02-23",
+   "latest_published": "2026-09-09"
+  }
+ },
+ "window": {
+  "start": "2026-05-01",
+  "end": "2026-07-31",
+  "months": 3,
+  "annualise_factor": 4.0
+ },
+ "parameters": {
+  "tiers": [
+   {
+    "amount": 5000,
+    "inclusive_start": false,
+    "rule_ids": [
+     "CPR-07"
+    ],
+    "clauses": [
+     "5.2"
+    ],
+    "inclusivity_disagreement": false
+   },
+   {
+    "amount": 25000,
+    "inclusive_start": true,
+    "rule_ids": [
+     "CPR-59",
+     "CPR-60",
+     "CPR-61",
+     "CPR-62"
+    ],
+    "clauses": [
+     "Appendix B row B1",
+     "Appendix B row B2"
+    ],
+    "inclusivity_disagreement": false
+   },
+   {
+    "amount": 500000,
+    "inclusive_start": false,
+    "rule_ids": [
+     "CPR-04",
+     "CPR-55",
+     "CPR-56",
+     "CPR-61",
+     "CPR-62",
+     "CPR-63",
+     "CPR-64"
+    ],
+    "clauses": [
+     "4.3",
+     "Appendix A row 2",
+     "Appendix A row 3",
+     "Appendix B row B2",
+     "Appendix B row C"
+    ],
+    "inclusivity_disagreement": true
+   },
+   {
+    "amount": 2500000,
+    "inclusive_start": true,
+    "rule_ids": [
+     "CPR-56",
+     "CPR-57"
+    ],
+    "clauses": [
+     "Appendix A row 3",
+     "Appendix A row 4"
+    ],
+    "inclusivity_disagreement": false
+   }
+  ],
+  "quote_tier": 25000,
+  "quote_tier_rule": "CPR-59",
+  "notice_tier": 25000,
+  "notice_tier_rule": "CPR-60",
+  "skipped_tiers": [
+   {
+    "param": "THRESHOLD_GOODS_SERVICES",
+    "rule_ids": [
+     "CPR-01",
+     "CPR-59",
+     "CPR-60"
+    ],
+    "reason": "value not stated in the Contract Rules PDF; no value supplied"
+   },
+   {
+    "param": "THRESHOLD_RELEVANT",
+    "rule_ids": [
+     "CPR-12",
+     "CPR-17",
+     "CPR-27",
+     "CPR-28",
+     "CPR-34",
+     "CPR-52",
+     "CPR-54",
+     "CPR-55",
+     "CPR-63",
+     "CPR-64",
+     "CPR-65",
+     "CPR-66",
+     "CPR-71",
+     "CPR-72",
+     "CPR-74"
+    ],
+    "reason": "value not stated in the Contract Rules PDF; no value supplied"
+   },
+   {
+    "param": "THRESHOLD_WORKS_CONCESSION",
+    "rule_ids": [],
+    "reason": "value not stated in the Contract Rules PDF; no value supplied; no rule bound uses it"
+   },
+   {
+    "param": "THRESHOLD_LIGHT_TOUCH",
+    "rule_ids": [],
+    "reason": "value not stated in the Contract Rules PDF; no value supplied; no rule bound uses it"
+   }
+  ],
+  "tier_selection_note": "Tiers = distinct amounts in rules of type procedure/advertising/approval/exception whose evidence_source includes spend or contracts. The 1,000 bound (CPR-58, evidence_source document-request only) is therefore not a tier; 500 (CPR-06) and 25,000 exception CPR-23 do not qualify either. 500,000 has an inclusivity disagreement between rules (CPR-04, CPR-55, CPR-56, CPR-61, CPR-62, CPR-63, CPR-64); exclusive-start (wider band) used.",
+  "settings": {
+   "clustering_band": 0.9,
+   "split_window_days": 30,
+   "duplicate_window_days": 7,
+   "spend_vs_award_ratio_flag": 1.25,
+   "fuzzy_cutoff": 0.85,
+   "annualise_factor": 4.0
+  },
+  "exclusion_patterns": {
+   "pension_statutory": [
+    "LGPS",
+    "\\bAVC\\b",
+    "Pension",
+    "Court Order",
+    "Council Tax"
+   ],
+   "public_body": [
+    "\\bCOUNCIL\\b",
+    "\\bCNCL\\b",
+    "^ROYAL BOROUGH OF",
+    "\\bNHS\\b",
+    "\\bICB\\b",
+    "INTEGRATED CARE BOARD",
+    "\\bPOLICE\\b",
+    "FIRE (?:AND|&) RESCUE",
+    "\\bHMRC\\b",
+    "REVENUE (?:AND|&) CUSTOMS",
+    "^MINISTRY OF",
+    "^DEPARTMENT (?:FOR|OF)",
+    "COMBINED AUTHORITY",
+    "HOMES ENGLAND"
+   ],
+   "public_body_narrative": "^Joint Arrangements",
+   "personal_transfer": [
+    "category == Transfer Payment",
+    "narrative == ASC Deferred Debt"
+   ]
+  },
+  "keep_as_supplier": [],
+  "tag_config": "see scripts/clean.py config block"
+ },
+ "population": {
+  "rows_read": 10607,
+  "rows_excluded": {
+   "pension_statutory": {
+    "rows": 23,
+    "gbp": 9257789.94
+   },
+   "personal_transfer": {
+    "rows": 46,
+    "gbp": 134001.28
+   },
+   "public_body": {
+    "rows": 47,
+    "gbp": 2300736.2
+   },
+   "redacted_supplier": {
+    "rows": 2015,
+    "gbp": 2746746.71
+   }
+  },
+  "rows_analysed": 8476,
+  "gbp_analysed": 65987980.13,
+  "suppliers_analysed": 1074,
+  "non_positive_amount_rows": 0
+ },
+ "tags": {
+  "agency_staff": {
+   "rows": 24,
+   "gbp": 1285541.24,
+   "suppliers": 7
+  },
+  "care_education_placement": {
+   "rows": 5879,
+   "gbp": 31903273.34,
+   "suppliers": 375
+  },
+  "general_procurement": {
+   "rows": 1629,
+   "gbp": 25148856.09,
+   "suppliers": 419
+  },
+  "grant": {
+   "rows": 339,
+   "gbp": 6033599.82,
+   "suppliers": 198
+  },
+  "premises": {
+   "rows": 605,
+   "gbp": 1616709.64,
+   "suppliers": 124
+  }
+ },
+ "name_matching": {
+  "exact_matches": 45,
+  "candidates": 27,
+  "suppliers_with_candidates": 14,
+  "candidates_file": "outputs/analytics-full/name_candidates.csv",
+  "by_method": {
+   "t_a_side": 21,
+   "extended_key": 3,
+   "fuzzy": 3
+  }
+ },
+ "tests": {
+  "threshold_clustering": {
+   "status": "ran",
+   "parameters": {
+    "band_factor": 0.9
+   },
+   "note": "Single payments near a limit; not contract values. Risk indicator to investigate only.",
+   "tiers": [
+    {
+     "tier": 5000,
+     "status": "ran",
+     "band": [
+      4500.0,
+      5000
+     ],
+     "upper_inclusive": true,
+     "rule_ids": [
+      "CPR-07"
+     ],
+     "count": 363,
+     "gbp": 1731489.12,
+     "suppliers": 106
+    },
+    {
+     "tier": 25000,
+     "status": "ran",
+     "band": [
+      22500.0,
+      25000
+     ],
+     "upper_inclusive": false,
+     "rule_ids": [
+      "CPR-59",
+      "CPR-60",
+      "CPR-61",
+      "CPR-62"
+     ],
+     "count": 45,
+     "gbp": 1075395.94,
+     "suppliers": 22
+    },
+    {
+     "tier": 500000,
+     "status": "ran",
+     "band": [
+      450000.0,
+      500000
+     ],
+     "upper_inclusive": true,
+     "rule_ids": [
+      "CPR-04",
+      "CPR-55",
+      "CPR-56",
+      "CPR-61",
+      "CPR-62",
+      "CPR-63",
+      "CPR-64"
+     ],
+     "count": 0,
+     "gbp": 0.0,
+     "suppliers": 0
+    },
+    {
+     "tier": 2500000,
+     "status": "ran",
+     "band": [
+      2250000.0,
+      2500000
+     ],
+     "upper_inclusive": false,
+     "rule_ids": [
+      "CPR-56",
+      "CPR-57"
+     ],
+     "count": 0,
+     "gbp": 0.0,
+     "suppliers": 0
+    },
+    {
+     "tier": "THRESHOLD_GOODS_SERVICES",
+     "status": "skipped",
+     "reason": "value not stated in the Contract Rules PDF; no value supplied",
+     "rule_ids": [
+      "CPR-01",
+      "CPR-59",
+      "CPR-60"
+     ]
+    },
+    {
+     "tier": "THRESHOLD_RELEVANT",
+     "status": "skipped",
+     "reason": "value not stated in the Contract Rules PDF; no value supplied",
+     "rule_ids": [
+      "CPR-12",
+      "CPR-17",
+      "CPR-27",
+      "CPR-28",
+      "CPR-34",
+      "CPR-52",
+      "CPR-54",
+      "CPR-55",
+      "CPR-63",
+      "CPR-64",
+      "CPR-65",
+      "CPR-66",
+      "CPR-71",
+      "CPR-72",
+      "CPR-74"
+     ]
+    },
+    {
+     "tier": "THRESHOLD_WORKS_CONCESSION",
+     "status": "skipped",
+     "reason": "value not stated in the Contract Rules PDF; no value supplied; no rule bound uses it",
+     "rule_ids": []
+    },
+    {
+     "tier": "THRESHOLD_LIGHT_TOUCH",
+     "status": "skipped",
+     "reason": "value not stated in the Contract Rules PDF; no value supplied; no rule bound uses it",
+     "rule_ids": []
+    }
+   ],
+   "counts": 408,
+   "gbp": 2806885.06,
+   "by_tag": {
+    "care_education_placement": {
+     "count": 323,
+     "gbp": 2136471.62
+    },
+    "general_procurement": {
+     "count": 47,
+     "gbp": 376899.24
+    },
+    "grant": {
+     "count": 27,
+     "gbp": 222611.31
+    },
+    "premises": {
+     "count": 11,
+     "gbp": 70902.89
+    }
+   },
+   "top20": [
+    {
+     "row_id": "Over500_2026_P04_-_published|Data to publish|2239",
+     "tier": 25000,
+     "supplier": "Affinity Trust Support Ltd",
+     "date": "2026-07-01T11:03:57.340",
+     "amount": 24926.0,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P03_-_published|Data to publish|2056",
+     "tier": 25000,
+     "supplier": "CHARMAINE CAULFIELD",
+     "date": "2026-06-17T10:43:51.317",
+     "amount": 24850.39,
+     "tag": "grant"
+    },
+    {
+     "row_id": "Over500_2026_P03_-_published|Data to publish|2307",
+     "tier": 25000,
+     "supplier": "Sukhbir Singh and Harvinder Singh T/A Calcot Services for Children (CSFC)",
+     "date": "2026-06-03T10:28:37.203",
+     "amount": 24788.75,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P03_-_published|Data to publish|1660",
+     "tier": 25000,
+     "supplier": "FOCUS SUPPORT LTD",
+     "date": "2026-06-24T10:35:07.460",
+     "amount": 24719.02,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P03_-_published|Data to publish|2074",
+     "tier": 25000,
+     "supplier": "BEANSHEAF COMMUNITY PRE-SCHOO",
+     "date": "2026-06-17T10:43:51.317",
+     "amount": 24705.36,
+     "tag": "grant"
+    },
+    {
+     "row_id": "Over500_2026_P02_-_published|Data to publish|2241",
+     "tier": 25000,
+     "supplier": "Sukhbir Singh and Harvinder Singh T/A Calcot Services for Children (CSFC)",
+     "date": "2026-05-12T15:16:14.937",
+     "amount": 24618.75,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P03_-_published|Data to publish|2106",
+     "tier": 25000,
+     "supplier": "Unity Residential Care Services",
+     "date": "2026-06-30T10:03:42.140",
+     "amount": 24587.49,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P02_-_published|Data to publish|2265",
+     "tier": 25000,
+     "supplier": "ACORN CARE & EDUCATION LTD",
+     "date": "2026-05-22T17:02:15.800",
+     "amount": 24578.67,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P04_-_published|Data to publish|1281",
+     "tier": 25000,
+     "supplier": "The Better Group Ltd",
+     "date": "2026-07-29T13:44:13.470",
+     "amount": 24476.02,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P02_-_published|Data to publish|2268",
+     "tier": 25000,
+     "supplier": "Huckleberry House",
+     "date": "2026-05-26T11:52:06.643",
+     "amount": 24453.39,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P04_-_published|Data to publish|3059",
+     "tier": 25000,
+     "supplier": "Utopia Supported Housing Ltd",
+     "date": "2026-07-09T08:37:40.320",
+     "amount": 24383.88,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P03_-_published|Data to publish|649",
+     "tier": 25000,
+     "supplier": "Triple Value Impact",
+     "date": "2026-06-18T08:41:59.737",
+     "amount": 24244.0,
+     "tag": "general_procurement"
+    },
+    {
+     "row_id": "Over500_2026_P02_-_published|Data to publish|560",
+     "tier": 25000,
+     "supplier": "DevComms South East Ltd",
+     "date": "2026-05-12T13:16:19.520",
+     "amount": 24227.07,
+     "tag": "general_procurement"
+    },
+    {
+     "row_id": "Over500_2026_P02_-_published|Data to publish|2271",
+     "tier": 25000,
+     "supplier": "ACORN CARE & EDUCATION LTD",
+     "date": "2026-05-26T14:45:42.510",
+     "amount": 24110.58,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P03_-_published|Data to publish|13",
+     "tier": 25000,
+     "supplier": "The Better Group Ltd",
+     "date": "2026-06-01T16:04:46.123",
+     "amount": 24088.98,
+     "tag": "general_procurement"
+    },
+    {
+     "row_id": "Over500_2026_P03_-_published|Data to publish|396",
+     "tier": 25000,
+     "supplier": "BookingLab Limited",
+     "date": "2026-06-10T11:29:10.023",
+     "amount": 24000.0,
+     "tag": "general_procurement"
+    },
+    {
+     "row_id": "Over500_2026_P04_-_published|Data to publish|3750",
+     "tier": 25000,
+     "supplier": "Care Services To You",
+     "date": "2026-07-17T08:39:32.373",
+     "amount": 23989.77,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P02_-_published|Data to publish|2096",
+     "tier": 25000,
+     "supplier": "Care Services To You",
+     "date": "2026-05-26T13:22:24.707",
+     "amount": 23989.77,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P03_-_published|Data to publish|2004",
+     "tier": 25000,
+     "supplier": "Care Services To You",
+     "date": "2026-06-03T10:15:15.200",
+     "amount": 23989.77,
+     "tag": "care_education_placement"
+    },
+    {
+     "row_id": "Over500_2026_P03_-_published|Data to publish|2008",
+     "tier": 25000,
+     "supplier": "Care Services To You",
+     "date": "2026-06-16T12:49:40.840",
+     "amount": 23989.77,
+     "tag": "care_education_placement"
+    }
+   ]
+  },
+  "split_purchases": {
+   "status": "ran",
+   "parameters": {
+    "window_days": 30,
+    "positive_amounts_only": true,
+    "non_positive_rows_ignored": 0
+   },
+   "note": "Pattern to investigate: repeat payments to one supplier within 30 days whose sum reaches a tier each payment stays under. Low tiers are noisy (recurring commissioned care); read by tag.",
+   "tiers": [
+    {
+     "tier": 5000,
+     "status": "ran",
+     "rule_ids": [
+      "CPR-07"
+     ],
+     "episodes": 325,
+     "gbp": 5085751.03,
+     "suppliers": 235,
+     "by_tag": {
+      "care_education_placement": {
+       "count": 179,
+       "gbp": 3282957.23
+      },
+      "general_procurement": {
+       "count": 87,
+       "gbp": 1119285.46
+      },
+      "grant": {
+       "count": 15,
+       "gbp": 119947.41
+      },
+      "mixed": {
+       "count": 15,
+       "gbp": 200814.08
+      },
+      "premises": {
+       "count": 29,
+       "gbp": 362746.85
+      }
+     }
+    },
+    {
+     "tier": 25000,
+     "status": "ran",
+     "rule_ids": [
+      "CPR-59",
+      "CPR-60",
+      "CPR-61",
+      "CPR-62"
+     ],
+     "episodes": 274,
+     "gbp": 20021361.13,
+     "suppliers": 174,
+     "by_tag": {
+      "care_education_placement": {
+       "count": 200,
+       "gbp": 16836822.95
+      },
+      "general_procurement": {
+       "count": 40,
+       "gbp": 1777971.91
+      },
+      "grant": {
+       "count": 5,
+       "gbp": 149957.95
+      },
+      "mixed": {
+       "count": 13,
+       "gbp": 660141.72
+      },
+      "premises": {
+       "count": 16,
+       "gbp": 596466.6
+      }
+     }
+    },
+    {
+     "tier": 500000,
+     "status": "ran",
+     "rule_ids": [
+      "CPR-04",
+      "CPR-55",
+      "CPR-56",
+      "CPR-61",
+      "CPR-62",
+      "CPR-63",
+      "CPR-64"
+     ],
+     "episodes": 11,
+     "gbp": 10511621.95,
+     "suppliers": 8,
+     "by_tag": {
+      "agency_staff": {
+       "count": 2,
+       "gbp": 1076284.47
+      },
+      "care_education_placement": {
+       "count": 6,
+       "gbp": 4697466.05
+      },
+      "general_procurement": {
+       "count": 3,
+       "gbp": 4737871.43
+      }
+     }
+    },
+    {
+     "tier": 2500000,
+     "status": "ran",
+     "rule_ids": [
+      "CPR-56",
+      "CPR-57"
+     ],
+     "episodes": 3,
+     "gbp": 9171920.29,
+     "suppliers": 2,
+     "by_tag": {
+      "general_procurement": {
+       "count": 2,
+       "gbp": 6509015.49
+      },
+      "mixed": {
+       "count": 1,
+       "gbp": 2662904.8
+      }
+     }
+    },
+    {
+     "tier": "THRESHOLD_GOODS_SERVICES",
+     "status": "skipped",
+     "reason": "value not stated in the Contract Rules PDF; no value supplied",
+     "rule_ids": [
+      "CPR-01",
+      "CPR-59",
+      "CPR-60"
+     ]
+    },
+    {
+     "tier": "THRESHOLD_RELEVANT",
+     "status": "skipped",
+     "reason": "value not stated in the Contract Rules PDF; no value supplied",
+     "rule_ids": [
+      "CPR-12",
+      "CPR-17",
+      "CPR-27",
+      "CPR-28",
+      "CPR-34",
+      "CPR-52",
+      "CPR-54",
+      "CPR-55",
+      "CPR-63",
+      "CPR-64",
+      "CPR-65",
+      "CPR-66",
+      "CPR-71",
+      "CPR-72",
+      "CPR-74"
+     ]
+    },
+    {
+     "tier": "THRESHOLD_WORKS_CONCESSION",
+     "status": "skipped",
+     "reason": "value not stated in the Contract Rules PDF; no value supplied; no rule bound uses it",
+     "rule_ids": []
+    },
+    {
+     "tier": "THRESHOLD_LIGHT_TOUCH",
+     "status": "skipped",
+     "reason": "value not stated in the Contract Rules PDF; no value supplied; no rule bound uses it",
+     "rule_ids": []
+    }
+   ],
+   "counts": 613,
+   "gbp": 44790654.4,
+   "by_tag": {
+    "agency_staff": {
+     "count": 2,
+     "gbp": 1076284.47
+    },
+    "care_education_placement": {
+     "count": 385,
+     "gbp": 24817246.23
+    },
+    "general_procurement": {
+     "count": 132,
+     "gbp": 14144144.29
+    },
+    "grant": {
+     "count": 20,
+     "gbp": 269905.36
+    },
+    "mixed": {
+     "count": 29,
+     "gbp": 3523860.6
+    },
+    "premises": {
+     "count": 45,
+     "gbp": 959213.45
+    }
+   },
+   "top20": [
+    {
+     "tier": 2500000,
+     "supplier": "VEOLIA ES WEST BERKSHIRE LTD (CHAPS ONLY)",
+     "first_date": "2026-06-29T08:53:20.387",
+     "last_date": "2026-07-27T13:34:01.120",
+     "payments": 2,
+     "total_gbp": 3984208.64,
+     "max_payment": 2180425.32,
+     "tag": "general_procurement",
+     "row_ids": "Over500_2026_P03_-_published|Data to publish|2146;Over500_2026_P04_-_published|Data to publish|3194"
+    },
+    {
+     "tier": 2500000,
+     "supplier": "VolkerHighways Ltd",
+     "first_date": "2026-06-22T13:05:57.673",
+     "last_date": "2026-07-22T11:27:03.790",
+     "payments": 45,
+     "total_gbp": 2662904.8,
+     "max_payment": 998987.64,
+     "tag": "mixed",
+     "row_ids": "Over500_2026_P03_-_published|Data to publish|684;Over500_2026_P03_-_published|Data to publish|727;Over500_2026_P04_-_published|Data to publish|1291;Over500_2026_P04_-_published|Data to publish|3192;Over500_2026_P04_-_published|Data to publish|792;Over500_2026_P04_-_published|Data to publish|736;Over500_2026_P04_-_published|Data to publish|602;Over500_2026_P04_-_published|Data to publish|1289;Over500_2026_P04_-_published|Data to publish|793;Over500_2026_P04_-_published|Data to publish|621;Over500_2026_P04_-_published|Data to publish|799;Over500_2026_P04_-_published|Data to publish|3184;Over500_2026_P04_-_published|Data to publish|3786;Over500_2026_P04_-_published|Data to publish|791;Over500_2026_P04_-_published|Data to publish|3210;Over500_2026_P04_-_published|Data to publish|1310;Over500_2026_P04_-_published|Data to publish|798;Over500_2026_P04_-_published|Data to publish|1295;Over500_2026_P04_-_published|Data to publish|794;Over500_2026_P04_-_published|Data to publish|3303;Over500_2026_P04_-_published|Data to publish|3186;Over500_2026_P04_-_published|Data to publish|795;Over500_2026_P04_-_published|Data to publish|3308;Over500_2026_P04_-_published|Data to publish|3187;Over500_2026_P04_-_published|Data to publish|3211;Over500_2026_P04_-_published|Data to publish|3304;Over500_2026_P04_-_published|Data to publish|619;Over500_2026_P04_-_published|Data to publish|819;Over500_2026_P04_-_published|Data to publish|822;Over500_2026_P04_-_published|Data to publish|739;Over500_2026_P04_-_published|Data to publish|1292;Over500_2026_P04_-_published|Data to publish|620;Over500_2026_P04_-_published|Data to publish|821;Over500_2026_P04_-_published|Data to publish|1293;Over500_2026_P04_-_published|Data to publish|3787;Over500_2026_P04_-_published|Data to publish|3185;Over500_2026_P04_-_published|Data to publish|3302;Over500_2026_P04_-_published|Data to publish|1296;Over500_2026_P04_-_published|Data to publish|3309;Over500_2026_P04_-_published|Data to publish|777;Over500_2026_P04_-_published|Data to publish|742;Over500_2026_P04_-_published|Data to publish|618;Over500_2026_P04_-_published|Data to publish|828;Over500_2026_P04_-_published|Data to publish|3784;Over500_2026_P04_-_published|Data to publish|600"
+    },
+    {
+     "tier": 2500000,
+     "supplier": "VolkerHighways Ltd",
+     "first_date": "2026-05-01T15:57:56.360",
+     "last_date": "2026-05-28T08:51:52.663",
+     "payments": 55,
+     "total_gbp": 2524806.85,
+     "max_payment": 311353.42,
+     "tag": "general_procurement",
+     "row_ids": "Over500_2026_P02_-_published|Data to publish|691;Over500_2026_P02_-_published|Data to publish|2174;Over500_2026_P02_-_published|Data to publish|2175;Over500_2026_P02_-_published|Data to publish|2177;Over500_2026_P02_-_published|Data to publish|2178;Over500_2026_P02_-_published|Data to publish|2183;Over500_2026_P02_-_published|Data to publish|713;Over500_2026_P02_-_published|Data to publish|2181;Over500_2026_P02_-_published|Data to publish|723;Over500_2026_P02_-_published|Data to publish|695;Over500_2026_P02_-_published|Data to publish|709;Over500_2026_P02_-_published|Data to publish|717;Over500_2026_P02_-_published|Data to publish|727;Over500_2026_P02_-_published|Data to publish|700;Over500_2026_P02_-_published|Data to publish|720;Over500_2026_P02_-_published|Data to publish|701;Over500_2026_P02_-_published|Data to publish|696;Over500_2026_P02_-_published|Data to publish|714;Over500_2026_P02_-_published|Data to publish|724;Over500_2026_P02_-_published|Data to publish|710;Over500_2026_P02_-_published|Data to publish|692;Over500_2026_P02_-_published|Data to publish|702;Over500_2026_P02_-_published|Data to publish|703;Over500_2026_P02_-_published|Data to publish|2176;Over500_2026_P02_-_published|Data to publish|2179;Over500_2026_P02_-_published|Data to publish|2184;Over500_2026_P02_-_published|Data to publish|2193;Over500_2026_P02_-_published|Data to publish|2173;Over500_2026_P02_-_published|Data to publish|704;Over500_2026_P02_-_published|Data to publish|2185;Over500_2026_P02_-_published|Data to publish|731;Over500_2026_P02_-_published|Data to publish|2170;Over500_2026_P02_-_published|Data to publish|705;Over500_2026_P02_-_published|Data to publish|728;Over500_2026_P02_-_published|Data to publish|2172;Over500_2026_P02_-_published|Data to publish|734;Over500_2026_P02_-_published|Data to publish|729;Over500_2026_P02_-_published|Data to publish|730;Over500_2026_P02_-_published|Data to publish|2180;Over500_2026_P02_-_published|Data to publish|711;Over500_2026_P02_-_published|Data to publish|715;Over500_2026_P02_-_published|Data to publish|725;Over500_2026_P02_-_published|Data to publish|2182;Over500_2026_P02_-_published|Data to publish|726;Over500_2026_P02_-_published|Data to publish|712;Over500_2026_P02_-_published|Data to publish|716;Over500_2026_P02_-_published|Data to publish|697;Over500_2026_P02_-_published|Data to publish|721;Over500_2026_P02_-_published|Data to publish|698;Over500_2026_P02_-_published|Data to publish|722;Over500_2026_P02_-_published|Data to publish|693;Over500_2026_P02_-_published|Data to publish|699;Over500_2026_P02_-_published|Data to publish|706;Over500_2026_P02_-_published|Data to publish|694;Over500_2026_P02_-_published|Data to publish|707"
+    },
+    {
+     "tier": 500000,
+     "supplier": "VolkerHighways Ltd",
+     "first_date": "2026-05-01T15:57:56.360",
+     "last_date": "2026-05-28T08:51:52.663",
+     "payments": 55,
+     "total_gbp": 2524806.85,
+     "max_payment": 311353.42,
+     "tag": "general_procurement",
+     "row_ids": "Over500_2026_P02_-_published|Data to publish|691;Over500_2026_P02_-_published|Data to publish|2174;Over500_2026_P02_-_published|Data to publish|2175;Over500_2026_P02_-_published|Data to publish|2177;Over500_2026_P02_-_published|Data to publish|2178;Over500_2026_P02_-_published|Data to publish|2183;Over500_2026_P02_-_published|Data to publish|713;Over500_2026_P02_-_published|Data to publish|2181;Over500_2026_P02_-_published|Data to publish|723;Over500_2026_P02_-_published|Data to publish|695;Over500_2026_P02_-_published|Data to publish|709;Over500_2026_P02_-_published|Data to publish|717;Over500_2026_P02_-_published|Data to publish|727;Over500_2026_P02_-_published|Data to publish|700;Over500_2026_P02_-_published|Data to publish|720;Over500_2026_P02_-_published|Data to publish|701;Over500_2026_P02_-_published|Data to publish|696;Over500_2026_P02_-_published|Data to publish|714;Over500_2026_P02_-_published|Data to publish|724;Over500_2026_P02_-_published|Data to publish|710;Over500_2026_P02_-_published|Data to publish|692;Over500_2026_P02_-_published|Data to publish|702;Over500_2026_P02_-_published|Data to publish|703;Over500_2026_P02_-_published|Data to publish|2176;Over500_2026_P02_-_published|Data to publish|2179;Over500_2026_P02_-_published|Data to publish|2184;Over500_2026_P02_-_published|Data to publish|2193;Over500_2026_P02_-_published|Data to publish|2173;Over500_2026_P02_-_published|Data to publish|704;Over500_2026_P02_-_published|Data to publish|2185;Over500_2026_P02_-_published|Data to publish|731;Over500_2026_P02_-_published|Data to publish|2170;Over500_2026_P02_-_published|Data to publish|705;Over500_2026_P02_-_published|Data to publish|728;Over500_2026_P02_-_published|Data to publish|2172;Over500_2026_P02_-_published|Data to publish|734;Over500_2026_P02_-_published|Data to publish|729;Over500_2026_P02_-_published|Data to publish|730;Over500_2026_P02_-_published|Data to publish|2180;Over500_2026_P02_-_published|Data to publish|711;Over500_2026_P02_-_published|Data to publish|715;Over500_2026_P02_-_published|Data to publish|725;Over500_2026_P02_-_published|Data to publish|2182;Over500_2026_P02_-_published|Data to publish|726;Over500_2026_P02_-_published|Data to publish|712;Over500_2026_P02_-_published|Data to publish|716;Over500_2026_P02_-_published|Data to publish|697;Over500_2026_P02_-_published|Data to publish|721;Over500_2026_P02_-_published|Data to publish|698;Over500_2026_P02_-_published|Data to publish|722;Over500_2026_P02_-_published|Data to publish|693;Over500_2026_P02_-_published|Data to publish|699;Over500_2026_P02_-_published|Data to publish|706;Over500_2026_P02_-_published|Data to publish|694;Over500_2026_P02_-_published|Data to publish|707"
+    },
+    {
+     "tier": 500000,
+     "supplier": "VolkerHighways Ltd",
+     "first_date": "2026-06-08T11:39:06.140",
+     "last_date": "2026-07-07T11:14:28.377",
+     "payments": 18,
+     "total_gbp": 1690085.96,
+     "max_payment": 366872.38,
+     "tag": "general_procurement",
+     "row_ids": "Over500_2026_P03_-_published|Data to publish|699;Over500_2026_P03_-_published|Data to publish|728;Over500_2026_P03_-_published|Data to publish|2117;Over500_2026_P03_-_published|Data to publish|729;Over500_2026_P03_-_published|Data to publish|703;Over500_2026_P03_-_published|Data to publish|683;Over500_2026_P03_-_published|Data to publish|2133;Over500_2026_P03_-_published|Data to publish|702;Over500_2026_P03_-_published|Data to publish|2402;Over500_2026_P03_-_published|Data to publish|700;Over500_2026_P03_-_published|Data to publish|701;Over500_2026_P03_-_published|Data to publish|2403;Over500_2026_P03_-_published|Data to publish|2401;Over500_2026_P03_-_published|Data to publish|684;Over500_2026_P03_-_published|Data to publish|727;Over500_2026_P04_-_published|Data to publish|1291;Over500_2026_P04_-_published|Data to publish|3192;Over500_2026_P04_-_published|Data to publish|792"
+    },
+    {
+     "tier": 25000,
+     "supplier": "BUPA Care Services",
+     "first_date": "2026-06-10T09:51:27.507",
+     "last_date": "2026-07-08T10:43:22.513",
+     "payments": 248,
+     "total_gbp": 1259714.57,
+     "max_payment": 10400.0,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P03_-_published|Data to publish|1003;Over500_2026_P03_-_published|Data to publish|1005;Over500_2026_P03_-_published|Data to publish|1006;Over500_2026_P03_-_published|Data to publish|1011;Over500_2026_P03_-_published|Data to publish|1012;Over500_2026_P03_-_published|Data to publish|1027;Over500_2026_P03_-_published|Data to publish|1028;Over500_2026_P03_-_published|Data to publish|1312;Over500_2026_P03_-_published|Data to publish|1323;Over500_2026_P03_-_published|Data to publish|1324;Over500_2026_P03_-_published|Data to publish|1325;Over500_2026_P03_-_published|Data to publish|1326;Over500_2026_P03_-_published|Data to publish|1327;Over500_2026_P03_-_published|Data to publish|1328;Over500_2026_P03_-_published|Data to publish|1329;Over500_2026_P03_-_published|Data to publish|1330;Over500_2026_P03_-_published|Data to publish|1336;Over500_2026_P03_-_published|Data to publish|1342;Over500_2026_P03_-_published|Data to publish|1343;Over500_2026_P03_-_published|Data to publish|1344;Over500_2026_P03_-_published|Data to publish|1345;Over500_2026_P03_-_published|Data to publish|1346;Over500_2026_P03_-_published|Data to publish|1371;Over500_2026_P03_-_published|Data to publish|1372;Over500_2026_P03_-_published|Data to publish|1377;Over500_2026_P03_-_published|Data to publish|1378;Over500_2026_P03_-_published|Data to publish|1379;Over500_2026_P03_-_published|Data to publish|1380;Over500_2026_P03_-_published|Data to publish|1412;Over500_2026_P03_-_published|Data to publish|1413;Over500_2026_P03_-_published|Data to publish|1414;Over500_2026_P03_-_published|Data to publish|1460;Over500_2026_P03_-_published|Data to publish|1470;Over500_2026_P03_-_published|Data to publish|1477;Over500_2026_P03_-_published|Data to publish|1485;Over500_2026_P03_-_published|Data to publish|1486;Over500_2026_P03_-_published|Data to publish|1487;Over500_2026_P03_-_published|Data to publish|1759;Over500_2026_P03_-_published|Data to publish|1822;Over500_2026_P03_-_published|Data to publish|2690;Over500_2026_P03_-_published|Data to publish|2691;Over500_2026_P03_-_published|Data to publish|2700;Over500_2026_P03_-_published|Data to publish|2701;Over500_2026_P03_-_published|Data to publish|2702;Over500_2026_P03_-_published|Data to publish|2703;Over500_2026_P03_-_published|Data to publish|2709;Over500_2026_P03_-_published|Data to publish|2710;Over500_2026_P03_-_published|Data to publish|2716;Over500_2026_P03_-_published|Data to publish|2825;Over500_2026_P03_-_published|Data to publish|2831;Over500_2026_P03_-_published|Data to publish|2832;Over500_2026_P03_-_published|Data to publish|2833;Over500_2026_P03_-_published|Data to publish|2834;Over500_2026_P03_-_published|Data to publish|2844;Over500_2026_P03_-_published|Data to publish|2849;Over500_2026_P03_-_published|Data to publish|2850;Over500_2026_P03_-_published|Data to publish|2851;Over500_2026_P03_-_published|Data to publish|2890;Over500_2026_P03_-_published|Data to publish|3020;Over500_2026_P03_-_published|Data to publish|3023;Over500_2026_P03_-_published|Data to publish|837;Over500_2026_P03_-_published|Data to publish|852;Over500_2026_P03_-_published|Data to publish|871;Over500_2026_P03_-_published|Data to publish|872;Over500_2026_P03_-_published|Data to publish|893;Over500_2026_P03_-_published|Data to publish|894;Over500_2026_P03_-_published|Data to publish|895;Over500_2026_P03_-_published|Data to publish|896;Over500_2026_P03_-_published|Data to publish|897;Over500_2026_P03_-_published|Data to publish|898;Over500_2026_P03_-_published|Data to publish|903;Over500_2026_P03_-_published|Data to publish|904;Over500_2026_P03_-_published|Data to publish|919;Over500_2026_P03_-_published|Data to publish|920;Over500_2026_P03_-_published|Data to publish|921;Over500_2026_P03_-_published|Data to publish|922;Over500_2026_P03_-_published|Data to publish|923;Over500_2026_P03_-_published|Data to publish|940;Over500_2026_P03_-_published|Data to publish|941;Over500_2026_P03_-_published|Data to publish|942;Over500_2026_P03_-_published|Data to publish|943;Over500_2026_P03_-_published|Data to publish|944;Over500_2026_P03_-_published|Data to publish|945;Over500_2026_P03_-_published|Data to publish|946;Over500_2026_P03_-_published|Data to publish|947;Over500_2026_P03_-_published|Data to publish|953;Over500_2026_P03_-_published|Data to publish|954;Over500_2026_P03_-_published|Data to publish|960;Over500_2026_P03_-_published|Data to publish|961;Over500_2026_P03_-_published|Data to publish|962;Over500_2026_P03_-_published|Data to publish|975;Over500_2026_P03_-_published|Data to publish|976;Over500_2026_P03_-_published|Data to publish|977;Over500_2026_P03_-_published|Data to publish|980;Over500_2026_P03_-_published|Data to publish|981;Over500_2026_P03_-_published|Data to publish|987;Over500_2026_P04_-_published|Data to publish|1028;Over500_2026_P04_-_published|Data to publish|1029;Over500_2026_P04_-_published|Data to publish|1030;Over500_2026_P04_-_published|Data to publish|1031;Over500_2026_P04_-_published|Data to publish|1051;Over500_2026_P04_-_published|Data to publish|1067;Over500_2026_P04_-_published|Data to publish|1068;Over500_2026_P04_-_published|Data to publish|1069;Over500_2026_P04_-_published|Data to publish|1075;Over500_2026_P04_-_published|Data to publish|1076;Over500_2026_P04_-_published|Data to publish|1077;Over500_2026_P04_-_published|Data to publish|1078;Over500_2026_P04_-_published|Data to publish|1079;Over500_2026_P04_-_published|Data to publish|1080;Over500_2026_P04_-_published|Data to publish|1100;Over500_2026_P04_-_published|Data to publish|1132;Over500_2026_P04_-_published|Data to publish|1133;Over500_2026_P04_-_published|Data to publish|1151;Over500_2026_P04_-_published|Data to publish|1817;Over500_2026_P04_-_published|Data to publish|1841;Over500_2026_P04_-_published|Data to publish|1889;Over500_2026_P04_-_published|Data to publish|1925;Over500_2026_P04_-_published|Data to publish|1944;Over500_2026_P04_-_published|Data to publish|2770;Over500_2026_P04_-_published|Data to publish|2869;Over500_2026_P04_-_published|Data to publish|1032;Over500_2026_P04_-_published|Data to publish|1033;Over500_2026_P04_-_published|Data to publish|1034;Over500_2026_P04_-_published|Data to publish|1035;Over500_2026_P04_-_published|Data to publish|1036;Over500_2026_P04_-_published|Data to publish|1037;Over500_2026_P04_-_published|Data to publish|1038;Over500_2026_P04_-_published|Data to publish|1039;Over500_2026_P04_-_published|Data to publish|1040;Over500_2026_P04_-_published|Data to publish|1041;Over500_2026_P04_-_published|Data to publish|1042;Over500_2026_P04_-_published|Data to publish|1043;Over500_2026_P04_-_published|Data to publish|1070;Over500_2026_P04_-_published|Data to publish|1071;Over500_2026_P04_-_published|Data to publish|1072;Over500_2026_P04_-_published|Data to publish|1073;Over500_2026_P04_-_published|Data to publish|1081;Over500_2026_P04_-_published|Data to publish|1082;Over500_2026_P04_-_published|Data to publish|1083;Over500_2026_P04_-_published|Data to publish|1084;Over500_2026_P04_-_published|Data to publish|1085;Over500_2026_P04_-_published|Data to publish|1086;Over500_2026_P04_-_published|Data to publish|1087;Over500_2026_P04_-_published|Data to publish|1088;Over500_2026_P04_-_published|Data to publish|1089;Over500_2026_P04_-_published|Data to publish|1090;Over500_2026_P04_-_published|Data to publish|1091;Over500_2026_P04_-_published|Data to publish|1103;Over500_2026_P04_-_published|Data to publish|1104;Over500_2026_P04_-_published|Data to publish|1105;Over500_2026_P04_-_published|Data to publish|1106;Over500_2026_P04_-_published|Data to publish|1107;Over500_2026_P04_-_published|Data to publish|1115;Over500_2026_P04_-_published|Data to publish|1116;Over500_2026_P04_-_published|Data to publish|1117;Over500_2026_P04_-_published|Data to publish|1118;Over500_2026_P04_-_published|Data to publish|1119;Over500_2026_P04_-_published|Data to publish|1120;Over500_2026_P04_-_published|Data to publish|1135;Over500_2026_P04_-_published|Data to publish|1136;Over500_2026_P04_-_published|Data to publish|1137;Over500_2026_P04_-_published|Data to publish|1153;Over500_2026_P04_-_published|Data to publish|1154;Over500_2026_P04_-_published|Data to publish|1155;Over500_2026_P04_-_published|Data to publish|1156;Over500_2026_P04_-_published|Data to publish|1157;Over500_2026_P04_-_published|Data to publish|1158;Over500_2026_P04_-_published|Data to publish|1563;Over500_2026_P04_-_published|Data to publish|1565;Over500_2026_P04_-_published|Data to publish|1791;Over500_2026_P04_-_published|Data to publish|1792;Over500_2026_P04_-_published|Data to publish|1813;Over500_2026_P04_-_published|Data to publish|1814;Over500_2026_P04_-_published|Data to publish|1818;Over500_2026_P04_-_published|Data to publish|1819;Over500_2026_P04_-_published|Data to publish|1820;Over500_2026_P04_-_published|Data to publish|1821;Over500_2026_P04_-_published|Data to publish|1822;Over500_2026_P04_-_published|Data to publish|1823;Over500_2026_P04_-_published|Data to publish|1824;Over500_2026_P04_-_published|Data to publish|1825;Over500_2026_P04_-_published|Data to publish|1826;Over500_2026_P04_-_published|Data to publish|1827;Over500_2026_P04_-_published|Data to publish|1828;Over500_2026_P04_-_published|Data to publish|1829;Over500_2026_P04_-_published|Data to publish|1830;Over500_2026_P04_-_published|Data to publish|1831;Over500_2026_P04_-_published|Data to publish|1845;Over500_2026_P04_-_published|Data to publish|1846;Over500_2026_P04_-_published|Data to publish|1847;Over500_2026_P04_-_published|Data to publish|1848;Over500_2026_P04_-_published|Data to publish|1849;Over500_2026_P04_-_published|Data to publish|1850;Over500_2026_P04_-_published|Data to publish|1871;Over500_2026_P04_-_published|Data to publish|1881;Over500_2026_P04_-_published|Data to publish|1890;Over500_2026_P04_-_published|Data to publish|1891;Over500_2026_P04_-_published|Data to publish|1892;Over500_2026_P04_-_published|Data to publish|1893;Over500_2026_P04_-_published|Data to publish|1894;Over500_2026_P04_-_published|Data to publish|1895;Over500_2026_P04_-_published|Data to publish|1896;Over500_2026_P04_-_published|Data to publish|1904;Over500_2026_P04_-_published|Data to publish|1905;Over500_2026_P04_-_published|Data to publish|1906;Over500_2026_P04_-_published|Data to publish|1907;Over500_2026_P04_-_published|Data to publish|1908;Over500_2026_P04_-_published|Data to publish|1922;Over500_2026_P04_-_published|Data to publish|1923;Over500_2026_P04_-_published|Data to publish|1924;Over500_2026_P04_-_published|Data to publish|1926;Over500_2026_P04_-_published|Data to publish|1927;Over500_2026_P04_-_published|Data to publish|1928;Over500_2026_P04_-_published|Data to publish|1929;Over500_2026_P04_-_published|Data to publish|1930;Over500_2026_P04_-_published|Data to publish|1931;Over500_2026_P04_-_published|Data to publish|1948;Over500_2026_P04_-_published|Data to publish|1949;Over500_2026_P04_-_published|Data to publish|1950;Over500_2026_P04_-_published|Data to publish|1951;Over500_2026_P04_-_published|Data to publish|1952;Over500_2026_P04_-_published|Data to publish|1963;Over500_2026_P04_-_published|Data to publish|2003;Over500_2026_P04_-_published|Data to publish|2004;Over500_2026_P04_-_published|Data to publish|2005;Over500_2026_P04_-_published|Data to publish|2006;Over500_2026_P04_-_published|Data to publish|2131;Over500_2026_P04_-_published|Data to publish|2178;Over500_2026_P04_-_published|Data to publish|2656;Over500_2026_P04_-_published|Data to publish|2664;Over500_2026_P04_-_published|Data to publish|2665;Over500_2026_P04_-_published|Data to publish|2666;Over500_2026_P04_-_published|Data to publish|2676;Over500_2026_P04_-_published|Data to publish|2677;Over500_2026_P04_-_published|Data to publish|2678;Over500_2026_P04_-_published|Data to publish|2717;Over500_2026_P04_-_published|Data to publish|2884;Over500_2026_P04_-_published|Data to publish|2908;Over500_2026_P04_-_published|Data to publish|2931;Over500_2026_P04_-_published|Data to publish|2932;Over500_2026_P04_-_published|Data to publish|3006;Over500_2026_P04_-_published|Data to publish|3699;Over500_2026_P04_-_published|Data to publish|3704;Over500_2026_P04_-_published|Data to publish|724;Over500_2026_P04_-_published|Data to publish|887;Over500_2026_P04_-_published|Data to publish|916;Over500_2026_P04_-_published|Data to publish|927"
+    },
+    {
+     "tier": 500000,
+     "supplier": "BUPA Care Services",
+     "first_date": "2026-06-10T09:51:27.507",
+     "last_date": "2026-07-08T10:43:22.513",
+     "payments": 248,
+     "total_gbp": 1259714.57,
+     "max_payment": 10400.0,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P03_-_published|Data to publish|1003;Over500_2026_P03_-_published|Data to publish|1005;Over500_2026_P03_-_published|Data to publish|1006;Over500_2026_P03_-_published|Data to publish|1011;Over500_2026_P03_-_published|Data to publish|1012;Over500_2026_P03_-_published|Data to publish|1027;Over500_2026_P03_-_published|Data to publish|1028;Over500_2026_P03_-_published|Data to publish|1312;Over500_2026_P03_-_published|Data to publish|1323;Over500_2026_P03_-_published|Data to publish|1324;Over500_2026_P03_-_published|Data to publish|1325;Over500_2026_P03_-_published|Data to publish|1326;Over500_2026_P03_-_published|Data to publish|1327;Over500_2026_P03_-_published|Data to publish|1328;Over500_2026_P03_-_published|Data to publish|1329;Over500_2026_P03_-_published|Data to publish|1330;Over500_2026_P03_-_published|Data to publish|1336;Over500_2026_P03_-_published|Data to publish|1342;Over500_2026_P03_-_published|Data to publish|1343;Over500_2026_P03_-_published|Data to publish|1344;Over500_2026_P03_-_published|Data to publish|1345;Over500_2026_P03_-_published|Data to publish|1346;Over500_2026_P03_-_published|Data to publish|1371;Over500_2026_P03_-_published|Data to publish|1372;Over500_2026_P03_-_published|Data to publish|1377;Over500_2026_P03_-_published|Data to publish|1378;Over500_2026_P03_-_published|Data to publish|1379;Over500_2026_P03_-_published|Data to publish|1380;Over500_2026_P03_-_published|Data to publish|1412;Over500_2026_P03_-_published|Data to publish|1413;Over500_2026_P03_-_published|Data to publish|1414;Over500_2026_P03_-_published|Data to publish|1460;Over500_2026_P03_-_published|Data to publish|1470;Over500_2026_P03_-_published|Data to publish|1477;Over500_2026_P03_-_published|Data to publish|1485;Over500_2026_P03_-_published|Data to publish|1486;Over500_2026_P03_-_published|Data to publish|1487;Over500_2026_P03_-_published|Data to publish|1759;Over500_2026_P03_-_published|Data to publish|1822;Over500_2026_P03_-_published|Data to publish|2690;Over500_2026_P03_-_published|Data to publish|2691;Over500_2026_P03_-_published|Data to publish|2700;Over500_2026_P03_-_published|Data to publish|2701;Over500_2026_P03_-_published|Data to publish|2702;Over500_2026_P03_-_published|Data to publish|2703;Over500_2026_P03_-_published|Data to publish|2709;Over500_2026_P03_-_published|Data to publish|2710;Over500_2026_P03_-_published|Data to publish|2716;Over500_2026_P03_-_published|Data to publish|2825;Over500_2026_P03_-_published|Data to publish|2831;Over500_2026_P03_-_published|Data to publish|2832;Over500_2026_P03_-_published|Data to publish|2833;Over500_2026_P03_-_published|Data to publish|2834;Over500_2026_P03_-_published|Data to publish|2844;Over500_2026_P03_-_published|Data to publish|2849;Over500_2026_P03_-_published|Data to publish|2850;Over500_2026_P03_-_published|Data to publish|2851;Over500_2026_P03_-_published|Data to publish|2890;Over500_2026_P03_-_published|Data to publish|3020;Over500_2026_P03_-_published|Data to publish|3023;Over500_2026_P03_-_published|Data to publish|837;Over500_2026_P03_-_published|Data to publish|852;Over500_2026_P03_-_published|Data to publish|871;Over500_2026_P03_-_published|Data to publish|872;Over500_2026_P03_-_published|Data to publish|893;Over500_2026_P03_-_published|Data to publish|894;Over500_2026_P03_-_published|Data to publish|895;Over500_2026_P03_-_published|Data to publish|896;Over500_2026_P03_-_published|Data to publish|897;Over500_2026_P03_-_published|Data to publish|898;Over500_2026_P03_-_published|Data to publish|903;Over500_2026_P03_-_published|Data to publish|904;Over500_2026_P03_-_published|Data to publish|919;Over500_2026_P03_-_published|Data to publish|920;Over500_2026_P03_-_published|Data to publish|921;Over500_2026_P03_-_published|Data to publish|922;Over500_2026_P03_-_published|Data to publish|923;Over500_2026_P03_-_published|Data to publish|940;Over500_2026_P03_-_published|Data to publish|941;Over500_2026_P03_-_published|Data to publish|942;Over500_2026_P03_-_published|Data to publish|943;Over500_2026_P03_-_published|Data to publish|944;Over500_2026_P03_-_published|Data to publish|945;Over500_2026_P03_-_published|Data to publish|946;Over500_2026_P03_-_published|Data to publish|947;Over500_2026_P03_-_published|Data to publish|953;Over500_2026_P03_-_published|Data to publish|954;Over500_2026_P03_-_published|Data to publish|960;Over500_2026_P03_-_published|Data to publish|961;Over500_2026_P03_-_published|Data to publish|962;Over500_2026_P03_-_published|Data to publish|975;Over500_2026_P03_-_published|Data to publish|976;Over500_2026_P03_-_published|Data to publish|977;Over500_2026_P03_-_published|Data to publish|980;Over500_2026_P03_-_published|Data to publish|981;Over500_2026_P03_-_published|Data to publish|987;Over500_2026_P04_-_published|Data to publish|1028;Over500_2026_P04_-_published|Data to publish|1029;Over500_2026_P04_-_published|Data to publish|1030;Over500_2026_P04_-_published|Data to publish|1031;Over500_2026_P04_-_published|Data to publish|1051;Over500_2026_P04_-_published|Data to publish|1067;Over500_2026_P04_-_published|Data to publish|1068;Over500_2026_P04_-_published|Data to publish|1069;Over500_2026_P04_-_published|Data to publish|1075;Over500_2026_P04_-_published|Data to publish|1076;Over500_2026_P04_-_published|Data to publish|1077;Over500_2026_P04_-_published|Data to publish|1078;Over500_2026_P04_-_published|Data to publish|1079;Over500_2026_P04_-_published|Data to publish|1080;Over500_2026_P04_-_published|Data to publish|1100;Over500_2026_P04_-_published|Data to publish|1132;Over500_2026_P04_-_published|Data to publish|1133;Over500_2026_P04_-_published|Data to publish|1151;Over500_2026_P04_-_published|Data to publish|1817;Over500_2026_P04_-_published|Data to publish|1841;Over500_2026_P04_-_published|Data to publish|1889;Over500_2026_P04_-_published|Data to publish|1925;Over500_2026_P04_-_published|Data to publish|1944;Over500_2026_P04_-_published|Data to publish|2770;Over500_2026_P04_-_published|Data to publish|2869;Over500_2026_P04_-_published|Data to publish|1032;Over500_2026_P04_-_published|Data to publish|1033;Over500_2026_P04_-_published|Data to publish|1034;Over500_2026_P04_-_published|Data to publish|1035;Over500_2026_P04_-_published|Data to publish|1036;Over500_2026_P04_-_published|Data to publish|1037;Over500_2026_P04_-_published|Data to publish|1038;Over500_2026_P04_-_published|Data to publish|1039;Over500_2026_P04_-_published|Data to publish|1040;Over500_2026_P04_-_published|Data to publish|1041;Over500_2026_P04_-_published|Data to publish|1042;Over500_2026_P04_-_published|Data to publish|1043;Over500_2026_P04_-_published|Data to publish|1070;Over500_2026_P04_-_published|Data to publish|1071;Over500_2026_P04_-_published|Data to publish|1072;Over500_2026_P04_-_published|Data to publish|1073;Over500_2026_P04_-_published|Data to publish|1081;Over500_2026_P04_-_published|Data to publish|1082;Over500_2026_P04_-_published|Data to publish|1083;Over500_2026_P04_-_published|Data to publish|1084;Over500_2026_P04_-_published|Data to publish|1085;Over500_2026_P04_-_published|Data to publish|1086;Over500_2026_P04_-_published|Data to publish|1087;Over500_2026_P04_-_published|Data to publish|1088;Over500_2026_P04_-_published|Data to publish|1089;Over500_2026_P04_-_published|Data to publish|1090;Over500_2026_P04_-_published|Data to publish|1091;Over500_2026_P04_-_published|Data to publish|1103;Over500_2026_P04_-_published|Data to publish|1104;Over500_2026_P04_-_published|Data to publish|1105;Over500_2026_P04_-_published|Data to publish|1106;Over500_2026_P04_-_published|Data to publish|1107;Over500_2026_P04_-_published|Data to publish|1115;Over500_2026_P04_-_published|Data to publish|1116;Over500_2026_P04_-_published|Data to publish|1117;Over500_2026_P04_-_published|Data to publish|1118;Over500_2026_P04_-_published|Data to publish|1119;Over500_2026_P04_-_published|Data to publish|1120;Over500_2026_P04_-_published|Data to publish|1135;Over500_2026_P04_-_published|Data to publish|1136;Over500_2026_P04_-_published|Data to publish|1137;Over500_2026_P04_-_published|Data to publish|1153;Over500_2026_P04_-_published|Data to publish|1154;Over500_2026_P04_-_published|Data to publish|1155;Over500_2026_P04_-_published|Data to publish|1156;Over500_2026_P04_-_published|Data to publish|1157;Over500_2026_P04_-_published|Data to publish|1158;Over500_2026_P04_-_published|Data to publish|1563;Over500_2026_P04_-_published|Data to publish|1565;Over500_2026_P04_-_published|Data to publish|1791;Over500_2026_P04_-_published|Data to publish|1792;Over500_2026_P04_-_published|Data to publish|1813;Over500_2026_P04_-_published|Data to publish|1814;Over500_2026_P04_-_published|Data to publish|1818;Over500_2026_P04_-_published|Data to publish|1819;Over500_2026_P04_-_published|Data to publish|1820;Over500_2026_P04_-_published|Data to publish|1821;Over500_2026_P04_-_published|Data to publish|1822;Over500_2026_P04_-_published|Data to publish|1823;Over500_2026_P04_-_published|Data to publish|1824;Over500_2026_P04_-_published|Data to publish|1825;Over500_2026_P04_-_published|Data to publish|1826;Over500_2026_P04_-_published|Data to publish|1827;Over500_2026_P04_-_published|Data to publish|1828;Over500_2026_P04_-_published|Data to publish|1829;Over500_2026_P04_-_published|Data to publish|1830;Over500_2026_P04_-_published|Data to publish|1831;Over500_2026_P04_-_published|Data to publish|1845;Over500_2026_P04_-_published|Data to publish|1846;Over500_2026_P04_-_published|Data to publish|1847;Over500_2026_P04_-_published|Data to publish|1848;Over500_2026_P04_-_published|Data to publish|1849;Over500_2026_P04_-_published|Data to publish|1850;Over500_2026_P04_-_published|Data to publish|1871;Over500_2026_P04_-_published|Data to publish|1881;Over500_2026_P04_-_published|Data to publish|1890;Over500_2026_P04_-_published|Data to publish|1891;Over500_2026_P04_-_published|Data to publish|1892;Over500_2026_P04_-_published|Data to publish|1893;Over500_2026_P04_-_published|Data to publish|1894;Over500_2026_P04_-_published|Data to publish|1895;Over500_2026_P04_-_published|Data to publish|1896;Over500_2026_P04_-_published|Data to publish|1904;Over500_2026_P04_-_published|Data to publish|1905;Over500_2026_P04_-_published|Data to publish|1906;Over500_2026_P04_-_published|Data to publish|1907;Over500_2026_P04_-_published|Data to publish|1908;Over500_2026_P04_-_published|Data to publish|1922;Over500_2026_P04_-_published|Data to publish|1923;Over500_2026_P04_-_published|Data to publish|1924;Over500_2026_P04_-_published|Data to publish|1926;Over500_2026_P04_-_published|Data to publish|1927;Over500_2026_P04_-_published|Data to publish|1928;Over500_2026_P04_-_published|Data to publish|1929;Over500_2026_P04_-_published|Data to publish|1930;Over500_2026_P04_-_published|Data to publish|1931;Over500_2026_P04_-_published|Data to publish|1948;Over500_2026_P04_-_published|Data to publish|1949;Over500_2026_P04_-_published|Data to publish|1950;Over500_2026_P04_-_published|Data to publish|1951;Over500_2026_P04_-_published|Data to publish|1952;Over500_2026_P04_-_published|Data to publish|1963;Over500_2026_P04_-_published|Data to publish|2003;Over500_2026_P04_-_published|Data to publish|2004;Over500_2026_P04_-_published|Data to publish|2005;Over500_2026_P04_-_published|Data to publish|2006;Over500_2026_P04_-_published|Data to publish|2131;Over500_2026_P04_-_published|Data to publish|2178;Over500_2026_P04_-_published|Data to publish|2656;Over500_2026_P04_-_published|Data to publish|2664;Over500_2026_P04_-_published|Data to publish|2665;Over500_2026_P04_-_published|Data to publish|2666;Over500_2026_P04_-_published|Data to publish|2676;Over500_2026_P04_-_published|Data to publish|2677;Over500_2026_P04_-_published|Data to publish|2678;Over500_2026_P04_-_published|Data to publish|2717;Over500_2026_P04_-_published|Data to publish|2884;Over500_2026_P04_-_published|Data to publish|2908;Over500_2026_P04_-_published|Data to publish|2931;Over500_2026_P04_-_published|Data to publish|2932;Over500_2026_P04_-_published|Data to publish|3006;Over500_2026_P04_-_published|Data to publish|3699;Over500_2026_P04_-_published|Data to publish|3704;Over500_2026_P04_-_published|Data to publish|724;Over500_2026_P04_-_published|Data to publish|887;Over500_2026_P04_-_published|Data to publish|916;Over500_2026_P04_-_published|Data to publish|927"
+    },
+    {
+     "tier": 500000,
+     "supplier": "Oaklands SEN School Berkshire Limited",
+     "first_date": "2026-06-17T08:59:47.447",
+     "last_date": "2026-06-17T09:55:52.153",
+     "payments": 54,
+     "total_gbp": 1026661.89,
+     "max_payment": 20534.9,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P03_-_published|Data to publish|2164;Over500_2026_P03_-_published|Data to publish|2165;Over500_2026_P03_-_published|Data to publish|2166;Over500_2026_P03_-_published|Data to publish|2167;Over500_2026_P03_-_published|Data to publish|2189;Over500_2026_P03_-_published|Data to publish|2190;Over500_2026_P03_-_published|Data to publish|2310;Over500_2026_P03_-_published|Data to publish|2311;Over500_2026_P03_-_published|Data to publish|3106;Over500_2026_P03_-_published|Data to publish|3107;Over500_2026_P03_-_published|Data to publish|2169;Over500_2026_P03_-_published|Data to publish|2170;Over500_2026_P03_-_published|Data to publish|2191;Over500_2026_P03_-_published|Data to publish|2192;Over500_2026_P03_-_published|Data to publish|2193;Over500_2026_P03_-_published|Data to publish|2312;Over500_2026_P03_-_published|Data to publish|2313;Over500_2026_P03_-_published|Data to publish|2314;Over500_2026_P03_-_published|Data to publish|3108;Over500_2026_P03_-_published|Data to publish|3109;Over500_2026_P03_-_published|Data to publish|2171;Over500_2026_P03_-_published|Data to publish|2172;Over500_2026_P03_-_published|Data to publish|2173;Over500_2026_P03_-_published|Data to publish|2194;Over500_2026_P03_-_published|Data to publish|2195;Over500_2026_P03_-_published|Data to publish|2196;Over500_2026_P03_-_published|Data to publish|2315;Over500_2026_P03_-_published|Data to publish|2316;Over500_2026_P03_-_published|Data to publish|2317;Over500_2026_P03_-_published|Data to publish|3110;Over500_2026_P03_-_published|Data to publish|3111;Over500_2026_P03_-_published|Data to publish|2174;Over500_2026_P03_-_published|Data to publish|2197;Over500_2026_P03_-_published|Data to publish|2318;Over500_2026_P03_-_published|Data to publish|2175;Over500_2026_P03_-_published|Data to publish|2176;Over500_2026_P03_-_published|Data to publish|2198;Over500_2026_P03_-_published|Data to publish|2199;Over500_2026_P03_-_published|Data to publish|2200;Over500_2026_P03_-_published|Data to publish|2201;Over500_2026_P03_-_published|Data to publish|2202;Over500_2026_P03_-_published|Data to publish|2319;Over500_2026_P03_-_published|Data to publish|2320;Over500_2026_P03_-_published|Data to publish|3112;Over500_2026_P03_-_published|Data to publish|3113;Over500_2026_P03_-_published|Data to publish|2177;Over500_2026_P03_-_published|Data to publish|2203;Over500_2026_P03_-_published|Data to publish|2204;Over500_2026_P03_-_published|Data to publish|2321;Over500_2026_P03_-_published|Data to publish|2322;Over500_2026_P03_-_published|Data to publish|2323;Over500_2026_P03_-_published|Data to publish|3114;Over500_2026_P03_-_published|Data to publish|3115;Over500_2026_P03_-_published|Data to publish|3116"
+    },
+    {
+     "tier": 25000,
+     "supplier": "Oaklands SEN School Berkshire Limited",
+     "first_date": "2026-06-17T08:59:47.447",
+     "last_date": "2026-06-17T09:55:52.153",
+     "payments": 54,
+     "total_gbp": 1026661.89,
+     "max_payment": 20534.9,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P03_-_published|Data to publish|2164;Over500_2026_P03_-_published|Data to publish|2165;Over500_2026_P03_-_published|Data to publish|2166;Over500_2026_P03_-_published|Data to publish|2167;Over500_2026_P03_-_published|Data to publish|2189;Over500_2026_P03_-_published|Data to publish|2190;Over500_2026_P03_-_published|Data to publish|2310;Over500_2026_P03_-_published|Data to publish|2311;Over500_2026_P03_-_published|Data to publish|3106;Over500_2026_P03_-_published|Data to publish|3107;Over500_2026_P03_-_published|Data to publish|2169;Over500_2026_P03_-_published|Data to publish|2170;Over500_2026_P03_-_published|Data to publish|2191;Over500_2026_P03_-_published|Data to publish|2192;Over500_2026_P03_-_published|Data to publish|2193;Over500_2026_P03_-_published|Data to publish|2312;Over500_2026_P03_-_published|Data to publish|2313;Over500_2026_P03_-_published|Data to publish|2314;Over500_2026_P03_-_published|Data to publish|3108;Over500_2026_P03_-_published|Data to publish|3109;Over500_2026_P03_-_published|Data to publish|2171;Over500_2026_P03_-_published|Data to publish|2172;Over500_2026_P03_-_published|Data to publish|2173;Over500_2026_P03_-_published|Data to publish|2194;Over500_2026_P03_-_published|Data to publish|2195;Over500_2026_P03_-_published|Data to publish|2196;Over500_2026_P03_-_published|Data to publish|2315;Over500_2026_P03_-_published|Data to publish|2316;Over500_2026_P03_-_published|Data to publish|2317;Over500_2026_P03_-_published|Data to publish|3110;Over500_2026_P03_-_published|Data to publish|3111;Over500_2026_P03_-_published|Data to publish|2174;Over500_2026_P03_-_published|Data to publish|2197;Over500_2026_P03_-_published|Data to publish|2318;Over500_2026_P03_-_published|Data to publish|2175;Over500_2026_P03_-_published|Data to publish|2176;Over500_2026_P03_-_published|Data to publish|2198;Over500_2026_P03_-_published|Data to publish|2199;Over500_2026_P03_-_published|Data to publish|2200;Over500_2026_P03_-_published|Data to publish|2201;Over500_2026_P03_-_published|Data to publish|2202;Over500_2026_P03_-_published|Data to publish|2319;Over500_2026_P03_-_published|Data to publish|2320;Over500_2026_P03_-_published|Data to publish|3112;Over500_2026_P03_-_published|Data to publish|3113;Over500_2026_P03_-_published|Data to publish|2177;Over500_2026_P03_-_published|Data to publish|2203;Over500_2026_P03_-_published|Data to publish|2204;Over500_2026_P03_-_published|Data to publish|2321;Over500_2026_P03_-_published|Data to publish|2322;Over500_2026_P03_-_published|Data to publish|2323;Over500_2026_P03_-_published|Data to publish|3114;Over500_2026_P03_-_published|Data to publish|3115;Over500_2026_P03_-_published|Data to publish|3116"
+    },
+    {
+     "tier": 500000,
+     "supplier": "Affinity Trust Support Ltd",
+     "first_date": "2026-06-03T09:57:27.700",
+     "last_date": "2026-07-01T11:03:57.340",
+     "payments": 161,
+     "total_gbp": 688928.15,
+     "max_payment": 26394.66,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P03_-_published|Data to publish|1447;Over500_2026_P03_-_published|Data to publish|1450;Over500_2026_P03_-_published|Data to publish|1518;Over500_2026_P03_-_published|Data to publish|1521;Over500_2026_P03_-_published|Data to publish|1522;Over500_2026_P03_-_published|Data to publish|1523;Over500_2026_P03_-_published|Data to publish|1524;Over500_2026_P03_-_published|Data to publish|1525;Over500_2026_P03_-_published|Data to publish|1609;Over500_2026_P03_-_published|Data to publish|1611;Over500_2026_P03_-_published|Data to publish|1612;Over500_2026_P03_-_published|Data to publish|1613;Over500_2026_P03_-_published|Data to publish|1614;Over500_2026_P03_-_published|Data to publish|2920;Over500_2026_P03_-_published|Data to publish|2921;Over500_2026_P03_-_published|Data to publish|2922;Over500_2026_P03_-_published|Data to publish|2923;Over500_2026_P03_-_published|Data to publish|1444;Over500_2026_P03_-_published|Data to publish|1531;Over500_2026_P03_-_published|Data to publish|1532;Over500_2026_P03_-_published|Data to publish|1533;Over500_2026_P03_-_published|Data to publish|1539;Over500_2026_P03_-_published|Data to publish|1540;Over500_2026_P03_-_published|Data to publish|1541;Over500_2026_P03_-_published|Data to publish|1542;Over500_2026_P03_-_published|Data to publish|1543;Over500_2026_P03_-_published|Data to publish|1544;Over500_2026_P03_-_published|Data to publish|1545;Over500_2026_P03_-_published|Data to publish|1546;Over500_2026_P03_-_published|Data to publish|1547;Over500_2026_P03_-_published|Data to publish|1548;Over500_2026_P03_-_published|Data to publish|1549;Over500_2026_P03_-_published|Data to publish|1550;Over500_2026_P03_-_published|Data to publish|1551;Over500_2026_P03_-_published|Data to publish|1588;Over500_2026_P03_-_published|Data to publish|1589;Over500_2026_P03_-_published|Data to publish|1590;Over500_2026_P03_-_published|Data to publish|1591;Over500_2026_P03_-_published|Data to publish|1592;Over500_2026_P03_-_published|Data to publish|1595;Over500_2026_P03_-_published|Data to publish|1627;Over500_2026_P03_-_published|Data to publish|1628;Over500_2026_P03_-_published|Data to publish|1629;Over500_2026_P03_-_published|Data to publish|1630;Over500_2026_P03_-_published|Data to publish|1633;Over500_2026_P03_-_published|Data to publish|1634;Over500_2026_P03_-_published|Data to publish|1635;Over500_2026_P03_-_published|Data to publish|1640;Over500_2026_P03_-_published|Data to publish|1641;Over500_2026_P03_-_published|Data to publish|1642;Over500_2026_P03_-_published|Data to publish|1643;Over500_2026_P03_-_published|Data to publish|1644;Over500_2026_P03_-_published|Data to publish|1674;Over500_2026_P03_-_published|Data to publish|1678;Over500_2026_P03_-_published|Data to publish|1699;Over500_2026_P03_-_published|Data to publish|1700;Over500_2026_P03_-_published|Data to publish|1701;Over500_2026_P03_-_published|Data to publish|1702;Over500_2026_P03_-_published|Data to publish|1703;Over500_2026_P03_-_published|Data to publish|1704;Over500_2026_P03_-_published|Data to publish|1754;Over500_2026_P03_-_published|Data to publish|1764;Over500_2026_P03_-_published|Data to publish|1768;Over500_2026_P03_-_published|Data to publish|1770;Over500_2026_P03_-_published|Data to publish|1771;Over500_2026_P03_-_published|Data to publish|1831;Over500_2026_P03_-_published|Data to publish|1832;Over500_2026_P03_-_published|Data to publish|1855;Over500_2026_P03_-_published|Data to publish|1856;Over500_2026_P03_-_published|Data to publish|1977;Over500_2026_P03_-_published|Data to publish|1983;Over500_2026_P03_-_published|Data to publish|2914;Over500_2026_P03_-_published|Data to publish|2939;Over500_2026_P03_-_published|Data to publish|2940;Over500_2026_P03_-_published|Data to publish|2941;Over500_2026_P03_-_published|Data to publish|2942;Over500_2026_P03_-_published|Data to publish|2943;Over500_2026_P03_-_published|Data to publish|2944;Over500_2026_P03_-_published|Data to publish|2978;Over500_2026_P03_-_published|Data to publish|2986;Over500_2026_P03_-_published|Data to publish|1663;Over500_2026_P03_-_published|Data to publish|1664;Over500_2026_P03_-_published|Data to publish|1665;Over500_2026_P03_-_published|Data to publish|1666;Over500_2026_P03_-_published|Data to publish|1667;Over500_2026_P03_-_published|Data to publish|1689;Over500_2026_P03_-_published|Data to publish|1690;Over500_2026_P03_-_published|Data to publish|1691;Over500_2026_P03_-_published|Data to publish|1692;Over500_2026_P03_-_published|Data to publish|1693;Over500_2026_P03_-_published|Data to publish|1694;Over500_2026_P03_-_published|Data to publish|1695;Over500_2026_P03_-_published|Data to publish|1696;Over500_2026_P03_-_published|Data to publish|1715;Over500_2026_P03_-_published|Data to publish|1716;Over500_2026_P03_-_published|Data to publish|1844;Over500_2026_P03_-_published|Data to publish|1875;Over500_2026_P03_-_published|Data to publish|2955;Over500_2026_P03_-_published|Data to publish|2956;Over500_2026_P03_-_published|Data to publish|2957;Over500_2026_P03_-_published|Data to publish|2958;Over500_2026_P03_-_published|Data to publish|2959;Over500_2026_P03_-_published|Data to publish|935;Over500_2026_P04_-_published|Data to publish|2222;Over500_2026_P04_-_published|Data to publish|2224;Over500_2026_P04_-_published|Data to publish|2226;Over500_2026_P04_-_published|Data to publish|2227;Over500_2026_P04_-_published|Data to publish|2239;Over500_2026_P04_-_published|Data to publish|2240;Over500_2026_P04_-_published|Data to publish|2241;Over500_2026_P04_-_published|Data to publish|2251;Over500_2026_P04_-_published|Data to publish|2252;Over500_2026_P04_-_published|Data to publish|2253;Over500_2026_P04_-_published|Data to publish|2257;Over500_2026_P04_-_published|Data to publish|2258;Over500_2026_P04_-_published|Data to publish|2259;Over500_2026_P04_-_published|Data to publish|2267;Over500_2026_P04_-_published|Data to publish|2268;Over500_2026_P04_-_published|Data to publish|2269;Over500_2026_P04_-_published|Data to publish|2270;Over500_2026_P04_-_published|Data to publish|2271;Over500_2026_P04_-_published|Data to publish|2272;Over500_2026_P04_-_published|Data to publish|2294;Over500_2026_P04_-_published|Data to publish|2295;Over500_2026_P04_-_published|Data to publish|2313;Over500_2026_P04_-_published|Data to publish|2314;Over500_2026_P04_-_published|Data to publish|2315;Over500_2026_P04_-_published|Data to publish|2316;Over500_2026_P04_-_published|Data to publish|2337;Over500_2026_P04_-_published|Data to publish|2338;Over500_2026_P04_-_published|Data to publish|2339;Over500_2026_P04_-_published|Data to publish|2340;Over500_2026_P04_-_published|Data to publish|2341;Over500_2026_P04_-_published|Data to publish|2342;Over500_2026_P04_-_published|Data to publish|2343;Over500_2026_P04_-_published|Data to publish|2344;Over500_2026_P04_-_published|Data to publish|2603;Over500_2026_P04_-_published|Data to publish|2707;Over500_2026_P04_-_published|Data to publish|2742;Over500_2026_P04_-_published|Data to publish|2765;Over500_2026_P04_-_published|Data to publish|2960;Over500_2026_P04_-_published|Data to publish|2961;Over500_2026_P04_-_published|Data to publish|2970;Over500_2026_P04_-_published|Data to publish|2971;Over500_2026_P04_-_published|Data to publish|2972;Over500_2026_P04_-_published|Data to publish|2973;Over500_2026_P04_-_published|Data to publish|2974;Over500_2026_P04_-_published|Data to publish|2975;Over500_2026_P04_-_published|Data to publish|2976;Over500_2026_P04_-_published|Data to publish|2977;Over500_2026_P04_-_published|Data to publish|2978;Over500_2026_P04_-_published|Data to publish|2979;Over500_2026_P04_-_published|Data to publish|2980;Over500_2026_P04_-_published|Data to publish|2981;Over500_2026_P04_-_published|Data to publish|2982;Over500_2026_P04_-_published|Data to publish|3066;Over500_2026_P04_-_published|Data to publish|3564;Over500_2026_P04_-_published|Data to publish|3629;Over500_2026_P04_-_published|Data to publish|3730;Over500_2026_P04_-_published|Data to publish|3731;Over500_2026_P04_-_published|Data to publish|972"
+    },
+    {
+     "tier": 500000,
+     "supplier": "BUPA Care Services",
+     "first_date": "2026-05-06T10:20:24.033",
+     "last_date": "2026-06-03T09:57:27.700",
+     "payments": 120,
+     "total_gbp": 605975.41,
+     "max_payment": 8077.32,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P02_-_published|Data to publish|1509;Over500_2026_P02_-_published|Data to publish|1034;Over500_2026_P02_-_published|Data to publish|1035;Over500_2026_P02_-_published|Data to publish|1036;Over500_2026_P02_-_published|Data to publish|1037;Over500_2026_P02_-_published|Data to publish|1038;Over500_2026_P02_-_published|Data to publish|1039;Over500_2026_P02_-_published|Data to publish|1040;Over500_2026_P02_-_published|Data to publish|1041;Over500_2026_P02_-_published|Data to publish|1042;Over500_2026_P02_-_published|Data to publish|1043;Over500_2026_P02_-_published|Data to publish|1044;Over500_2026_P02_-_published|Data to publish|1045;Over500_2026_P02_-_published|Data to publish|1431;Over500_2026_P02_-_published|Data to publish|1443;Over500_2026_P02_-_published|Data to publish|1444;Over500_2026_P02_-_published|Data to publish|1455;Over500_2026_P02_-_published|Data to publish|1456;Over500_2026_P02_-_published|Data to publish|1457;Over500_2026_P02_-_published|Data to publish|1458;Over500_2026_P02_-_published|Data to publish|1459;Over500_2026_P02_-_published|Data to publish|1460;Over500_2026_P02_-_published|Data to publish|1461;Over500_2026_P02_-_published|Data to publish|1462;Over500_2026_P02_-_published|Data to publish|1463;Over500_2026_P02_-_published|Data to publish|1464;Over500_2026_P02_-_published|Data to publish|1465;Over500_2026_P02_-_published|Data to publish|1466;Over500_2026_P02_-_published|Data to publish|1467;Over500_2026_P02_-_published|Data to publish|1468;Over500_2026_P02_-_published|Data to publish|1469;Over500_2026_P02_-_published|Data to publish|1470;Over500_2026_P02_-_published|Data to publish|1471;Over500_2026_P02_-_published|Data to publish|1472;Over500_2026_P02_-_published|Data to publish|1473;Over500_2026_P02_-_published|Data to publish|1474;Over500_2026_P02_-_published|Data to publish|1475;Over500_2026_P02_-_published|Data to publish|1524;Over500_2026_P02_-_published|Data to publish|1525;Over500_2026_P02_-_published|Data to publish|1526;Over500_2026_P02_-_published|Data to publish|1527;Over500_2026_P02_-_published|Data to publish|1528;Over500_2026_P02_-_published|Data to publish|1529;Over500_2026_P02_-_published|Data to publish|1530;Over500_2026_P02_-_published|Data to publish|1531;Over500_2026_P02_-_published|Data to publish|1532;Over500_2026_P02_-_published|Data to publish|1533;Over500_2026_P02_-_published|Data to publish|1534;Over500_2026_P02_-_published|Data to publish|1535;Over500_2026_P02_-_published|Data to publish|1536;Over500_2026_P02_-_published|Data to publish|1537;Over500_2026_P02_-_published|Data to publish|1627;Over500_2026_P02_-_published|Data to publish|1630;Over500_2026_P02_-_published|Data to publish|1832;Over500_2026_P02_-_published|Data to publish|1850;Over500_2026_P02_-_published|Data to publish|1962;Over500_2026_P02_-_published|Data to publish|1963;Over500_2026_P02_-_published|Data to publish|1976;Over500_2026_P02_-_published|Data to publish|868;Over500_2026_P02_-_published|Data to publish|869;Over500_2026_P02_-_published|Data to publish|870;Over500_2026_P02_-_published|Data to publish|871;Over500_2026_P02_-_published|Data to publish|872;Over500_2026_P02_-_published|Data to publish|875;Over500_2026_P02_-_published|Data to publish|958;Over500_2026_P02_-_published|Data to publish|959;Over500_2026_P02_-_published|Data to publish|960;Over500_2026_P02_-_published|Data to publish|961;Over500_2026_P02_-_published|Data to publish|962;Over500_2026_P02_-_published|Data to publish|963;Over500_2026_P02_-_published|Data to publish|964;Over500_2026_P02_-_published|Data to publish|965;Over500_2026_P02_-_published|Data to publish|966;Over500_2026_P02_-_published|Data to publish|967;Over500_2026_P02_-_published|Data to publish|968;Over500_2026_P02_-_published|Data to publish|969;Over500_2026_P02_-_published|Data to publish|970;Over500_2026_P02_-_published|Data to publish|971;Over500_2026_P02_-_published|Data to publish|972;Over500_2026_P02_-_published|Data to publish|973;Over500_2026_P02_-_published|Data to publish|974;Over500_2026_P02_-_published|Data to publish|975;Over500_2026_P02_-_published|Data to publish|976;Over500_2026_P02_-_published|Data to publish|977;Over500_2026_P02_-_published|Data to publish|978;Over500_2026_P02_-_published|Data to publish|979;Over500_2026_P02_-_published|Data to publish|980;Over500_2026_P02_-_published|Data to publish|981;Over500_2026_P02_-_published|Data to publish|982;Over500_2026_P02_-_published|Data to publish|983;Over500_2026_P02_-_published|Data to publish|984;Over500_2026_P02_-_published|Data to publish|985;Over500_2026_P02_-_published|Data to publish|986;Over500_2026_P02_-_published|Data to publish|987;Over500_2026_P02_-_published|Data to publish|988;Over500_2026_P02_-_published|Data to publish|1023;Over500_2026_P02_-_published|Data to publish|1024;Over500_2026_P02_-_published|Data to publish|1025;Over500_2026_P02_-_published|Data to publish|1026;Over500_2026_P02_-_published|Data to publish|1069;Over500_2026_P02_-_published|Data to publish|1070;Over500_2026_P02_-_published|Data to publish|1071;Over500_2026_P02_-_published|Data to publish|1072;Over500_2026_P02_-_published|Data to publish|1967;Over500_2026_P03_-_published|Data to publish|1018;Over500_2026_P03_-_published|Data to publish|1322;Over500_2026_P03_-_published|Data to publish|1857;Over500_2026_P03_-_published|Data to publish|2830;Over500_2026_P03_-_published|Data to publish|2845;Over500_2026_P03_-_published|Data to publish|890;Over500_2026_P03_-_published|Data to publish|891;Over500_2026_P03_-_published|Data to publish|892;Over500_2026_P03_-_published|Data to publish|915;Over500_2026_P03_-_published|Data to publish|916;Over500_2026_P03_-_published|Data to publish|917;Over500_2026_P03_-_published|Data to publish|918;Over500_2026_P03_-_published|Data to publish|937;Over500_2026_P03_-_published|Data to publish|938;Over500_2026_P03_-_published|Data to publish|939;Over500_2026_P03_-_published|Data to publish|951"
+    },
+    {
+     "tier": 25000,
+     "supplier": "BUPA Care Services",
+     "first_date": "2026-05-06T10:20:24.033",
+     "last_date": "2026-06-03T09:57:27.700",
+     "payments": 120,
+     "total_gbp": 605975.41,
+     "max_payment": 8077.32,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P02_-_published|Data to publish|1509;Over500_2026_P02_-_published|Data to publish|1034;Over500_2026_P02_-_published|Data to publish|1035;Over500_2026_P02_-_published|Data to publish|1036;Over500_2026_P02_-_published|Data to publish|1037;Over500_2026_P02_-_published|Data to publish|1038;Over500_2026_P02_-_published|Data to publish|1039;Over500_2026_P02_-_published|Data to publish|1040;Over500_2026_P02_-_published|Data to publish|1041;Over500_2026_P02_-_published|Data to publish|1042;Over500_2026_P02_-_published|Data to publish|1043;Over500_2026_P02_-_published|Data to publish|1044;Over500_2026_P02_-_published|Data to publish|1045;Over500_2026_P02_-_published|Data to publish|1431;Over500_2026_P02_-_published|Data to publish|1443;Over500_2026_P02_-_published|Data to publish|1444;Over500_2026_P02_-_published|Data to publish|1455;Over500_2026_P02_-_published|Data to publish|1456;Over500_2026_P02_-_published|Data to publish|1457;Over500_2026_P02_-_published|Data to publish|1458;Over500_2026_P02_-_published|Data to publish|1459;Over500_2026_P02_-_published|Data to publish|1460;Over500_2026_P02_-_published|Data to publish|1461;Over500_2026_P02_-_published|Data to publish|1462;Over500_2026_P02_-_published|Data to publish|1463;Over500_2026_P02_-_published|Data to publish|1464;Over500_2026_P02_-_published|Data to publish|1465;Over500_2026_P02_-_published|Data to publish|1466;Over500_2026_P02_-_published|Data to publish|1467;Over500_2026_P02_-_published|Data to publish|1468;Over500_2026_P02_-_published|Data to publish|1469;Over500_2026_P02_-_published|Data to publish|1470;Over500_2026_P02_-_published|Data to publish|1471;Over500_2026_P02_-_published|Data to publish|1472;Over500_2026_P02_-_published|Data to publish|1473;Over500_2026_P02_-_published|Data to publish|1474;Over500_2026_P02_-_published|Data to publish|1475;Over500_2026_P02_-_published|Data to publish|1524;Over500_2026_P02_-_published|Data to publish|1525;Over500_2026_P02_-_published|Data to publish|1526;Over500_2026_P02_-_published|Data to publish|1527;Over500_2026_P02_-_published|Data to publish|1528;Over500_2026_P02_-_published|Data to publish|1529;Over500_2026_P02_-_published|Data to publish|1530;Over500_2026_P02_-_published|Data to publish|1531;Over500_2026_P02_-_published|Data to publish|1532;Over500_2026_P02_-_published|Data to publish|1533;Over500_2026_P02_-_published|Data to publish|1534;Over500_2026_P02_-_published|Data to publish|1535;Over500_2026_P02_-_published|Data to publish|1536;Over500_2026_P02_-_published|Data to publish|1537;Over500_2026_P02_-_published|Data to publish|1627;Over500_2026_P02_-_published|Data to publish|1630;Over500_2026_P02_-_published|Data to publish|1832;Over500_2026_P02_-_published|Data to publish|1850;Over500_2026_P02_-_published|Data to publish|1962;Over500_2026_P02_-_published|Data to publish|1963;Over500_2026_P02_-_published|Data to publish|1976;Over500_2026_P02_-_published|Data to publish|868;Over500_2026_P02_-_published|Data to publish|869;Over500_2026_P02_-_published|Data to publish|870;Over500_2026_P02_-_published|Data to publish|871;Over500_2026_P02_-_published|Data to publish|872;Over500_2026_P02_-_published|Data to publish|875;Over500_2026_P02_-_published|Data to publish|958;Over500_2026_P02_-_published|Data to publish|959;Over500_2026_P02_-_published|Data to publish|960;Over500_2026_P02_-_published|Data to publish|961;Over500_2026_P02_-_published|Data to publish|962;Over500_2026_P02_-_published|Data to publish|963;Over500_2026_P02_-_published|Data to publish|964;Over500_2026_P02_-_published|Data to publish|965;Over500_2026_P02_-_published|Data to publish|966;Over500_2026_P02_-_published|Data to publish|967;Over500_2026_P02_-_published|Data to publish|968;Over500_2026_P02_-_published|Data to publish|969;Over500_2026_P02_-_published|Data to publish|970;Over500_2026_P02_-_published|Data to publish|971;Over500_2026_P02_-_published|Data to publish|972;Over500_2026_P02_-_published|Data to publish|973;Over500_2026_P02_-_published|Data to publish|974;Over500_2026_P02_-_published|Data to publish|975;Over500_2026_P02_-_published|Data to publish|976;Over500_2026_P02_-_published|Data to publish|977;Over500_2026_P02_-_published|Data to publish|978;Over500_2026_P02_-_published|Data to publish|979;Over500_2026_P02_-_published|Data to publish|980;Over500_2026_P02_-_published|Data to publish|981;Over500_2026_P02_-_published|Data to publish|982;Over500_2026_P02_-_published|Data to publish|983;Over500_2026_P02_-_published|Data to publish|984;Over500_2026_P02_-_published|Data to publish|985;Over500_2026_P02_-_published|Data to publish|986;Over500_2026_P02_-_published|Data to publish|987;Over500_2026_P02_-_published|Data to publish|988;Over500_2026_P02_-_published|Data to publish|1023;Over500_2026_P02_-_published|Data to publish|1024;Over500_2026_P02_-_published|Data to publish|1025;Over500_2026_P02_-_published|Data to publish|1026;Over500_2026_P02_-_published|Data to publish|1069;Over500_2026_P02_-_published|Data to publish|1070;Over500_2026_P02_-_published|Data to publish|1071;Over500_2026_P02_-_published|Data to publish|1072;Over500_2026_P02_-_published|Data to publish|1967;Over500_2026_P03_-_published|Data to publish|1018;Over500_2026_P03_-_published|Data to publish|1322;Over500_2026_P03_-_published|Data to publish|1857;Over500_2026_P03_-_published|Data to publish|2830;Over500_2026_P03_-_published|Data to publish|2845;Over500_2026_P03_-_published|Data to publish|890;Over500_2026_P03_-_published|Data to publish|891;Over500_2026_P03_-_published|Data to publish|892;Over500_2026_P03_-_published|Data to publish|915;Over500_2026_P03_-_published|Data to publish|916;Over500_2026_P03_-_published|Data to publish|917;Over500_2026_P03_-_published|Data to publish|918;Over500_2026_P03_-_published|Data to publish|937;Over500_2026_P03_-_published|Data to publish|938;Over500_2026_P03_-_published|Data to publish|939;Over500_2026_P03_-_published|Data to publish|951"
+    },
+    {
+     "tier": 500000,
+     "supplier": "Phoenix Child Care Limited -The Grange School",
+     "first_date": "2026-05-19T16:07:04.713",
+     "last_date": "2026-06-17T17:11:48.000",
+     "payments": 23,
+     "total_gbp": 566088.82,
+     "max_payment": 33799.71,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P02_-_published|Data to publish|2242;Over500_2026_P02_-_published|Data to publish|2243;Over500_2026_P02_-_published|Data to publish|2244;Over500_2026_P02_-_published|Data to publish|2245;Over500_2026_P02_-_published|Data to publish|2246;Over500_2026_P02_-_published|Data to publish|2247;Over500_2026_P02_-_published|Data to publish|2248;Over500_2026_P02_-_published|Data to publish|2249;Over500_2026_P02_-_published|Data to publish|2250;Over500_2026_P02_-_published|Data to publish|2251;Over500_2026_P02_-_published|Data to publish|2252;Over500_2026_P02_-_published|Data to publish|2253;Over500_2026_P02_-_published|Data to publish|2254;Over500_2026_P02_-_published|Data to publish|2255;Over500_2026_P02_-_published|Data to publish|2256;Over500_2026_P02_-_published|Data to publish|2257;Over500_2026_P02_-_published|Data to publish|2258;Over500_2026_P02_-_published|Data to publish|2259;Over500_2026_P02_-_published|Data to publish|2260;Over500_2026_P02_-_published|Data to publish|2262;Over500_2026_P02_-_published|Data to publish|2263;Over500_2026_P03_-_published|Data to publish|2179;Over500_2026_P03_-_published|Data to publish|2229"
+    },
+    {
+     "tier": 500000,
+     "supplier": "RUSKIN MILL TRUST",
+     "first_date": "2026-05-13T13:20:06.850",
+     "last_date": "2026-06-02T15:08:34.843",
+     "payments": 5,
+     "total_gbp": 550097.21,
+     "max_payment": 179236.76,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P02_-_published|Data to publish|1822;Over500_2026_P02_-_published|Data to publish|823;Over500_2026_P03_-_published|Data to publish|2676;Over500_2026_P03_-_published|Data to publish|801;Over500_2026_P03_-_published|Data to publish|802"
+    },
+    {
+     "tier": 500000,
+     "supplier": "Comensura Ltd",
+     "first_date": "2026-07-01T16:44:06.493",
+     "last_date": "2026-07-31T16:24:11.593",
+     "payments": 6,
+     "total_gbp": 545377.5,
+     "max_payment": 103047.79,
+     "tag": "agency_staff",
+     "row_ids": "Over500_2026_P04_-_published|Data to publish|9;Over500_2026_P04_-_published|Data to publish|5;Over500_2026_P04_-_published|Data to publish|6;Over500_2026_P04_-_published|Data to publish|7;Over500_2026_P04_-_published|Data to publish|8;Over500_2026_P04_-_published|Data to publish|19"
+    },
+    {
+     "tier": 500000,
+     "supplier": "Comensura Ltd",
+     "first_date": "2026-05-19T12:36:39.057",
+     "last_date": "2026-06-16T09:26:44.697",
+     "payments": 6,
+     "total_gbp": 530906.97,
+     "max_payment": 107880.99,
+     "tag": "agency_staff",
+     "row_ids": "Over500_2026_P02_-_published|Data to publish|6;Over500_2026_P02_-_published|Data to publish|7;Over500_2026_P03_-_published|Data to publish|14;Over500_2026_P03_-_published|Data to publish|12;Over500_2026_P03_-_published|Data to publish|9;Over500_2026_P03_-_published|Data to publish|10"
+    },
+    {
+     "tier": 500000,
+     "supplier": "SoftwareONE UK Ltd",
+     "first_date": "2026-05-27T10:03:04.440",
+     "last_date": "2026-05-27T12:22:43.497",
+     "payments": 4,
+     "total_gbp": 522978.62,
+     "max_payment": 375697.68,
+     "tag": "general_procurement",
+     "row_ids": "Over500_2026_P02_-_published|Data to publish|654;Over500_2026_P02_-_published|Data to publish|473;Over500_2026_P02_-_published|Data to publish|474;Over500_2026_P02_-_published|Data to publish|653"
+    },
+    {
+     "tier": 25000,
+     "supplier": "VOYAGE CARE",
+     "first_date": "2026-05-13T10:12:08.150",
+     "last_date": "2026-06-10T09:51:27.507",
+     "payments": 44,
+     "total_gbp": 337815.88,
+     "max_payment": 14756.16,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P02_-_published|Data to publish|1638;Over500_2026_P02_-_published|Data to publish|1639;Over500_2026_P02_-_published|Data to publish|1640;Over500_2026_P02_-_published|Data to publish|1641;Over500_2026_P02_-_published|Data to publish|1642;Over500_2026_P02_-_published|Data to publish|1643;Over500_2026_P02_-_published|Data to publish|1644;Over500_2026_P02_-_published|Data to publish|1645;Over500_2026_P02_-_published|Data to publish|1646;Over500_2026_P02_-_published|Data to publish|1835;Over500_2026_P02_-_published|Data to publish|1836;Over500_2026_P02_-_published|Data to publish|1837;Over500_2026_P02_-_published|Data to publish|1838;Over500_2026_P02_-_published|Data to publish|1839;Over500_2026_P02_-_published|Data to publish|1840;Over500_2026_P02_-_published|Data to publish|1841;Over500_2026_P02_-_published|Data to publish|1842;Over500_2026_P02_-_published|Data to publish|1843;Over500_2026_P02_-_published|Data to publish|1695;Over500_2026_P02_-_published|Data to publish|1791;Over500_2026_P02_-_published|Data to publish|1855;Over500_2026_P02_-_published|Data to publish|1944;Over500_2026_P02_-_published|Data to publish|1805;Over500_2026_P02_-_published|Data to publish|1814;Over500_2026_P03_-_published|Data to publish|1607;Over500_2026_P03_-_published|Data to publish|2918;Over500_2026_P03_-_published|Data to publish|1405;Over500_2026_P03_-_published|Data to publish|1433;Over500_2026_P03_-_published|Data to publish|1465;Over500_2026_P03_-_published|Data to publish|1466;Over500_2026_P03_-_published|Data to publish|1467;Over500_2026_P03_-_published|Data to publish|1572;Over500_2026_P03_-_published|Data to publish|1573;Over500_2026_P03_-_published|Data to publish|1735;Over500_2026_P03_-_published|Data to publish|1736;Over500_2026_P03_-_published|Data to publish|1758;Over500_2026_P03_-_published|Data to publish|1825;Over500_2026_P03_-_published|Data to publish|1847;Over500_2026_P03_-_published|Data to publish|1848;Over500_2026_P03_-_published|Data to publish|1849;Over500_2026_P03_-_published|Data to publish|1850;Over500_2026_P03_-_published|Data to publish|2893;Over500_2026_P03_-_published|Data to publish|2894;Over500_2026_P03_-_published|Data to publish|2974"
+    },
+    {
+     "tier": 25000,
+     "supplier": "Affinity Trust Support Ltd",
+     "first_date": "2026-07-08T10:43:22.513",
+     "last_date": "2026-07-29T11:34:52.340",
+     "payments": 82,
+     "total_gbp": 327150.45,
+     "max_payment": 14256.0,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P04_-_published|Data to publish|2321;Over500_2026_P04_-_published|Data to publish|2322;Over500_2026_P04_-_published|Data to publish|2334;Over500_2026_P04_-_published|Data to publish|2345;Over500_2026_P04_-_published|Data to publish|2346;Over500_2026_P04_-_published|Data to publish|2347;Over500_2026_P04_-_published|Data to publish|2348;Over500_2026_P04_-_published|Data to publish|2350;Over500_2026_P04_-_published|Data to publish|2351;Over500_2026_P04_-_published|Data to publish|2391;Over500_2026_P04_-_published|Data to publish|2693;Over500_2026_P04_-_published|Data to publish|2694;Over500_2026_P04_-_published|Data to publish|2985;Over500_2026_P04_-_published|Data to publish|2986;Over500_2026_P04_-_published|Data to publish|2989;Over500_2026_P04_-_published|Data to publish|3008;Over500_2026_P04_-_published|Data to publish|3565;Over500_2026_P04_-_published|Data to publish|974;Over500_2026_P04_-_published|Data to publish|993;Over500_2026_P04_-_published|Data to publish|2401;Over500_2026_P04_-_published|Data to publish|2402;Over500_2026_P04_-_published|Data to publish|2422;Over500_2026_P04_-_published|Data to publish|2423;Over500_2026_P04_-_published|Data to publish|2441;Over500_2026_P04_-_published|Data to publish|2709;Over500_2026_P04_-_published|Data to publish|3028;Over500_2026_P04_-_published|Data to publish|3029;Over500_2026_P04_-_published|Data to publish|3045;Over500_2026_P04_-_published|Data to publish|1052;Over500_2026_P04_-_published|Data to publish|2482;Over500_2026_P04_-_published|Data to publish|2514;Over500_2026_P04_-_published|Data to publish|2515;Over500_2026_P04_-_published|Data to publish|2532;Over500_2026_P04_-_published|Data to publish|2533;Over500_2026_P04_-_published|Data to publish|2534;Over500_2026_P04_-_published|Data to publish|2535;Over500_2026_P04_-_published|Data to publish|2536;Over500_2026_P04_-_published|Data to publish|2537;Over500_2026_P04_-_published|Data to publish|2538;Over500_2026_P04_-_published|Data to publish|2539;Over500_2026_P04_-_published|Data to publish|2540;Over500_2026_P04_-_published|Data to publish|2541;Over500_2026_P04_-_published|Data to publish|2542;Over500_2026_P04_-_published|Data to publish|2543;Over500_2026_P04_-_published|Data to publish|2554;Over500_2026_P04_-_published|Data to publish|2555;Over500_2026_P04_-_published|Data to publish|2556;Over500_2026_P04_-_published|Data to publish|2557;Over500_2026_P04_-_published|Data to publish|2558;Over500_2026_P04_-_published|Data to publish|2559;Over500_2026_P04_-_published|Data to publish|2560;Over500_2026_P04_-_published|Data to publish|2561;Over500_2026_P04_-_published|Data to publish|2562;Over500_2026_P04_-_published|Data to publish|2583;Over500_2026_P04_-_published|Data to publish|2584;Over500_2026_P04_-_published|Data to publish|2585;Over500_2026_P04_-_published|Data to publish|2586;Over500_2026_P04_-_published|Data to publish|2587;Over500_2026_P04_-_published|Data to publish|2588;Over500_2026_P04_-_published|Data to publish|2589;Over500_2026_P04_-_published|Data to publish|2590;Over500_2026_P04_-_published|Data to publish|2726;Over500_2026_P04_-_published|Data to publish|2745;Over500_2026_P04_-_published|Data to publish|2768;Over500_2026_P04_-_published|Data to publish|3149;Over500_2026_P04_-_published|Data to publish|3456;Over500_2026_P04_-_published|Data to publish|3457;Over500_2026_P04_-_published|Data to publish|3458;Over500_2026_P04_-_published|Data to publish|3459;Over500_2026_P04_-_published|Data to publish|3460;Over500_2026_P04_-_published|Data to publish|3461;Over500_2026_P04_-_published|Data to publish|3462;Over500_2026_P04_-_published|Data to publish|3463;Over500_2026_P04_-_published|Data to publish|3464;Over500_2026_P04_-_published|Data to publish|3465;Over500_2026_P04_-_published|Data to publish|3466;Over500_2026_P04_-_published|Data to publish|3467;Over500_2026_P04_-_published|Data to publish|3468;Over500_2026_P04_-_published|Data to publish|3469;Over500_2026_P04_-_published|Data to publish|3470;Over500_2026_P04_-_published|Data to publish|3634;Over500_2026_P04_-_published|Data to publish|3733"
+    },
+    {
+     "tier": 25000,
+     "supplier": "GCH (Alder) Ltd t/a Hungerford Care Home",
+     "first_date": "2026-06-17T10:32:49.720",
+     "last_date": "2026-07-15T10:33:10.383",
+     "payments": 60,
+     "total_gbp": 314772.4,
+     "max_payment": 6580.0,
+     "tag": "care_education_placement",
+     "row_ids": "Over500_2026_P03_-_published|Data to publish|1013;Over500_2026_P03_-_published|Data to publish|1014;Over500_2026_P03_-_published|Data to publish|1015;Over500_2026_P03_-_published|Data to publish|1016;Over500_2026_P03_-_published|Data to publish|1017;Over500_2026_P03_-_published|Data to publish|1337;Over500_2026_P03_-_published|Data to publish|1383;Over500_2026_P03_-_published|Data to publish|1384;Over500_2026_P03_-_published|Data to publish|1406;Over500_2026_P03_-_published|Data to publish|1424;Over500_2026_P03_-_published|Data to publish|1425;Over500_2026_P03_-_published|Data to publish|1478;Over500_2026_P03_-_published|Data to publish|1479;Over500_2026_P03_-_published|Data to publish|1480;Over500_2026_P03_-_published|Data to publish|1495;Over500_2026_P03_-_published|Data to publish|1496;Over500_2026_P03_-_published|Data to publish|1497;Over500_2026_P03_-_published|Data to publish|2711;Over500_2026_P03_-_published|Data to publish|2712;Over500_2026_P03_-_published|Data to publish|2713;Over500_2026_P03_-_published|Data to publish|2714;Over500_2026_P03_-_published|Data to publish|2719;Over500_2026_P03_-_published|Data to publish|2858;Over500_2026_P03_-_published|Data to publish|905;Over500_2026_P03_-_published|Data to publish|906;Over500_2026_P03_-_published|Data to publish|948;Over500_2026_P03_-_published|Data to publish|949;Over500_2026_P03_-_published|Data to publish|950;Over500_2026_P03_-_published|Data to publish|963;Over500_2026_P03_-_published|Data to publish|964;Over500_2026_P03_-_published|Data to publish|988;Over500_2026_P04_-_published|Data to publish|1048;Over500_2026_P04_-_published|Data to publish|1049;Over500_2026_P04_-_published|Data to publish|1050;Over500_2026_P04_-_published|Data to publish|1097;Over500_2026_P04_-_published|Data to publish|1098;Over500_2026_P04_-_published|Data to publish|1099;Over500_2026_P04_-_published|Data to publish|1114;Over500_2026_P04_-_published|Data to publish|1126;Over500_2026_P04_-_published|Data to publish|1127;Over500_2026_P04_-_published|Data to publish|1128;Over500_2026_P04_-_published|Data to publish|1129;Over500_2026_P04_-_published|Data to publish|1130;Over500_2026_P04_-_published|Data to publish|1146;Over500_2026_P04_-_published|Data to publish|1241;Over500_2026_P04_-_published|Data to publish|1839;Over500_2026_P04_-_published|Data to publish|1840;Over500_2026_P04_-_published|Data to publish|1854;Over500_2026_P04_-_published|Data to publish|1917;Over500_2026_P04_-_published|Data to publish|1941;Over500_2026_P04_-_published|Data to publish|1942;Over500_2026_P04_-_published|Data to publish|1943;Over500_2026_P04_-_published|Data to publish|1973;Over500_2026_P04_-_published|Data to publish|1974;Over500_2026_P04_-_published|Data to publish|1996;Over500_2026_P04_-_published|Data to publish|2014;Over500_2026_P04_-_published|Data to publish|2023;Over500_2026_P04_-_published|Data to publish|2024;Over500_2026_P04_-_published|Data to publish|2670;Over500_2026_P04_-_published|Data to publish|2671"
+    }
+   ]
+  },
+  "off_contract": {
+   "status": "ran",
+   "parameters": {
+    "notice_tier": 25000,
+    "rule_id": "CPR-60",
+    "annualise_factor": 4.0
+   },
+   "note": "Risk indicator: annualised estimate (3-month total x factor) above the notice tier with no exact-name notice found. Not evidence that no contract exists.",
+   "suppliers_above_tier": 667,
+   "count": 628,
+   "gbp": 62201148.08,
+   "annualised_estimate_gbp": 248804592.32,
+   "by_tag": {
+    "agency_staff": {
+     "count": 1,
+     "gbp": 1275552.15
+    },
+    "care_education_placement": {
+     "count": 311,
+     "gbp": 31447861.76
+    },
+    "general_procurement": {
+     "count": 150,
+     "gbp": 22265397.49
+    },
+    "grant": {
+     "count": 123,
+     "gbp": 5867467.15
+    },
+    "premises": {
+     "count": 43,
+     "gbp": 1344869.53
+    }
+   },
+   "with_candidate": 14,
+   "exact_matched_above_tier": {
+    "live": 35,
+    "expired": 4,
+    "future": 0
+   },
+   "flagged_with_candidates": 14,
+   "top20": [
+    {
+     "supplier": "VolkerHighways Ltd",
+     "norm_supplier": "VOLKERHIGHWAYS",
+     "gbp": 7377922.21,
+     "annualised_estimate": 29511688.84,
+     "payments": 126,
+     "services": "Environment",
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 7368255.48, \"premises\": 9666.73}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "VEOLIA ES WEST BERKSHIRE LTD (CHAPS ONLY)",
+     "norm_supplier": "VEOLIA ES WEST BERKSHIRE CHAPS ONLY",
+     "gbp": 6186065.04,
+     "annualised_estimate": 24744260.16,
+     "payments": 3,
+     "services": "Environment",
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 6186065.04}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Millbrook Healthcare Limited",
+     "norm_supplier": "MILLBROOK HEALTHCARE",
+     "gbp": 3459365.35,
+     "annualised_estimate": 13837461.4,
+     "payments": 4,
+     "services": "Finance, Property & Procurement",
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 3459365.35}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "BUPA Care Services",
+     "norm_supplier": "BUPA CARE SERVICES",
+     "gbp": 1874166.5,
+     "annualised_estimate": 7496666.0,
+     "payments": 370,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 1874166.5}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Comensura Ltd",
+     "norm_supplier": "COMENSURA",
+     "gbp": 1275552.15,
+     "annualised_estimate": 5102208.6,
+     "payments": 14,
+     "services": "Strategy & Governance",
+     "primary_tag": "agency_staff",
+     "gbp_by_tag": "{\"agency_staff\": 1275552.15}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Affinity Trust Support Ltd",
+     "norm_supplier": "AFFINITY TRUST SUPPORT",
+     "gbp": 1098336.76,
+     "annualised_estimate": 4393347.04,
+     "payments": 263,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 1098336.76}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Oaklands SEN School Berkshire Limited",
+     "norm_supplier": "OAKLANDS SEN SCHOOL BERKSHIRE",
+     "gbp": 1026661.89,
+     "annualised_estimate": 4106647.56,
+     "payments": 54,
+     "services": "Education (DSG Funded) & Other Education Grants",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 1026661.89}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "RUSKIN MILL TRUST",
+     "norm_supplier": "RUSKIN MILL TRUST",
+     "gbp": 795197.64,
+     "annualised_estimate": 3180790.56,
+     "payments": 9,
+     "services": "Adult Social Care; Education (DSG Funded) & Other Education Grants",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 795197.64}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Amegreen Childrens Services",
+     "norm_supplier": "AMEGREEN CHILDRENS SERVICES",
+     "gbp": 750437.33,
+     "annualised_estimate": 3001749.32,
+     "payments": 27,
+     "services": "Children's Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 750437.33}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Brighter Living Care Ltd",
+     "norm_supplier": "BRIGHTER LIVING CARE",
+     "gbp": 747183.47,
+     "annualised_estimate": 2988733.88,
+     "payments": 74,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 747183.47}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Sukhbir Singh and Harvinder Singh T/A Calcot Services for Children (CSFC)",
+     "norm_supplier": "SUKHBIR SINGH AND HARVINDER SINGH T A CALCOT SERVICES FOR CHILDREN CSFC",
+     "gbp": 639381.6,
+     "annualised_estimate": 2557526.4,
+     "payments": 26,
+     "services": "Children's Social Care; Education (DSG Funded) & Other Education Grants",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 639381.6}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "We Are The Care Company Ltd",
+     "norm_supplier": "WE ARE THE CARE COMPANY",
+     "gbp": 589012.31,
+     "annualised_estimate": 2356049.24,
+     "payments": 349,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 589012.31}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "The Better Group Ltd",
+     "norm_supplier": "THE BETTER GROUP",
+     "gbp": 588490.08,
+     "annualised_estimate": 2353960.32,
+     "payments": 26,
+     "services": "Adult Social Care; Adult Social Care - Transformation Projects; Children's Social Care; Education & SEND",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 326636.83, \"general_procurement\": 261853.25}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Phoenix Child Care Limited -The Grange School",
+     "norm_supplier": "PHOENIX CHILD CARE THE GRANGE SCHOOL",
+     "gbp": 567708.85,
+     "annualised_estimate": 2270835.4,
+     "payments": 25,
+     "services": "Education (DSG Funded) & Other Education Grants",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 567708.85}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "VOYAGE CARE",
+     "norm_supplier": "VOYAGE CARE",
+     "gbp": 554678.88,
+     "annualised_estimate": 2218715.52,
+     "payments": 80,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 554678.88}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "GCH (Alder) Ltd t/a Hungerford Care Home",
+     "norm_supplier": "GCH ALDER T A HUNGERFORD CARE HOME",
+     "gbp": 545531.64,
+     "annualised_estimate": 2182126.56,
+     "payments": 104,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 545531.64}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "SoftwareONE UK Ltd",
+     "norm_supplier": "SOFTWAREONE UK",
+     "gbp": 522978.62,
+     "annualised_estimate": 2091914.48,
+     "payments": 4,
+     "services": "Transformation, Customer & ICT",
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 522978.62}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Livity Life Ltd",
+     "norm_supplier": "LIVITY LIFE",
+     "gbp": 513074.85,
+     "annualised_estimate": 2052299.4,
+     "payments": 9,
+     "services": "Finance, Property & Procurement",
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 513074.85}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "WEST BERKSHIRE MENCAP",
+     "norm_supplier": "WEST BERKSHIRE MENCAP",
+     "gbp": 505286.21,
+     "annualised_estimate": 2021144.84,
+     "payments": 115,
+     "services": "Adult Social Care; Children's Social Care; Education & SEND",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 504168.91, \"grant\": 1117.3}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "PURLEY PARK TRUST LTD",
+     "norm_supplier": "PURLEY PARK TRUST",
+     "gbp": 471283.82,
+     "annualised_estimate": 1885135.28,
+     "payments": 94,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 471283.82}",
+     "notice_status": "none",
+     "candidate_count": 0
+    }
+   ]
+  },
+  "duplicates": {
+   "status": "ran",
+   "parameters": {
+    "window_days": 7,
+    "positive_amounts_only": true
+   },
+   "note": "Pattern to investigate: same supplier, same amount, dates within 7 days. same_timestamp groups may be separate lines of one posting. gbp_repeat is the amount of payments after the first in each group.",
+   "counts": 646,
+   "gbp_repeat": 5487696.44,
+   "by_tag": {
+    "agency_staff": {
+     "count": 1,
+     "gbp": 625.0
+    },
+    "care_education_placement": {
+     "count": 561,
+     "gbp": 5050336.44
+    },
+    "general_procurement": {
+     "count": 49,
+     "gbp": 329802.07
+    },
+    "grant": {
+     "count": 4,
+     "gbp": 16038.77
+    },
+    "premises": {
+     "count": 31,
+     "gbp": 90894.16
+    }
+   },
+   "groups": {
+    "distinct_timestamp": {
+     "groups": 198,
+     "payments": 645,
+     "gbp_repeat": 2875778.07,
+     "by_tag": {
+      "care_education_placement": {
+       "count": 146,
+       "gbp": 2505713.76
+      },
+      "general_procurement": {
+       "count": 22,
+       "gbp": 280505.15
+      },
+      "grant": {
+       "count": 1,
+       "gbp": 800.0
+      },
+      "premises": {
+       "count": 29,
+       "gbp": 88759.16
+      }
+     },
+     "top20": [
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Oaklands SEN School Berkshire Limited",
+       "amount": 20337.45,
+       "payments": 36,
+       "first_date": "2026-06-17T08:59:47.447",
+       "last_date": "2026-06-17T09:55:52.153",
+       "span_days": 0,
+       "gbp_repeat": 711810.75,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|2164;Over500_2026_P03_-_published|Data to publish|2165;Over500_2026_P03_-_published|Data to publish|2166;Over500_2026_P03_-_published|Data to publish|2167;Over500_2026_P03_-_published|Data to publish|2189;Over500_2026_P03_-_published|Data to publish|2190;Over500_2026_P03_-_published|Data to publish|2311;Over500_2026_P03_-_published|Data to publish|3106;Over500_2026_P03_-_published|Data to publish|3107;Over500_2026_P03_-_published|Data to publish|2169;Over500_2026_P03_-_published|Data to publish|2170;Over500_2026_P03_-_published|Data to publish|2312;Over500_2026_P03_-_published|Data to publish|2313;Over500_2026_P03_-_published|Data to publish|3109;Over500_2026_P03_-_published|Data to publish|2173;Over500_2026_P03_-_published|Data to publish|2195;Over500_2026_P03_-_published|Data to publish|2315;Over500_2026_P03_-_published|Data to publish|2316;Over500_2026_P03_-_published|Data to publish|2317;Over500_2026_P03_-_published|Data to publish|3110;Over500_2026_P03_-_published|Data to publish|3111;Over500_2026_P03_-_published|Data to publish|2175;Over500_2026_P03_-_published|Data to publish|2176;Over500_2026_P03_-_published|Data to publish|2199;Over500_2026_P03_-_published|Data to publish|2200;Over500_2026_P03_-_published|Data to publish|2201;Over500_2026_P03_-_published|Data to publish|3112;Over500_2026_P03_-_published|Data to publish|3113;Over500_2026_P03_-_published|Data to publish|2177;Over500_2026_P03_-_published|Data to publish|2203;Over500_2026_P03_-_published|Data to publish|2204;Over500_2026_P03_-_published|Data to publish|2321;Over500_2026_P03_-_published|Data to publish|2322;Over500_2026_P03_-_published|Data to publish|2323;Over500_2026_P03_-_published|Data to publish|3114;Over500_2026_P03_-_published|Data to publish|3115"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Oaklands SEN School Berkshire Limited",
+       "amount": 20534.9,
+       "payments": 13,
+       "first_date": "2026-06-17T08:59:47.447",
+       "last_date": "2026-06-17T09:55:52.153",
+       "span_days": 0,
+       "gbp_repeat": 246418.8,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|2310;Over500_2026_P03_-_published|Data to publish|2191;Over500_2026_P03_-_published|Data to publish|2192;Over500_2026_P03_-_published|Data to publish|2193;Over500_2026_P03_-_published|Data to publish|2314;Over500_2026_P03_-_published|Data to publish|3108;Over500_2026_P03_-_published|Data to publish|2171;Over500_2026_P03_-_published|Data to publish|2172;Over500_2026_P03_-_published|Data to publish|2196;Over500_2026_P03_-_published|Data to publish|2198;Over500_2026_P03_-_published|Data to publish|2319;Over500_2026_P03_-_published|Data to publish|2320;Over500_2026_P03_-_published|Data to publish|3116"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Phoenix Child Care Limited -The Grange School",
+       "amount": 21988.16,
+       "payments": 10,
+       "first_date": "2026-05-19T16:07:04.713",
+       "last_date": "2026-05-21T08:46:12.723",
+       "span_days": 1,
+       "gbp_repeat": 197893.44,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|2242;Over500_2026_P02_-_published|Data to publish|2243;Over500_2026_P02_-_published|Data to publish|2247;Over500_2026_P02_-_published|Data to publish|2249;Over500_2026_P02_-_published|Data to publish|2252;Over500_2026_P02_-_published|Data to publish|2253;Over500_2026_P02_-_published|Data to publish|2255;Over500_2026_P02_-_published|Data to publish|2257;Over500_2026_P02_-_published|Data to publish|2260;Over500_2026_P02_-_published|Data to publish|2263"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "VolkerHighways Ltd",
+       "amount": 101925.86,
+       "payments": 2,
+       "first_date": "2026-07-15T10:06:58.300",
+       "last_date": "2026-07-17T13:36:38.400",
+       "span_days": 2,
+       "gbp_repeat": 101925.86,
+       "tag": "general_procurement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|3308;Over500_2026_P04_-_published|Data to publish|618"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Sukhbir Singh and Harvinder Singh T/A Calcot Services for Children (CSFC)",
+       "amount": 18768.75,
+       "payments": 6,
+       "first_date": "2026-06-03T10:08:35.153",
+       "last_date": "2026-06-03T10:25:45.603",
+       "span_days": 0,
+       "gbp_repeat": 93843.75,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|2157;Over500_2026_P03_-_published|Data to publish|2158;Over500_2026_P03_-_published|Data to publish|3102;Over500_2026_P03_-_published|Data to publish|2159;Over500_2026_P03_-_published|Data to publish|3103;Over500_2026_P03_-_published|Data to publish|2306"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Phoenix Child Care Limited -The Grange School",
+       "amount": 32711.33,
+       "payments": 3,
+       "first_date": "2026-05-19T16:50:07.487",
+       "last_date": "2026-05-19T17:16:17.613",
+       "span_days": 0,
+       "gbp_repeat": 65422.66,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|2246;Over500_2026_P02_-_published|Data to publish|2248;Over500_2026_P02_-_published|Data to publish|2251"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Huckleberry House",
+       "amount": 30918.75,
+       "payments": 3,
+       "first_date": "2026-05-26T10:15:43.547",
+       "last_date": "2026-05-26T13:12:26.333",
+       "span_days": 0,
+       "gbp_repeat": 61837.5,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|2266;Over500_2026_P02_-_published|Data to publish|2267;Over500_2026_P02_-_published|Data to publish|2269"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "VolkerHighways Ltd",
+       "amount": 54241.36,
+       "payments": 2,
+       "first_date": "2026-07-13T17:15:20.650",
+       "last_date": "2026-07-16T15:29:29.127",
+       "span_days": 2,
+       "gbp_repeat": 54241.36,
+       "tag": "general_procurement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|3210;Over500_2026_P04_-_published|Data to publish|3302"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Care Services To You",
+       "amount": 23989.77,
+       "payments": 3,
+       "first_date": "2026-06-16T12:49:40.840",
+       "last_date": "2026-06-22T12:16:05.430",
+       "span_days": 5,
+       "gbp_repeat": 47979.54,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|2008;Over500_2026_P03_-_published|Data to publish|1931;Over500_2026_P03_-_published|Data to publish|3044"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Care Services To You",
+       "amount": 23989.77,
+       "payments": 3,
+       "first_date": "2026-07-17T08:39:32.373",
+       "last_date": "2026-07-23T16:16:19.610",
+       "span_days": 6,
+       "gbp_repeat": 47979.54,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|3750;Over500_2026_P04_-_published|Data to publish|3092;Over500_2026_P04_-_published|Data to publish|3161"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Phoenix Child Care Limited -The Grange School",
+       "amount": 23210.0,
+       "payments": 3,
+       "first_date": "2026-05-19T16:50:07.487",
+       "last_date": "2026-05-21T08:40:19.987",
+       "span_days": 1,
+       "gbp_repeat": 46420.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|2245;Over500_2026_P02_-_published|Data to publish|2258;Over500_2026_P02_-_published|Data to publish|2262"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Amegreen Childrens Services",
+       "amount": 34431.08,
+       "payments": 2,
+       "first_date": "2026-05-26T09:52:16.310",
+       "last_date": "2026-05-27T16:52:33.740",
+       "span_days": 1,
+       "gbp_repeat": 34431.08,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|2092;Over500_2026_P02_-_published|Data to publish|2105"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Amegreen Childrens Services",
+       "amount": 34431.08,
+       "payments": 2,
+       "first_date": "2026-07-20T09:19:24.613",
+       "last_date": "2026-07-20T10:06:04.040",
+       "span_days": 0,
+       "gbp_repeat": 34431.08,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|3081;Over500_2026_P04_-_published|Data to publish|3752"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Paradigm Care Services Ltd.",
+       "amount": 17000.0,
+       "payments": 3,
+       "first_date": "2026-07-16T08:39:16.693",
+       "last_date": "2026-07-24T08:56:03.793",
+       "span_days": 8,
+       "gbp_repeat": 34000.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|3064;Over500_2026_P04_-_published|Data to publish|3091;Over500_2026_P04_-_published|Data to publish|3084"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Amegreen Childrens Services",
+       "amount": 33320.4,
+       "payments": 2,
+       "first_date": "2026-05-26T09:52:16.310",
+       "last_date": "2026-05-28T09:22:51.877",
+       "span_days": 1,
+       "gbp_repeat": 33320.4,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|2091;Over500_2026_P02_-_published|Data to publish|2108"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Amegreen Childrens Services",
+       "amount": 33320.4,
+       "payments": 2,
+       "first_date": "2026-06-17T12:55:41.853",
+       "last_date": "2026-06-17T17:05:38.013",
+       "span_days": 0,
+       "gbp_repeat": 33320.4,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|2032;Over500_2026_P03_-_published|Data to publish|2033"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Affinity Trust Support Ltd",
+       "amount": 3960.0,
+       "payments": 9,
+       "first_date": "2026-06-24T11:15:58.517",
+       "last_date": "2026-07-15T10:33:10.383",
+       "span_days": 20,
+       "gbp_repeat": 31680.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|1716;Over500_2026_P03_-_published|Data to publish|2958;Over500_2026_P04_-_published|Data to publish|2979;Over500_2026_P04_-_published|Data to publish|2319;Over500_2026_P04_-_published|Data to publish|2346;Over500_2026_P04_-_published|Data to publish|2348;Over500_2026_P04_-_published|Data to publish|2985;Over500_2026_P04_-_published|Data to publish|2423;Over500_2026_P04_-_published|Data to publish|3029"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "The Unicorn School",
+       "amount": 13771.0,
+       "payments": 3,
+       "first_date": "2026-05-11T10:35:42.460",
+       "last_date": "2026-05-11T13:05:40.307",
+       "span_days": 0,
+       "gbp_repeat": 27542.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|2234;Over500_2026_P02_-_published|Data to publish|2235;Over500_2026_P02_-_published|Data to publish|2236"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "TWO SAINTS LTD",
+       "amount": 27147.69,
+       "payments": 2,
+       "first_date": "2026-05-12T12:36:24.243",
+       "last_date": "2026-05-13T16:26:02.503",
+       "span_days": 1,
+       "gbp_repeat": 27147.69,
+       "tag": "general_procurement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|2160;Over500_2026_P02_-_published|Data to publish|2161"
+      },
+      {
+       "group": "distinct_timestamp",
+       "supplier": "Flourishing Families Assessment Service Ltd.",
+       "amount": 6550.0,
+       "payments": 5,
+       "first_date": "2026-06-03T10:18:43.233",
+       "last_date": "2026-06-03T10:35:54.377",
+       "span_days": 0,
+       "gbp_repeat": 26200.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|3049;Over500_2026_P03_-_published|Data to publish|2013;Over500_2026_P03_-_published|Data to publish|2014;Over500_2026_P03_-_published|Data to publish|1941;Over500_2026_P03_-_published|Data to publish|3050"
+      }
+     ]
+    },
+    "same_timestamp": {
+     "groups": 448,
+     "payments": 1289,
+     "gbp_repeat": 2611918.37,
+     "by_tag": {
+      "agency_staff": {
+       "count": 1,
+       "gbp": 625.0
+      },
+      "care_education_placement": {
+       "count": 415,
+       "gbp": 2544622.68
+      },
+      "general_procurement": {
+       "count": 27,
+       "gbp": 49296.92
+      },
+      "grant": {
+       "count": 3,
+       "gbp": 15238.77
+      },
+      "premises": {
+       "count": 2,
+       "gbp": 2135.0
+      }
+     },
+     "top20": [
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 8476.52,
+       "payments": 18,
+       "first_date": "2026-07-08T10:43:22.513",
+       "last_date": "2026-07-08T10:43:22.513",
+       "span_days": 0,
+       "gbp_repeat": 144100.84,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|1040;Over500_2026_P04_-_published|Data to publish|1041;Over500_2026_P04_-_published|Data to publish|1071;Over500_2026_P04_-_published|Data to publish|1086;Over500_2026_P04_-_published|Data to publish|1087;Over500_2026_P04_-_published|Data to publish|1105;Over500_2026_P04_-_published|Data to publish|1107;Over500_2026_P04_-_published|Data to publish|1115;Over500_2026_P04_-_published|Data to publish|1154;Over500_2026_P04_-_published|Data to publish|1155;Over500_2026_P04_-_published|Data to publish|1158;Over500_2026_P04_-_published|Data to publish|1825;Over500_2026_P04_-_published|Data to publish|1826;Over500_2026_P04_-_published|Data to publish|1831;Over500_2026_P04_-_published|Data to publish|1846;Over500_2026_P04_-_published|Data to publish|1904;Over500_2026_P04_-_published|Data to publish|1905;Over500_2026_P04_-_published|Data to publish|2678"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 5097.52,
+       "payments": 19,
+       "first_date": "2026-06-10T09:51:27.507",
+       "last_date": "2026-06-10T09:51:27.507",
+       "span_days": 0,
+       "gbp_repeat": 91755.36,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|1011;Over500_2026_P03_-_published|Data to publish|1027;Over500_2026_P03_-_published|Data to publish|1028;Over500_2026_P03_-_published|Data to publish|1336;Over500_2026_P03_-_published|Data to publish|1477;Over500_2026_P03_-_published|Data to publish|1759;Over500_2026_P03_-_published|Data to publish|2709;Over500_2026_P03_-_published|Data to publish|2710;Over500_2026_P03_-_published|Data to publish|2844;Over500_2026_P03_-_published|Data to publish|837;Over500_2026_P03_-_published|Data to publish|893;Over500_2026_P03_-_published|Data to publish|894;Over500_2026_P03_-_published|Data to publish|903;Over500_2026_P03_-_published|Data to publish|919;Over500_2026_P03_-_published|Data to publish|944;Over500_2026_P03_-_published|Data to publish|946;Over500_2026_P03_-_published|Data to publish|961;Over500_2026_P03_-_published|Data to publish|975;Over500_2026_P03_-_published|Data to publish|987"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 5080.18,
+       "payments": 19,
+       "first_date": "2026-05-13T10:12:08.150",
+       "last_date": "2026-05-13T10:12:08.150",
+       "span_days": 0,
+       "gbp_repeat": 91443.24,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|1035;Over500_2026_P02_-_published|Data to publish|1037;Over500_2026_P02_-_published|Data to publish|1038;Over500_2026_P02_-_published|Data to publish|1039;Over500_2026_P02_-_published|Data to publish|1040;Over500_2026_P02_-_published|Data to publish|1455;Over500_2026_P02_-_published|Data to publish|1456;Over500_2026_P02_-_published|Data to publish|1457;Over500_2026_P02_-_published|Data to publish|1850;Over500_2026_P02_-_published|Data to publish|868;Over500_2026_P02_-_published|Data to publish|959;Over500_2026_P02_-_published|Data to publish|960;Over500_2026_P02_-_published|Data to publish|961;Over500_2026_P02_-_published|Data to publish|962;Over500_2026_P02_-_published|Data to publish|964;Over500_2026_P02_-_published|Data to publish|965;Over500_2026_P02_-_published|Data to publish|969;Over500_2026_P02_-_published|Data to publish|970;Over500_2026_P02_-_published|Data to publish|971"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 5097.52,
+       "payments": 18,
+       "first_date": "2026-07-08T10:43:22.513",
+       "last_date": "2026-07-08T10:43:22.513",
+       "span_days": 0,
+       "gbp_repeat": 86657.84,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|1033;Over500_2026_P04_-_published|Data to publish|1034;Over500_2026_P04_-_published|Data to publish|1037;Over500_2026_P04_-_published|Data to publish|1072;Over500_2026_P04_-_published|Data to publish|1081;Over500_2026_P04_-_published|Data to publish|1083;Over500_2026_P04_-_published|Data to publish|1104;Over500_2026_P04_-_published|Data to publish|1136;Over500_2026_P04_-_published|Data to publish|1137;Over500_2026_P04_-_published|Data to publish|1820;Over500_2026_P04_-_published|Data to publish|1821;Over500_2026_P04_-_published|Data to publish|1823;Over500_2026_P04_-_published|Data to publish|1848;Over500_2026_P04_-_published|Data to publish|1926;Over500_2026_P04_-_published|Data to publish|1927;Over500_2026_P04_-_published|Data to publish|2664;Over500_2026_P04_-_published|Data to publish|2717;Over500_2026_P04_-_published|Data to publish|887"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 4548.75,
+       "payments": 13,
+       "first_date": "2026-06-03T09:57:27.700",
+       "last_date": "2026-06-03T09:57:27.700",
+       "span_days": 0,
+       "gbp_repeat": 54585.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|1018;Over500_2026_P03_-_published|Data to publish|1322;Over500_2026_P03_-_published|Data to publish|1857;Over500_2026_P03_-_published|Data to publish|2830;Over500_2026_P03_-_published|Data to publish|2845;Over500_2026_P03_-_published|Data to publish|890;Over500_2026_P03_-_published|Data to publish|891;Over500_2026_P03_-_published|Data to publish|915;Over500_2026_P03_-_published|Data to publish|916;Over500_2026_P03_-_published|Data to publish|917;Over500_2026_P03_-_published|Data to publish|937;Over500_2026_P03_-_published|Data to publish|938;Over500_2026_P03_-_published|Data to publish|951"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "GCH (Alder) Ltd t/a Hungerford Care Home",
+       "amount": 5700.0,
+       "payments": 10,
+       "first_date": "2026-07-15T10:33:10.383",
+       "last_date": "2026-07-15T10:33:10.383",
+       "span_days": 0,
+       "gbp_repeat": 51300.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|1048;Over500_2026_P04_-_published|Data to publish|1097;Over500_2026_P04_-_published|Data to publish|1114;Over500_2026_P04_-_published|Data to publish|1126;Over500_2026_P04_-_published|Data to publish|1146;Over500_2026_P04_-_published|Data to publish|1917;Over500_2026_P04_-_published|Data to publish|1941;Over500_2026_P04_-_published|Data to publish|1942;Over500_2026_P04_-_published|Data to publish|2023;Over500_2026_P04_-_published|Data to publish|2670"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "GCH (Alder) Ltd t/a Hungerford Care Home",
+       "amount": 5700.0,
+       "payments": 10,
+       "first_date": "2026-06-17T10:32:49.720",
+       "last_date": "2026-06-17T10:32:49.720",
+       "span_days": 0,
+       "gbp_repeat": 51300.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|1015;Over500_2026_P03_-_published|Data to publish|1383;Over500_2026_P03_-_published|Data to publish|1384;Over500_2026_P03_-_published|Data to publish|1478;Over500_2026_P03_-_published|Data to publish|1479;Over500_2026_P03_-_published|Data to publish|1496;Over500_2026_P03_-_published|Data to publish|2711;Over500_2026_P03_-_published|Data to publish|2719;Over500_2026_P03_-_published|Data to publish|905;Over500_2026_P03_-_published|Data to publish|988"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "GCH (Alder) Ltd t/a Hungerford Care Home",
+       "amount": 5584.29,
+       "payments": 10,
+       "first_date": "2026-05-20T08:47:44.180",
+       "last_date": "2026-05-20T08:47:44.180",
+       "span_days": 0,
+       "gbp_repeat": 50258.61,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|1009;Over500_2026_P02_-_published|Data to publish|1010;Over500_2026_P02_-_published|Data to publish|1011;Over500_2026_P02_-_published|Data to publish|1065;Over500_2026_P02_-_published|Data to publish|1066;Over500_2026_P02_-_published|Data to publish|1500;Over500_2026_P02_-_published|Data to publish|1501;Over500_2026_P02_-_published|Data to publish|1502;Over500_2026_P02_-_published|Data to publish|1503;Over500_2026_P02_-_published|Data to publish|1570"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 9903.62,
+       "payments": 6,
+       "first_date": "2026-07-08T10:43:22.513",
+       "last_date": "2026-07-08T10:43:22.513",
+       "span_days": 0,
+       "gbp_repeat": 49518.1,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|1039;Over500_2026_P04_-_published|Data to publish|1043;Over500_2026_P04_-_published|Data to publish|1073;Over500_2026_P04_-_published|Data to publish|1120;Over500_2026_P04_-_published|Data to publish|1824;Over500_2026_P04_-_published|Data to publish|2908"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 5166.0,
+       "payments": 10,
+       "first_date": "2026-06-10T09:51:27.507",
+       "last_date": "2026-06-10T09:51:27.507",
+       "span_days": 0,
+       "gbp_repeat": 46494.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|1328;Over500_2026_P03_-_published|Data to publish|1344;Over500_2026_P03_-_published|Data to publish|1345;Over500_2026_P03_-_published|Data to publish|1346;Over500_2026_P03_-_published|Data to publish|1379;Over500_2026_P03_-_published|Data to publish|1487;Over500_2026_P03_-_published|Data to publish|2834;Over500_2026_P03_-_published|Data to publish|2851;Over500_2026_P03_-_published|Data to publish|941;Over500_2026_P03_-_published|Data to publish|980"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 5148.43,
+       "payments": 10,
+       "first_date": "2026-05-13T10:12:08.150",
+       "last_date": "2026-05-13T10:12:08.150",
+       "span_days": 0,
+       "gbp_repeat": 46335.87,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|1034;Over500_2026_P02_-_published|Data to publish|1459;Over500_2026_P02_-_published|Data to publish|1460;Over500_2026_P02_-_published|Data to publish|1464;Over500_2026_P02_-_published|Data to publish|1531;Over500_2026_P02_-_published|Data to publish|1532;Over500_2026_P02_-_published|Data to publish|1535;Over500_2026_P02_-_published|Data to publish|1536;Over500_2026_P02_-_published|Data to publish|1537;Over500_2026_P02_-_published|Data to publish|979"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 5166.0,
+       "payments": 8,
+       "first_date": "2026-07-08T10:43:22.513",
+       "last_date": "2026-07-08T10:43:22.513",
+       "span_days": 0,
+       "gbp_repeat": 36162.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|1135;Over500_2026_P04_-_published|Data to publish|1828;Over500_2026_P04_-_published|Data to publish|1893;Over500_2026_P04_-_published|Data to publish|1908;Over500_2026_P04_-_published|Data to publish|1922;Over500_2026_P04_-_published|Data to publish|1931;Over500_2026_P04_-_published|Data to publish|2003;Over500_2026_P04_-_published|Data to publish|2676"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "OPTALIS LTD",
+       "amount": 6210.0,
+       "payments": 6,
+       "first_date": "2026-06-10T09:51:27.507",
+       "last_date": "2026-06-10T09:51:27.507",
+       "span_days": 0,
+       "gbp_repeat": 31050.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|1381;Over500_2026_P03_-_published|Data to publish|1471;Over500_2026_P03_-_published|Data to publish|1472;Over500_2026_P03_-_published|Data to publish|2836;Over500_2026_P03_-_published|Data to publish|2837;Over500_2026_P03_-_published|Data to publish|901"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "OPTALIS LTD",
+       "amount": 6210.0,
+       "payments": 6,
+       "first_date": "2026-07-08T10:43:22.513",
+       "last_date": "2026-07-08T10:43:22.513",
+       "span_days": 0,
+       "gbp_repeat": 31050.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P04_-_published|Data to publish|1044;Over500_2026_P04_-_published|Data to publish|1909;Over500_2026_P04_-_published|Data to publish|1933;Over500_2026_P04_-_published|Data to publish|1934;Over500_2026_P04_-_published|Data to publish|2667;Over500_2026_P04_-_published|Data to publish|2668"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "OPTALIS LTD",
+       "amount": 6195.0,
+       "payments": 6,
+       "first_date": "2026-05-13T10:12:08.150",
+       "last_date": "2026-05-13T10:12:08.150",
+       "span_days": 0,
+       "gbp_repeat": 30975.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|1477;Over500_2026_P02_-_published|Data to publish|1478;Over500_2026_P02_-_published|Data to publish|1479;Over500_2026_P02_-_published|Data to publish|1480;Over500_2026_P02_-_published|Data to publish|1481;Over500_2026_P02_-_published|Data to publish|993"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 4830.0,
+       "payments": 7,
+       "first_date": "2026-06-10T09:51:27.507",
+       "last_date": "2026-06-10T09:51:27.507",
+       "span_days": 0,
+       "gbp_repeat": 28980.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|1326;Over500_2026_P03_-_published|Data to publish|2703;Over500_2026_P03_-_published|Data to publish|2825;Over500_2026_P03_-_published|Data to publish|852;Over500_2026_P03_-_published|Data to publish|898;Over500_2026_P03_-_published|Data to publish|923;Over500_2026_P03_-_published|Data to publish|942"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 4813.57,
+       "payments": 6,
+       "first_date": "2026-05-13T10:12:08.150",
+       "last_date": "2026-05-13T10:12:08.150",
+       "span_days": 0,
+       "gbp_repeat": 24067.85,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|1431;Over500_2026_P02_-_published|Data to publish|1474;Over500_2026_P02_-_published|Data to publish|984;Over500_2026_P02_-_published|Data to publish|986;Over500_2026_P02_-_published|Data to publish|987;Over500_2026_P02_-_published|Data to publish|988"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 4548.75,
+       "payments": 6,
+       "first_date": "2026-05-20T08:47:44.180",
+       "last_date": "2026-05-20T08:47:44.180",
+       "span_days": 0,
+       "gbp_repeat": 22743.75,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|1023;Over500_2026_P02_-_published|Data to publish|1024;Over500_2026_P02_-_published|Data to publish|1069;Over500_2026_P02_-_published|Data to publish|1070;Over500_2026_P02_-_published|Data to publish|1071;Over500_2026_P02_-_published|Data to publish|1072"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "GCH (Alder) Ltd t/a Hungerford Care Home",
+       "amount": 5600.0,
+       "payments": 5,
+       "first_date": "2026-05-20T08:47:44.180",
+       "last_date": "2026-05-20T08:47:44.180",
+       "span_days": 0,
+       "gbp_repeat": 22400.0,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P02_-_published|Data to publish|1013;Over500_2026_P02_-_published|Data to publish|1014;Over500_2026_P02_-_published|Data to publish|1020;Over500_2026_P02_-_published|Data to publish|1505;Over500_2026_P02_-_published|Data to publish|1574"
+      },
+      {
+       "group": "same_timestamp",
+       "supplier": "BUPA Care Services",
+       "amount": 5506.2,
+       "payments": 5,
+       "first_date": "2026-06-10T09:51:27.507",
+       "last_date": "2026-06-10T09:51:27.507",
+       "span_days": 0,
+       "gbp_repeat": 22024.8,
+       "tag": "care_education_placement",
+       "row_ids": "Over500_2026_P03_-_published|Data to publish|1330;Over500_2026_P03_-_published|Data to publish|940;Over500_2026_P03_-_published|Data to publish|945;Over500_2026_P03_-_published|Data to publish|953;Over500_2026_P03_-_published|Data to publish|977"
+      }
+     ]
+    }
+   }
+  },
+  "expired_notice_spend": {
+   "status": "ran",
+   "parameters": {
+    "window_start": "2026-05-01"
+   },
+   "note": "Risk indicator: payments in the window to suppliers whose every exact-matching notice ended before the window start. A newer contract may exist with no notice.",
+   "count": 7,
+   "gbp": 190366.92,
+   "by_tag": {
+    "general_procurement": {
+     "count": 5,
+     "gbp": 121644.98
+    },
+    "premises": {
+     "count": 2,
+     "gbp": 68721.94
+    }
+   },
+   "with_candidate": 0,
+   "top20": [
+    {
+     "supplier": "Hope & Clay (Construction) Ltd",
+     "gbp": 91306.75,
+     "annualised_estimate": 365227.0,
+     "payments": 1,
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 91306.75}",
+     "candidate_count": 0,
+     "notices": 2,
+     "latest_notice_end": "2024-10-11",
+     "notice_ids": "IT-402-1300-P00001300 - AWARD;IT-402-864-P00000864 - AWARD"
+    },
+    {
+     "supplier": "BERKSHIRE MECHANICAL SERVICES",
+     "gbp": 68040.0,
+     "annualised_estimate": 272160.0,
+     "payments": 45,
+     "primary_tag": "premises",
+     "gbp_by_tag": "{\"premises\": 68040.0}",
+     "candidate_count": 0,
+     "notices": 1,
+     "latest_notice_end": "2024-03-31",
+     "notice_ids": "IT-402-1083-P00001083 - AWARD"
+    },
+    {
+     "supplier": "G7 BUSINESS SOLUTIONS LIMITED",
+     "gbp": 16364.56,
+     "annualised_estimate": 65458.24,
+     "payments": 8,
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 16364.56}",
+     "candidate_count": 0,
+     "notices": 1,
+     "latest_notice_end": "2023-01-18",
+     "notice_ids": "G-Cloud 12 Framework"
+    },
+    {
+     "supplier": "CACI Limited",
+     "gbp": 12071.67,
+     "annualised_estimate": 48286.68,
+     "payments": 1,
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 12071.67}",
+     "candidate_count": 0,
+     "notices": 1,
+     "latest_notice_end": "2025-04-30",
+     "notice_ids": "Youth Justice - ChildView"
+    },
+    {
+     "supplier": "Morton Pattison Ltd",
+     "gbp": 1102.0,
+     "annualised_estimate": 4408.0,
+     "payments": 1,
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 1102.0}",
+     "candidate_count": 0,
+     "notices": 1,
+     "latest_notice_end": "2024-10-18",
+     "notice_ids": "IT-402-1354-P00001354 - AWARD"
+    },
+    {
+     "supplier": "Davis and Associates Consultancy Limited",
+     "gbp": 800.0,
+     "annualised_estimate": 3200.0,
+     "payments": 1,
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 800.0}",
+     "candidate_count": 0,
+     "notices": 1,
+     "latest_notice_end": "2023-09-30",
+     "notice_ids": "P00000986"
+    },
+    {
+     "supplier": "Tactical Facilities Management Ltd",
+     "gbp": 681.94,
+     "annualised_estimate": 2727.76,
+     "payments": 1,
+     "primary_tag": "premises",
+     "gbp_by_tag": "{\"premises\": 681.94}",
+     "candidate_count": 0,
+     "notices": 1,
+     "latest_notice_end": "2023-09-30",
+     "notice_ids": "P00001043"
+    }
+   ]
+  },
+  "spend_vs_award": {
+   "status": "ran",
+   "parameters": {
+    "ratio_flag": 1.25
+   },
+   "note": "Risk indicator: annualised spend estimate at or above 1.25x the award pro-rated per year. Award values may be estimates or maxima; the supplier may hold other contracts.",
+   "evaluated": 18,
+   "skipped_nonpositive_duration_or_missing_dates": 0,
+   "count": 7,
+   "gbp": 633768.19,
+   "by_tag": {
+    "general_procurement": {
+     "count": 6,
+     "gbp": 626009.28
+    },
+    "premises": {
+     "count": 1,
+     "gbp": 7758.91
+    }
+   },
+   "top20": [
+    {
+     "supplier": "NEC SOFTWARE SOLUTIONS UK LIMITED",
+     "notice_id": "RM6259/CL766",
+     "awarded_value": 615540.0,
+     "contract_start": "2023-08-01",
+     "contract_end": "2026-07-31",
+     "contract_years": 2.9979,
+     "gbp": 314383.57,
+     "annualised_estimate": 1257534.28,
+     "ratio": 6.1247,
+     "primary_tag": "general_procurement",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "BookingLab Limited",
+     "notice_id": "IT-402-1498-P00001498 - AWARD",
+     "awarded_value": 173000.0,
+     "contract_start": "2025-04-01",
+     "contract_end": "2032-03-31",
+     "contract_years": 6.9979,
+     "gbp": 24000.0,
+     "annualised_estimate": 96000.0,
+     "ratio": 3.8833,
+     "primary_tag": "general_procurement",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Exacom Systems Ltd",
+     "notice_id": "G-Cloud 14 RM1557.14",
+     "awarded_value": 50358.0,
+     "contract_start": "2025-04-01",
+     "contract_end": "2029-03-31",
+     "contract_years": 3.9973,
+     "gbp": 12105.85,
+     "annualised_estimate": 48423.4,
+     "ratio": 3.8437,
+     "primary_tag": "general_procurement",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "SMS-Environmental Ltd",
+     "notice_id": "IT-402-1599-P00001599 - AWARD",
+     "awarded_value": 26021.66,
+     "contract_start": "2025-08-01",
+     "contract_end": "2027-07-31",
+     "contract_years": 1.9959,
+     "gbp": 7758.91,
+     "annualised_estimate": 31035.64,
+     "ratio": 2.3805,
+     "primary_tag": "premises",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Softcat Ltd",
+     "notice_id": "IT-402-1666-P00001666 - AWARD",
+     "awarded_value": 57907.0,
+     "contract_start": "2025-10-03",
+     "contract_end": "2028-10-02",
+     "contract_years": 2.9979,
+     "gbp": 11005.0,
+     "annualised_estimate": 44020.0,
+     "ratio": 2.279,
+     "primary_tag": "general_procurement",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "IDOX SOFTWARE LTD",
+     "notice_id": "P00000844",
+     "awarded_value": 714533.0,
+     "contract_start": "2023-04-01",
+     "contract_end": "2030-03-31",
+     "contract_years": 6.9979,
+     "gbp": 51226.41,
+     "annualised_estimate": 204905.64,
+     "ratio": 2.0068,
+     "primary_tag": "general_procurement",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "TWO SAINTS LTD",
+     "notice_id": "IT-402-1432-P00001432 - AWARD",
+     "awarded_value": 2500000.0,
+     "contract_start": "2025-04-01",
+     "contract_end": "2030-04-01",
+     "contract_years": 4.9993,
+     "gbp": 213288.45,
+     "annualised_estimate": 853153.8,
+     "ratio": 1.7061,
+     "primary_tag": "general_procurement",
+     "candidate_count": 0
+    }
+   ]
+  },
+  "high_value_suppliers": {
+   "status": "ran",
+   "parameters": {
+    "quote_tier": 25000,
+    "rule_id": "CPR-59",
+    "annualise_factor": 4.0
+   },
+   "note": "Population to request contract and quote evidence for; annualised estimate (3-month total x factor) above the quote tier.",
+   "count": 667,
+   "gbp": 64963258.65,
+   "annualised_estimate_gbp": 259853034.6,
+   "by_tag": {
+    "agency_staff": {
+     "count": 1,
+     "gbp": 1275552.15
+    },
+    "care_education_placement": {
+     "count": 315,
+     "gbp": 32028120.87
+    },
+    "general_procurement": {
+     "count": 183,
+     "gbp": 24371450.04
+    },
+    "grant": {
+     "count": 123,
+     "gbp": 5867467.15
+    },
+    "premises": {
+     "count": 45,
+     "gbp": 1420668.44
+    }
+   },
+   "with_candidate": 14,
+   "top20": [
+    {
+     "supplier": "VolkerHighways Ltd",
+     "norm_supplier": "VOLKERHIGHWAYS",
+     "gbp": 7377922.21,
+     "annualised_estimate": 29511688.84,
+     "payments": 126,
+     "services": "Environment",
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 7368255.48, \"premises\": 9666.73}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "VEOLIA ES WEST BERKSHIRE LTD (CHAPS ONLY)",
+     "norm_supplier": "VEOLIA ES WEST BERKSHIRE CHAPS ONLY",
+     "gbp": 6186065.04,
+     "annualised_estimate": 24744260.16,
+     "payments": 3,
+     "services": "Environment",
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 6186065.04}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Millbrook Healthcare Limited",
+     "norm_supplier": "MILLBROOK HEALTHCARE",
+     "gbp": 3459365.35,
+     "annualised_estimate": 13837461.4,
+     "payments": 4,
+     "services": "Finance, Property & Procurement",
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 3459365.35}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "BUPA Care Services",
+     "norm_supplier": "BUPA CARE SERVICES",
+     "gbp": 1874166.5,
+     "annualised_estimate": 7496666.0,
+     "payments": 370,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 1874166.5}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Comensura Ltd",
+     "norm_supplier": "COMENSURA",
+     "gbp": 1275552.15,
+     "annualised_estimate": 5102208.6,
+     "payments": 14,
+     "services": "Strategy & Governance",
+     "primary_tag": "agency_staff",
+     "gbp_by_tag": "{\"agency_staff\": 1275552.15}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Affinity Trust Support Ltd",
+     "norm_supplier": "AFFINITY TRUST SUPPORT",
+     "gbp": 1098336.76,
+     "annualised_estimate": 4393347.04,
+     "payments": 263,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 1098336.76}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Oaklands SEN School Berkshire Limited",
+     "norm_supplier": "OAKLANDS SEN SCHOOL BERKSHIRE",
+     "gbp": 1026661.89,
+     "annualised_estimate": 4106647.56,
+     "payments": 54,
+     "services": "Education (DSG Funded) & Other Education Grants",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 1026661.89}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "RUSKIN MILL TRUST",
+     "norm_supplier": "RUSKIN MILL TRUST",
+     "gbp": 795197.64,
+     "annualised_estimate": 3180790.56,
+     "payments": 9,
+     "services": "Adult Social Care; Education (DSG Funded) & Other Education Grants",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 795197.64}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Amegreen Childrens Services",
+     "norm_supplier": "AMEGREEN CHILDRENS SERVICES",
+     "gbp": 750437.33,
+     "annualised_estimate": 3001749.32,
+     "payments": 27,
+     "services": "Children's Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 750437.33}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Brighter Living Care Ltd",
+     "norm_supplier": "BRIGHTER LIVING CARE",
+     "gbp": 747183.47,
+     "annualised_estimate": 2988733.88,
+     "payments": 74,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 747183.47}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Sukhbir Singh and Harvinder Singh T/A Calcot Services for Children (CSFC)",
+     "norm_supplier": "SUKHBIR SINGH AND HARVINDER SINGH T A CALCOT SERVICES FOR CHILDREN CSFC",
+     "gbp": 639381.6,
+     "annualised_estimate": 2557526.4,
+     "payments": 26,
+     "services": "Children's Social Care; Education (DSG Funded) & Other Education Grants",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 639381.6}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "We Are The Care Company Ltd",
+     "norm_supplier": "WE ARE THE CARE COMPANY",
+     "gbp": 589012.31,
+     "annualised_estimate": 2356049.24,
+     "payments": 349,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 589012.31}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "The Better Group Ltd",
+     "norm_supplier": "THE BETTER GROUP",
+     "gbp": 588490.08,
+     "annualised_estimate": 2353960.32,
+     "payments": 26,
+     "services": "Adult Social Care; Adult Social Care - Transformation Projects; Children's Social Care; Education & SEND",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 326636.83, \"general_procurement\": 261853.25}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Phoenix Child Care Limited -The Grange School",
+     "norm_supplier": "PHOENIX CHILD CARE THE GRANGE SCHOOL",
+     "gbp": 567708.85,
+     "annualised_estimate": 2270835.4,
+     "payments": 25,
+     "services": "Education (DSG Funded) & Other Education Grants",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 567708.85}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "VOYAGE CARE",
+     "norm_supplier": "VOYAGE CARE",
+     "gbp": 554678.88,
+     "annualised_estimate": 2218715.52,
+     "payments": 80,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 554678.88}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "GCH (Alder) Ltd t/a Hungerford Care Home",
+     "norm_supplier": "GCH ALDER T A HUNGERFORD CARE HOME",
+     "gbp": 545531.64,
+     "annualised_estimate": 2182126.56,
+     "payments": 104,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 545531.64}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "SoftwareONE UK Ltd",
+     "norm_supplier": "SOFTWAREONE UK",
+     "gbp": 522978.62,
+     "annualised_estimate": 2091914.48,
+     "payments": 4,
+     "services": "Transformation, Customer & ICT",
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 522978.62}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "Livity Life Ltd",
+     "norm_supplier": "LIVITY LIFE",
+     "gbp": 513074.85,
+     "annualised_estimate": 2052299.4,
+     "payments": 9,
+     "services": "Finance, Property & Procurement",
+     "primary_tag": "general_procurement",
+     "gbp_by_tag": "{\"general_procurement\": 513074.85}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "WEST BERKSHIRE MENCAP",
+     "norm_supplier": "WEST BERKSHIRE MENCAP",
+     "gbp": 505286.21,
+     "annualised_estimate": 2021144.84,
+     "payments": 115,
+     "services": "Adult Social Care; Children's Social Care; Education & SEND",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 504168.91, \"grant\": 1117.3}",
+     "notice_status": "none",
+     "candidate_count": 0
+    },
+    {
+     "supplier": "PURLEY PARK TRUST LTD",
+     "norm_supplier": "PURLEY PARK TRUST",
+     "gbp": 471283.82,
+     "annualised_estimate": 1885135.28,
+     "payments": 94,
+     "services": "Adult Social Care",
+     "primary_tag": "care_education_placement",
+     "gbp_by_tag": "{\"care_education_placement\": 471283.82}",
+     "notice_status": "none",
+     "candidate_count": 0
+    }
+   ],
+   "by_notice_status": {
+    "live": {
+     "count": 35,
+     "gbp": 2574327.59
+    },
+    "expired": {
+     "count": 4,
+     "gbp": 187782.98
+    },
+    "future": {
+     "count": 0,
+     "gbp": 0.0
+    },
+    "none": {
+     "count": 628,
+     "gbp": 62201148.08
+    }
+   }
+  }
+ },
+ "caveats": [
+  "Earliest Published Date in contracts.csv is 2021-02-23; contracts awarded before that are invisible, so 'no matching notice found' is never evidence that no contract exists.",
+  "split_purchases: the lowest tier (5,000) is noisy and dominated by recurring payments; review by tag before drawing any conclusion. The 1,000 tier is not analysed (see parameters.tier_selection_note).",
+  "off_contract: Contracts Finder carries only contracts above its own publication level.",
+  "off_contract: framework and DPS call-offs may sit under a notice in another name.",
+  "off_contract: social-care placements may be covered by Appendix C row F.",
+  "off_contract: results are never used to question suppliers below the notice tier.",
+  "duplicates: recurring same-amount payments (care placements, rents) can match by design; read by tag.",
+  "expired_notice_spend: a newer contract, extension or framework call-off may exist with no notice (Appendix C row D).",
+  "spend_vs_award: award values may be estimates or maxima, and the supplier may hold other contracts; ratio is a risk indicator only.",
+  "Annualised figures are estimates (3-month total x 4); one-off or seasonal payments inflate them.",
+  "Redacted-supplier rows, pension/statutory rows, personal transfers and other public bodies are excluded from all tests (see population).",
+  "Spend carries no Companies House numbers; joins to notices are by normalised name only. Non-exact names are candidates for the auditor, never counted."
+ ],
+ "selfcheck": {
+  "status": "passed",
+  "file": "outputs/analytics-selfcheck.json"
+ }
+}

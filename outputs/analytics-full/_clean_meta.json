@@ -1,0 +1,111 @@
+{
+ "spend_files": [
+  {
+   "file": "Over500_2026_P02_-_published.xlsx",
+   "sheet": "Data to publish",
+   "header_row": 1,
+   "rows_read": 2892,
+   "rows_blank": 378
+  },
+  {
+   "file": "Over500_2026_P03_-_published.xlsx",
+   "sheet": "Data to publish",
+   "header_row": 2,
+   "rows_read": 3547,
+   "rows_blank": 0
+  },
+  {
+   "file": "Over500_2026_P04_-_published.xlsx",
+   "sheet": "Data to publish",
+   "header_row": 2,
+   "rows_read": 4168,
+   "rows_blank": 0
+  }
+ ],
+ "rows_read": 10607,
+ "excluded": {
+  "pension_statutory": {
+   "rows": 23,
+   "gbp": 9257789.94
+  },
+  "personal_transfer": {
+   "rows": 46,
+   "gbp": 134001.28
+  },
+  "public_body": {
+   "rows": 47,
+   "gbp": 2300736.2
+  },
+  "redacted_supplier": {
+   "rows": 2015,
+   "gbp": 2746746.71
+  }
+ },
+ "rows_analysed": 8476,
+ "gbp_analysed": 65987980.13,
+ "suppliers_analysed": 1074,
+ "tags": {
+  "agency_staff": {
+   "rows": 24,
+   "gbp": 1285541.24,
+   "suppliers": 7
+  },
+  "care_education_placement": {
+   "rows": 5879,
+   "gbp": 31903273.34,
+   "suppliers": 375
+  },
+  "general_procurement": {
+   "rows": 1629,
+   "gbp": 25148856.09,
+   "suppliers": 419
+  },
+  "grant": {
+   "rows": 339,
+   "gbp": 6033599.82,
+   "suppliers": 198
+  },
+  "premises": {
+   "rows": 605,
+   "gbp": 1616709.64,
+   "suppliers": 124
+  }
+ },
+ "window": {
+  "start": "2026-05-01",
+  "end": "2026-07-31",
+  "months": 3,
+  "annualise_factor": 4.0
+ },
+ "exclusion_patterns": {
+  "pension_statutory": [
+   "LGPS",
+   "\\bAVC\\b",
+   "Pension",
+   "Court Order",
+   "Council Tax"
+  ],
+  "public_body": [
+   "\\bCOUNCIL\\b",
+   "\\bCNCL\\b",
+   "^ROYAL BOROUGH OF",
+   "\\bNHS\\b",
+   "\\bICB\\b",
+   "INTEGRATED CARE BOARD",
+   "\\bPOLICE\\b",
+   "FIRE (?:AND|&) RESCUE",
+   "\\bHMRC\\b",
+   "REVENUE (?:AND|&) CUSTOMS",
+   "^MINISTRY OF",
+   "^DEPARTMENT (?:FOR|OF)",
+   "COMBINED AUTHORITY",
+   "HOMES ENGLAND"
+  ],
+  "public_body_narrative": "^Joint Arrangements",
+  "personal_transfer": [
+   "category == Transfer Payment",
+   "narrative == ASC Deferred Debt"
+  ]
+ },
+ "keep_as_supplier": []
+}
