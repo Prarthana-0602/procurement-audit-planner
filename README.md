@@ -1,5 +1,7 @@
 # Procurement Audit Planning Agent: West Berkshire Council
 
+Team: Prarthana Patel, Shivathmika Ramanathan, Sai Subramanian, Bhavika Vidya Kempaiah, Nivesh Kannan Elangovanraaj — UCLA Anderson MSBA
+
 Course submission. Everything below is read from files in this repository and its git log.
 
 ## 1. Overview
@@ -118,7 +120,7 @@ Guide: https://procurement-audit-planner.vercel.app/ (step titles as I supplied 
 | Rules (`rules.json`) | 74 rules, 43 excluded clauses, 15 notes, 160 PDF clauses covered. Types: exception 16, record-keeping 14, procedure 12, approval 12, contract-terms 8, advertising 7, valuation 2, formality 2, anti-avoidance 1. All four Threshold parameters are `null`. |
 | Rules verifier (`verify_quotes.py`) | `PASS: 74 rules, 43 excluded, 15 notes, 160 PDF clauses; 0 error(s), 2 warning(s)`. The warnings: `THRESHOLD_WORKS_CONCESSION` and `THRESHOLD_LIGHT_TOUCH` are declared but no rule bound uses them. |
 | Spend analytics | Window 2026-05-01 to 2026-07-31. 10,607 rows read, 8,476 analysed (£65,987,980.13, 1,074 suppliers). Excluded: redacted_supplier 2,015, public_body 47, personal_transfer 46, pension_statutory 23. Contracts: 150 rows read, 141 kept. |
-| Tests run (count) | threshold_clustering 408; split_purchases 613; off_contract 628; duplicates 646; expired_notice_spend 7; spend_vs_award 7; high_value_suppliers 667. |
+| Tests run (count: all tags / general_procurement) | threshold_clustering 408 / 47; split_purchases 613 / 132; off_contract 628 / 150; duplicates 646 / 49; expired_notice_spend 7 / 5; spend_vs_award 7 / 6; high_value_suppliers 667 / 183. The risks (R-01 to R-03) cite the general_procurement figures, not the all-tags counts. |
 | Analytics self-check | `status: passed`; all 7 tests re-derived from the raw workbooks with result `pass`. |
 | History (`history.json`) | 4 documents, 16 audit opinions, 4 follow-ups, 20 risk themes, 8 scoring-method items, 13 discrepancies, 8 gaps, 0 agreed actions. `verify_history.py`: `quotes checked: 159`, `PASS`. |
 | Register (revision 1) | R-01 L2 × I4 = 8 High; R-02 L3 × I3 = 9 High; R-03 L3 × I3 = 9 High; R-05 L3 × I4 = 12 High (likelihood 2 → 3, auditor override); R-04 removed on rejection. Scoring uses the council's Risk Management Strategy 2024-27. |
