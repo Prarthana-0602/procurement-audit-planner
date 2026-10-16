@@ -1,0 +1,61 @@
+{
+ "rules": [
+  {
+   "rule_id": "CPR-59",
+   "clause": "Appendix B row B1",
+   "page": 12,
+   "type": "procedure",
+   "scope": [
+    "goods_services"
+   ],
+   "condition": "Goods and services, total value (exclusive of VAT) £25,000 or more and less than the Threshold",
+   "threshold_low": {
+    "amount": 25000,
+    "param": null,
+    "inclusive": true
+   },
+   "threshold_high": {
+    "amount": null,
+    "param": "THRESHOLD_GOODS_SERVICES",
+    "inclusive": false
+   },
+   "required_action": "Invitations to quote via the Procurement Portal to at least three appropriate sources, including at least one SME or VCSE and one local supplier (where appropriate and possible)",
+   "approver": null,
+   "evidence_source": [
+    "contracts",
+    "document-request"
+   ],
+   "verbatim_quote": "Invitations to quote must be sent via the Procurement Portal to at least three appropriate sources, including at least one SME* or VCSE* organisation and one local supplier ****(where appropriate and possible**).",
+   "notes_ref": [
+    "N-01",
+    "N-09"
+   ]
+  },
+  {
+   "rule_id": "CPR-60",
+   "clause": "Appendix B row B1",
+   "page": 12,
+   "type": "advertising",
+   "scope": [
+    "goods_services"
+   ],
+   "condition": "Goods and services, total value (exclusive of VAT) £25,000 or more and less than the Threshold",
+   "threshold_low": {
+    "amount": 25000,
+    "param": null,
+    "inclusive": true
+   },
+   "threshold_high": {
+    "amount": null,
+    "param": "THRESHOLD_GOODS_SERVICES",
+    "inclusive": false
+   },
+   "required_action": "Publish a contract notice on the CDP",
+   "approver": null,
+   "evidence_source": [
+    "contracts"
+   ],
+   "verbatim_quote": "A contract notice must be published on the CDP"
+  }
+ ]
+}

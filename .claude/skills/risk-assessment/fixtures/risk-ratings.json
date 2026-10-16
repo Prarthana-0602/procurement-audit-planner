@@ -1,0 +1,45 @@
+{
+ "risks": [
+  {
+   "id": "R-01",
+   "title": "Spend with suppliers above the quote tier that has no matching contract notice",
+   "description": "Indicator that suppliers above the quote tier may lack the contract or quote evidence the rules expect.",
+   "likelihood": {
+    "score": 4,
+    "justification": "Two indicator tests fire: {{$.tests.off_contract.count}} suppliers have no matching notice [metric:$.tests.off_contract.count] and {{$.tests.split_purchases.counts}} supplier episodes cross a tier [metric:$.tests.split_purchases.counts]. The prior audit of the same theme gave a Limited Assurance opinion [history:OP-12]."
+   },
+   "repeat_finding": {
+    "history": [
+     "OP-12"
+    ],
+    "note": "same theme: direct payments and care purchasing controls"
+   },
+   "impact": {
+    "score": 4,
+    "justification": "Annualised spend without a notice is {{$.tests.off_contract.annualised_estimate_gbp|gbp}}, above the Major band's financial scale, and the quote rule is mandatory [rule:CPR-59] [metric:$.tests.off_contract.annualised_estimate_gbp]."
+   },
+   "evidence": [
+    "Off-contract indicator covers {{$.tests.off_contract.count}} suppliers [metric:$.tests.off_contract.count].",
+    "Quote requirement [rule:CPR-59]."
+   ],
+   "proposed_focus": "Request contract and quote evidence for the highest-value suppliers without a notice."
+  },
+  {
+   "id": "R-02",
+   "title": "Unsupported risk with an invented citation",
+   "description": "This risk cites evidence that does not exist.",
+   "likelihood": {
+    "score": 3,
+    "justification": "Probably common [metric:$.tests.no_such_test.count] [rule:CPR-999]."
+   },
+   "impact": {
+    "score": 3,
+    "justification": "Likely costs about £2,000,000 a year and 45 payments [history:OP-99]."
+   },
+   "evidence": [
+    "Nothing resolves."
+   ],
+   "proposed_focus": "None."
+  }
+ ]
+}
