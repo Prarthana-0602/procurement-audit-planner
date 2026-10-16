@@ -71,10 +71,12 @@ Consequences:
         +-------------------+--------------------+
                             |
  (3) risk-assessor ← SUB-AGENT merges rules + analytics + history
-     loads risk-assessment ← SKILL (the method); main agent launches
-     it and relays the report
+     loads risk-assessment ← SKILL (the method); writes its judgments to
+     risk-ratings.json, runs the skill's build_register.py until clean
+     (no failures, no warnings); recommends, never approves scope;
+     main agent launches it and relays the report
                             |
-                    risk-register.md
+        risk-register.md + auditor-comments.md (decision template)
                             |
  (4) HUMAN GATE: auditor approves risks and scope, or rejects → back to (3)
                             |
@@ -115,12 +117,12 @@ audit-planner/
     committee/*.pdf
   .claude/skills/
     extract-rules/SKILL.md       
-    risk-assessment/SKILL.md     
+    risk-assessment/SKILL.md      (+ build_register.py, test_build_register.py, fixtures/)
     audit-program/SKILL.md       
   .claude/agents/
     spend-analyst.md             
     findings-analyst.md          
-    risk-assessor.md              (merge step)
+    risk-assessor.md              (step 3: merge, rate, build the register)
     planner.md                    (agent team)
     challenger.md                
     qa-reviewer.md               
@@ -135,8 +137,9 @@ audit-planner/
                                  #   name_candidates.csv, public_body_matches.csv, public_body_review.csv
     analytics-selfcheck.json     # spend-analyst self-check: one flagged item re-derived per test
     history.json
-    risk-register.md
-    auditor-comments.md          # decision template written by risk-assessor; auditor fills it in
+    risk-ratings.json            # risk-assessor's judgments (the only file it writes)
+    risk-register.md             # rendered by build_register.py
+    auditor-comments.md          # decision template written by build_register.py (run by risk-assessor); auditor fills it in
     audit-plan.json              # planner's judgments; build_pack.py renders the three files below
     planning-memo.md            
     risk-control-matrix.md       
