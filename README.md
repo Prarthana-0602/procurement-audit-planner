@@ -20,8 +20,8 @@ Data (all public, in `data/`): `contract-rules.pdf`, three monthly "Expenditure 
 
 | Skill | Purpose | Inputs | Outputs | Verifier / builder | Who runs it |
 |---|---|---|---|---|---|
-| `extract-rules` | Extract every testable rule from the Contract Procedure Rules, with clause, page, thresholds and a verbatim quote; list non-testable clauses in `excluded` and PDF contradictions or placeholders in `notes` | `data/contract-rules.pdf` (needs `pdftotext`) | `outputs/rules.json` | `verify_quotes.py` (schema, sequential IDs, null parameters, every quote present on its stated page, every PDF clause in `rules` or `excluded`); tests in `test_verify_quotes.py` with `fixtures/bad_rules.json` | **Me**, by typing `/extract-rules`. No agent. |
-| `risk-assessment` | The method for rating risks on the council's own likelihood × impact scale; the likelihood rubric is binding and the builder checks it | `outputs/rules.json`, `analytics.json`, `history.json` | `outputs/risk-ratings.json` (the agent's judgments), rendered by the builder into `risk-register.md` and the decision template `auditor-comments.md` | `build_register.py` resolves every citation and number and computes scores and bands; it also errors on any undecided risk when applying decisions; tests in `test_build_register.py` with `fixtures/` | **The `risk-assessor` agent** (loaded through its `skills:` field), launched by the main session at my request. It also does the revision run after my decisions. |
+| `extract-rules` | Extract every testable rule from the Contract Procedure Rules, with clause, page, thresholds and a verbatim quote; list non-testable clauses in `excluded` and PDF contradictions or placeholders in `notes` | `data/contract-rules.pdf` (needs `pdftotext`) | `outputs/rules.json` | `verify_quotes.py` (schema, sequential IDs, null parameters, every quote present on its stated page, every PDF clause in `rules` or `excluded`); tests in `test_verify_quotes.py` with `fixtures/bad_rules.json` | **We**, by typing `/extract-rules`. No agent. |
+| `risk-assessment` | The method for rating risks on the council's own likelihood × impact scale; the likelihood rubric is binding and the builder checks it | `outputs/rules.json`, `analytics.json`, `history.json` | `outputs/risk-ratings.json` (the agent's judgments), rendered by the builder into `risk-register.md` and the decision template `auditor-comments.md` | `build_register.py` resolves every citation and number and computes scores and bands; it also errors on any undecided risk when applying decisions; tests in `test_build_register.py` with `fixtures/` | **The `risk-assessor` agent** (loaded through its `skills:` field), launched by the main session at our request. It also does the revision run after our decisions. |
 | `audit-program` | The method for turning approved risks into an audit program (risk → control → test step → targeted sample), a risk-control matrix, a planning memo and a PBC request list | `rules.json`, `analytics.json` and `analytics-full/`, `risk-ratings.json`, `risk-register.md`, `auditor-comments.md` | `outputs/audit-plan.json` (the planner's judgments), rendered by the builder into `planning-memo.md`, `risk-control-matrix.md`, `audit-program.md`, plus `samples/T-*.csv` and `pack-figures.json` | `build_pack.py`: `--gate` checks scope, then it resolves citations and figures, draws samples and renders documents; tests in `test_build_pack.py` with `fixtures/` | **The `planner` agent** runs `build_pack.py`. The main session (lead) runs `build_pack.py --gate` before spawning the team. |
 
 ## 3. Agents (`.claude/agents/`)
@@ -43,7 +43,7 @@ Agent teams are enabled by `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` in `.claude/
 
 ```mermaid
 flowchart TD
-    PDF[data/contract-rules.pdf] -->|"/extract-rules (me)"| RULES[outputs/rules.json]
+    PDF[data/contract-rules.pdf] -->|"/extract-rules (we)"| RULES[outputs/rules.json]
     SPEND[data/spend/*.xlsx + data/contracts.csv] --> SA[spend-analyst]
     RULES --> SA
     SA --> AN["outputs/analytics.json + analytics-full/ + analytics-selfcheck.json"]
@@ -81,7 +81,7 @@ flowchart TD
 
 ## 5. Confirmation of guide steps
 
-Guide: https://procurement-audit-planner.vercel.app/ (step titles as I supplied them). Commits are `git log` short hashes.
+Guide: https://procurement-audit-planner.vercel.app/ (step titles as we supplied them). Commits are `git log` short hashes.
 
 | Step | What | Proof |
 |---|---|---|
@@ -124,11 +124,11 @@ Guide: https://procurement-audit-planner.vercel.app/ (step titles as I supplied 
 | Analytics self-check | `status: passed`; all 7 tests re-derived from the raw workbooks with result `pass`. |
 | History (`history.json`) | 4 documents, 16 audit opinions, 4 follow-ups, 20 risk themes, 8 scoring-method items, 13 discrepancies, 8 gaps, 0 agreed actions. `verify_history.py`: `quotes checked: 159`, `PASS`. |
 | Register (revision 1) | R-01 L2 × I4 = 8 High; R-02 L3 × I3 = 9 High; R-03 L3 × I3 = 9 High; R-05 L3 × I4 = 12 High (likelihood 2 → 3, auditor override); R-04 removed on rejection. Scoring uses the council's Risk Management Strategy 2024-27. |
-| My decisions (`auditor-comments.md`) | R-01, R-02, R-03 Approve; R-04 Reject (duplicate payments are an accounts-payable matter, to be covered in a separate AP review); R-05 Amend L=3. |
+| Our decisions (`auditor-comments.md`) | R-01, R-02, R-03 Approve; R-04 Reject (duplicate payments are an accounts-payable matter, to be covered in a separate AP review); R-05 Amend L=3. |
 | Pack | v3 (final). 4 risks, 10 tests, 10 sample files with 359 rows (285 distinct transactions), 49 of 74 rules cited, 25 listed as not tested. |
 | Challenges | 8 in two rounds (7, then 1). Resolved 5 (#1, #4, #5, #6, #8); declined 0; for the auditor 3 (#2, #3, #7). |
 | QA (`review.md`, final run on v3) | check_quotes PASS; check_numbers PASS (19 figures); check_trace PASS; check_samples PASS (285 distinct transactions). `VERDICT: ALL CHECKS PASS`, so READY FOR SIGN-OFF. History: v1 PASS (interim), v2 PASS (interim), v3 PASS (final). |
-| My sign-off | Prarthana Patel, 2026-10-16, **signed off** (box ticked in `review.md`), with comments on #2, #3 and #7. |
+| Our sign-off | Prarthana Patel, 2026-10-16, **signed off** (box ticked in `review.md`), with comments on #2, #3 and #7. |
 
 ## 6. Design decisions and deviations from the guide
 
@@ -137,7 +137,7 @@ Guide: https://procurement-audit-planner.vercel.app/ (step titles as I supplied 
 - **£1,000 tier left out.** `analytics.json` records that the £1,000 bound (CPR-58) has `evidence_source` of document-request only, so it is not a tier. The lowest tier analysed is £5,000.
 - **5.1 satisfied in 4.3.** The register builder refuses to apply decisions while any risk is undecided, and `build_pack.py --gate` fails on an undecided risk or a revision-0 register. A partial revision cannot exist, so closing the gate was done by completing the revision in 4.3 and then confirming it with `--gate`.
 - **`--interim` QA flag.** `run_checks.py --interim` skips the `challenges.md` closure test inside `check_trace`, so the qa-reviewer could check v1 and v2 while challenges were still open. The final run on v3 was made without it.
-- **Challenger caught an error in my R-05 amend comment.** Challenge #3 said OP-12 (Personal Budgets, Limited Assurance) sits in Children with Disabilities and SEN, not adult social care as my comment said. I corrected it in the sign-off comment in `review.md`: the amend to L3 stands because SEN overlaps the education-placement side of R-05. The original wording is still in `auditor-comments.md`, `risk-register.md` and `planning-memo.md`, because those were written before sign-off.
+- **Challenger caught an error in our R-05 amend comment.** Challenge #3 said OP-12 (Personal Budgets, Limited Assurance) sits in Children with Disabilities and SEN, not adult social care as our comment said. We corrected it in the sign-off comment in `review.md`: the amend to L3 stands because SEN overlaps the education-placement side of R-05. The original wording is still in `auditor-comments.md`, `risk-register.md` and `planning-memo.md`, because those were written before sign-off.
 - **Open handling note.** `CHALLENGER DONE` first recorded #8 as declined against v2, crossing the planner's acceptance. The challenger verified v3 and corrected `challenges.md` to resolved.
 
 ## 7. How to reproduce
