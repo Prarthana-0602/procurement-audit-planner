@@ -131,7 +131,9 @@ audit-planner/
   outputs/
     rules.json
     analytics.json
-    analytics-full/              # full flagged-transaction lists
+    analytics-full/              # full flagged lists, cleaned_spend.csv, excluded_rows.csv,
+                                 #   name_candidates.csv, public_body_matches.csv, public_body_review.csv
+    analytics-selfcheck.json     # spend-analyst self-check: one flagged item re-derived per test
     history.json
     risk-register.md
     auditor-comments.md          # decision template written by risk-assessor; auditor fills it in
@@ -222,8 +224,22 @@ Cleaning spend workbooks (scripts/clean.py):
 - Normalise supplier names: uppercase, strip punctuation, drop
   LTD/LIMITED/PLC/LLP suffixes, collapse whitespace. Apply the SAME
   normalisation to supplier names parsed from contracts.csv.
-- Exclude non-procurement rows (statutory/inter-authority payments, e.g. LGPS
-  pension deficit contributions; internal transfers). Log exclusions.
+- Give every row a row_id (`<file stem>|Data to publish|<excel row>`) so any
+  flagged payment can be found in the source.
+- Exclude non-procurement rows, first matching reason wins, all written to
+  analytics-full/excluded_rows.csv with counts and £ per reason:
+  `redacted_supplier` (individual beneficiaries, untestable);
+  `pension_statutory` (LGPS, AVC, pension, court order, council tax);
+  `personal_transfer` (Expenditure category "Transfer Payment", or narrative
+  "ASC Deferred Debt": payments to or about individuals, reported separately
+  so it can be reversed); `public_body` (other councils, NHS/ICB, police, fire,
+  HMRC, government departments etc., whole-word patterns only; schools,
+  academies, colleges and trusts are kept and listed for review).
+  Grants are NOT excluded: the rules treat a grant as a contract.
+- Tag every kept row with exactly one tag, first match wins: `agency_staff`,
+  `grant`, `premises`, `care_education_placement` (care/education Services with
+  category Third Party Payments), `general_procurement`. Report every test
+  per tag.
 
 Parsing contracts.csv (it is a raw Contracts Finder notice export):
 - Keep only rows where Organisation Name, trimmed and compared
@@ -247,7 +263,12 @@ Parsing contracts.csv (it is a raw Contracts Finder notice export):
 - If total kept rows or any year's row count looks implausibly low, warn:
   the source export may have hit the 1,000-row download cap.
 
-Tests (thresholds parameterised from rules.json, never hardcoded):
+Tests (thresholds parameterised from rules.json, never hardcoded; any tier
+whose parameter is null in rules.json is skipped and the reason recorded).
+Where the rules disagree about whether a tier amount is inclusive (as at
+£500,000), use the exclusive-start reading (the wider band) and record the
+disagreement. Name matches that are not exact are candidates for the auditor
+(analytics-full/name_candidates.csv), never counted as matches.
 1. threshold_clustering: payments in [0.9 × threshold, threshold) per threshold.
 2. split_purchases: same normalised supplier, ≥2 payments in a 30-day window,
    combined total crossing a threshold each single payment stays under.
@@ -269,9 +290,15 @@ Tests (thresholds parameterised from rules.json, never hardcoded):
    ratio = annualised estimate ÷ (Awarded Value ÷ contract years); flag
    ratio ≥ 1.25. Indicator of spend beyond the award without an approved
    variation (App C row E); award values may be estimates or maxima.
+7. high_value_suppliers: always runs, with or without contracts.csv: suppliers
+   whose annualised estimate exceeds the quote threshold; the population to
+   request contract and quote evidence for.
 
-analytics.json per test: parameters, counts, £ totals, top 20; full lists to
-analytics-full/.
+analytics.json per test: parameters, counts, £ totals, by-tag split, top 20;
+full lists to analytics-full/. A self-check script
+(scripts/selfcheck_analytics.py, independent of the analysis code) re-derives
+one flagged item per test from the raw workbooks and writes
+outputs/analytics-selfcheck.json.
 
 ### Sub-agent: `findings-analyst` (Phase 1)
 
