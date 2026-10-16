@@ -1,32 +1,90 @@
-{"risks":[
-{"id":"R-01","title":"Spend above the quote tier with no matching contract notice",
-"description":"Indicator that general procurement spend above the quote tier may have been placed without a competitive process or a published notice. Notices are only published above the Contracts Finder level and a call-off may sit under a notice in another name, so this is a population to investigate, not a finding.",
-"likelihood":{"score":2,"justification":"One indicator test fired for general procurement: {{$.tests.off_contract.by_tag.general_procurement.count|int}} suppliers show an annualised estimate above the tender tier with no exact notice match [metric:$.tests.off_contract.by_tag.general_procurement.count]."},
-"impact":{"score":4,"justification":"Table 1 compliance, litigation and regulatory criterion (Major): the quote and notice requirements [rule:CPR-59] [rule:CPR-60] could be unmet on spend with an annualised estimate of {{$.tests.off_contract.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.off_contract.by_tag.general_procurement.gbp]."},
-"evidence":["General procurement off-contract indicator: {{$.tests.off_contract.by_tag.general_procurement.count|int}} suppliers, annualised estimate {{$.tests.off_contract.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.off_contract.by_tag.general_procurement.gbp]","Population to request contract and quote evidence for: {{$.tests.high_value_suppliers.by_tag.general_procurement.count|int}} general procurement suppliers above the quote tier [metric:$.tests.high_value_suppliers.by_tag.general_procurement.count]","Contract Letting audit gave Reasonable Assurance, context only [history:OP-01]"],
-"proposed_focus":"Request contract, quote and exception evidence for the largest general procurement suppliers with no matching notice; test against the quote rule and Appendix C exceptions."},
-{"id":"R-02","title":"Split purchases and threshold-hugging payments",
-"description":"Indicator that general procurement purchases may have been split or kept just below a procedure threshold, which the aggregation rules prohibit. Recurring payments also produce these patterns, so each is to be investigated.",
-"likelihood":{"score":3,"justification":"Two indicator tests fired for general procurement: {{$.tests.threshold_clustering.by_tag.general_procurement.count|int}} payments just below a threshold [metric:$.tests.threshold_clustering.by_tag.general_procurement.count] and {{$.tests.split_purchases.by_tag.general_procurement.count|int}} split-purchase candidates [metric:$.tests.split_purchases.by_tag.general_procurement.count]."},
-"impact":{"score":3,"justification":"Table 1 compliance criterion (Medium): avoidance of the aggregation requirement [rule:CPR-15] and the repeat-purchase valuation rule [rule:CPR-16], with split-purchase combined value of {{$.tests.split_purchases.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.split_purchases.by_tag.general_procurement.gbp]."},
-"evidence":["Threshold clustering, general procurement: {{$.tests.threshold_clustering.by_tag.general_procurement.count|int}} payments worth {{$.tests.threshold_clustering.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.threshold_clustering.by_tag.general_procurement.gbp]","Split purchases, general procurement: {{$.tests.split_purchases.by_tag.general_procurement.count|int}} candidates [metric:$.tests.split_purchases.by_tag.general_procurement.count]","The lowest tier is noisy and dominated by recurring payments [metric:$.caveats]"],
-"proposed_focus":"Review flagged general procurement supplier sets for a single underlying need and check how the total value was estimated."},
-{"id":"R-03","title":"Spend after notice expiry or beyond the awarded value",
-"description":"Indicator that spend may continue after a published contract ended, or exceed the award, without a recorded extension or variation. A newer contract may exist with no notice, and award values may be estimates.",
-"likelihood":{"score":3,"justification":"Two indicator tests fired for general procurement: {{$.tests.expired_notice_spend.by_tag.general_procurement.count|int}} suppliers paid after every matching notice ended [metric:$.tests.expired_notice_spend.by_tag.general_procurement.count] and {{$.tests.spend_vs_award.by_tag.general_procurement.count|int}} with an annualised estimate well above the award [metric:$.tests.spend_vs_award.by_tag.general_procurement.count]."},
-"impact":{"score":3,"justification":"Table 1 compliance criterion (Medium): extensions and variations need a recorded basis [rule:CPR-70] [rule:CPR-71]; award-excess annualised estimate {{$.tests.spend_vs_award.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.spend_vs_award.by_tag.general_procurement.gbp]."},
-"evidence":["Expired-notice spend, general procurement: {{$.tests.expired_notice_spend.by_tag.general_procurement.count|int}} suppliers, {{$.tests.expired_notice_spend.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.expired_notice_spend.by_tag.general_procurement.gbp]","Spend versus award, general procurement: {{$.tests.spend_vs_award.by_tag.general_procurement.count|int}} suppliers [metric:$.tests.spend_vs_award.by_tag.general_procurement.count]","Secondary, premises: {{$.tests.expired_notice_spend.by_tag.premises.count|int}} expired-notice suppliers [metric:$.tests.expired_notice_spend.by_tag.premises.count]"],
-"proposed_focus":"Obtain extension and variation approvals, or replacement contracts, for the flagged suppliers."},
-{"id":"R-04","title":"Possible duplicate payments to the same supplier",
-"description":"Indicator that general procurement payments of the same amount to the same supplier within seven days may include duplicates; some may be legitimate repeat charges.",
-"likelihood":{"score":2,"justification":"One indicator test fired for general procurement: {{$.tests.duplicates.by_tag.general_procurement.count|int}} same-supplier, same-amount pairs [metric:$.tests.duplicates.by_tag.general_procurement.count]."},
-"impact":{"score":2,"justification":"Table 1 financial criterion (Minor): the general procurement duplicate value is {{$.tests.duplicates.by_tag.general_procurement.gbp|gbp}}, likely recoverable [metric:$.tests.duplicates.by_tag.general_procurement.gbp]; payment records are required [rule:CPR-37]."},
-"evidence":["Duplicates, general procurement: {{$.tests.duplicates.by_tag.general_procurement.count|int}} pairs worth {{$.tests.duplicates.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.duplicates.by_tag.general_procurement.gbp]","Accounts Payable audit gave Reasonable Assurance, context only [history:OP-11]"],
-"proposed_focus":"Test flagged pairs against invoices and the payment system duplicate controls."},
-{"id":"R-05","title":"Care and education placement commissioning controls",
-"description":"Care and education placements, shown separately from general procurement. Indicator that placement spend above the quote tier may lack a matching notice; Appendix C row F may exempt many placements, so evidence of the basis is to be requested.",
-"likelihood":{"score":2,"justification":"Care and education placements only: one non-recurrence indicator fired, {{$.tests.off_contract.by_tag.care_education_placement.count|int}} suppliers with no exact notice match [metric:$.tests.off_contract.by_tag.care_education_placement.count]. Repeat payment is the normal pattern here, so duplicates and clustering are not counted."},
-"impact":{"score":4,"justification":"Table 1 compliance and financial criteria (Major): placements carry an annualised estimate of {{$.tests.off_contract.by_tag.care_education_placement.gbp|gbp}} [metric:$.tests.off_contract.by_tag.care_education_placement.gbp]; the social care exemption needs a recorded basis [rule:CPR-73]."},
-"evidence":["Care and education placements, off-contract indicator: {{$.tests.off_contract.by_tag.care_education_placement.count|int}} suppliers, annualised estimate {{$.tests.off_contract.by_tag.care_education_placement.gbp|gbp}} [metric:$.tests.off_contract.by_tag.care_education_placement.gbp]","Residential and nursing care purchase audit gave Reasonable Assurance, context only [history:OP-14]","Placement providers above the quote tier: {{$.tests.high_value_suppliers.by_tag.care_education_placement.count|int}} [metric:$.tests.high_value_suppliers.by_tag.care_education_placement.count]"],
-"proposed_focus":"Request the commissioning basis (Appendix C row F, framework or notice) for the largest placement providers."}
-]}
+{
+  "risks": [
+    {
+      "id": "R-01",
+      "title": "Spend above the quote tier with no matching contract notice",
+      "description": "Indicator that general procurement spend above the quote tier may have been placed without a competitive process or a published notice. Notices are only published above the Contracts Finder level and a call-off may sit under a notice in another name, so this is a population to investigate, not a finding.",
+      "likelihood": {
+        "score": 2,
+        "justification": "One indicator test fired for general procurement: {{$.tests.off_contract.by_tag.general_procurement.count|int}} suppliers show an annualised estimate above the tender tier with no exact notice match [metric:$.tests.off_contract.by_tag.general_procurement.count]."
+      },
+      "impact": {
+        "score": 4,
+        "justification": "Table 1 compliance, litigation and regulatory criterion (Major): the quote and notice requirements [rule:CPR-59] [rule:CPR-60] could be unmet on spend with an annualised estimate of {{$.tests.off_contract.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.off_contract.by_tag.general_procurement.gbp]."
+      },
+      "evidence": [
+        "General procurement off-contract indicator: {{$.tests.off_contract.by_tag.general_procurement.count|int}} suppliers, annualised estimate {{$.tests.off_contract.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.off_contract.by_tag.general_procurement.gbp]",
+        "Population to request contract and quote evidence for: {{$.tests.high_value_suppliers.by_tag.general_procurement.count|int}} general procurement suppliers above the quote tier [metric:$.tests.high_value_suppliers.by_tag.general_procurement.count]",
+        "Contract Letting audit gave Reasonable Assurance, context only [history:OP-01]"
+      ],
+      "proposed_focus": "Request contract, quote and exception evidence for the largest general procurement suppliers with no matching notice; test against the quote rule and Appendix C exceptions."
+    },
+    {
+      "id": "R-02",
+      "title": "Split purchases and threshold-hugging payments",
+      "description": "Indicator that general procurement purchases may have been split or kept just below a procedure threshold, which the aggregation rules prohibit. Recurring payments also produce these patterns, so each is to be investigated.",
+      "likelihood": {
+        "score": 3,
+        "justification": "Two indicator tests fired for general procurement: {{$.tests.threshold_clustering.by_tag.general_procurement.count|int}} payments just below a threshold [metric:$.tests.threshold_clustering.by_tag.general_procurement.count] and {{$.tests.split_purchases.by_tag.general_procurement.count|int}} split-purchase candidates [metric:$.tests.split_purchases.by_tag.general_procurement.count]."
+      },
+      "impact": {
+        "score": 3,
+        "justification": "Table 1 compliance criterion (Medium): avoidance of the aggregation requirement [rule:CPR-15] and the repeat-purchase valuation rule [rule:CPR-16], with split-purchase combined value of {{$.tests.split_purchases.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.split_purchases.by_tag.general_procurement.gbp]."
+      },
+      "evidence": [
+        "Threshold clustering, general procurement: {{$.tests.threshold_clustering.by_tag.general_procurement.count|int}} payments worth {{$.tests.threshold_clustering.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.threshold_clustering.by_tag.general_procurement.gbp]",
+        "Split purchases, general procurement: {{$.tests.split_purchases.by_tag.general_procurement.count|int}} candidates [metric:$.tests.split_purchases.by_tag.general_procurement.count]",
+        "The lowest tier is noisy and dominated by recurring payments [metric:$.caveats]"
+      ],
+      "proposed_focus": "Review flagged general procurement supplier sets for a single underlying need and check how the total value was estimated."
+    },
+    {
+      "id": "R-03",
+      "title": "Spend after notice expiry or beyond the awarded value",
+      "description": "Indicator that spend may continue after a published contract ended, or exceed the award, without a recorded extension or variation. A newer contract may exist with no notice, and award values may be estimates.",
+      "likelihood": {
+        "score": 3,
+        "justification": "Two indicator tests fired for general procurement: {{$.tests.expired_notice_spend.by_tag.general_procurement.count|int}} suppliers paid after every matching notice ended [metric:$.tests.expired_notice_spend.by_tag.general_procurement.count] and {{$.tests.spend_vs_award.by_tag.general_procurement.count|int}} with an annualised estimate well above the award [metric:$.tests.spend_vs_award.by_tag.general_procurement.count]."
+      },
+      "impact": {
+        "score": 3,
+        "justification": "Table 1 compliance criterion (Medium): extensions and variations need a recorded basis [rule:CPR-70] [rule:CPR-71]; award-excess annualised estimate {{$.tests.spend_vs_award.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.spend_vs_award.by_tag.general_procurement.gbp]."
+      },
+      "evidence": [
+        "Expired-notice spend, general procurement: {{$.tests.expired_notice_spend.by_tag.general_procurement.count|int}} suppliers, {{$.tests.expired_notice_spend.by_tag.general_procurement.gbp|gbp}} [metric:$.tests.expired_notice_spend.by_tag.general_procurement.gbp]",
+        "Spend versus award, general procurement: {{$.tests.spend_vs_award.by_tag.general_procurement.count|int}} suppliers [metric:$.tests.spend_vs_award.by_tag.general_procurement.count]",
+        "Secondary, premises: {{$.tests.expired_notice_spend.by_tag.premises.count|int}} expired-notice suppliers [metric:$.tests.expired_notice_spend.by_tag.premises.count]"
+      ],
+      "proposed_focus": "Obtain extension and variation approvals, or replacement contracts, for the flagged suppliers."
+    },
+    {
+      "id": "R-05",
+      "title": "Care and education placement commissioning controls",
+      "description": "Care and education placements, shown separately from general procurement. Indicator that placement spend above the quote tier may lack a matching notice; Appendix C row F may exempt many placements, so evidence of the basis is to be requested.",
+      "likelihood": {
+        "score": 3,
+        "justification": "Care and education placements only: one non-recurrence indicator fired, {{$.tests.off_contract.by_tag.care_education_placement.count|int}} suppliers with no exact notice match [metric:$.tests.off_contract.by_tag.care_education_placement.count]. Repeat payment is the normal pattern here, so duplicates and clustering are not counted."
+      },
+      "impact": {
+        "score": 4,
+        "justification": "Table 1 compliance and financial criteria (Major): placements carry an annualised estimate of {{$.tests.off_contract.by_tag.care_education_placement.gbp|gbp}} [metric:$.tests.off_contract.by_tag.care_education_placement.gbp]; the social care exemption needs a recorded basis [rule:CPR-73]."
+      },
+      "evidence": [
+        "Care and education placements, off-contract indicator: {{$.tests.off_contract.by_tag.care_education_placement.count|int}} suppliers, annualised estimate {{$.tests.off_contract.by_tag.care_education_placement.gbp|gbp}} [metric:$.tests.off_contract.by_tag.care_education_placement.gbp]",
+        "Residential and nursing care purchase audit gave Reasonable Assurance, context only [history:OP-14]",
+        "Placement providers above the quote tier: {{$.tests.high_value_suppliers.by_tag.care_education_placement.count|int}} [metric:$.tests.high_value_suppliers.by_tag.care_education_placement.count]"
+      ],
+      "proposed_focus": "Request the commissioning basis (Appendix C row F, framework or notice) for the largest placement providers."
+    }
+  ],
+  "revision": {
+    "summary": "Auditor decisions applied: R-04 rejected and removed; R-05 likelihood amended to 3 per auditor. R-01, R-02 and R-03 approved unchanged.",
+    "changes": [
+      {
+        "risk_id": "R-05",
+        "field": "likelihood",
+        "reason": "Auditor amend L=3: OP-12 Personal Budgets Limited Assurance is in the same adult social care commissioning area."
+      }
+    ]
+  }
+}
