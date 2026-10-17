@@ -1,5 +1,5 @@
-# Set a globally unique name before the first deploy: fly launch --no-deploy --copy-config
-app = "procurement-audit-harness"
+# App name is unique to this account.
+app = "procurement-audit-harness-prarthana"
 primary_region = "lax"
 
 [build]
