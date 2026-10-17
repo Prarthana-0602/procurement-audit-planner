@@ -6,8 +6,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends poppler-utils u
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY requirements.txt harness/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt -r harness/requirements.txt
+COPY requirements.txt ./requirements.txt
+COPY harness/requirements.txt ./harness-requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt -r harness-requirements.txt
 
 # The repo itself: CLAUDE.md, .claude (agents, skills), data, scripts, committed outputs, and the harness.
 COPY CLAUDE.md ./
