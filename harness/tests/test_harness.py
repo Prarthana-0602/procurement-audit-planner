@@ -226,15 +226,129 @@ class RelayTests(Base):
     def test_agent_options_use_the_agent_files(self):
         rid = runs.create()
         d = runs.run_dir(rid)
-        planner = engine._agent_options(d, "planner")
+        planner = engine._agent_options(d, "planner", engine.RELAY_NOTE)
         self.assertNotIn("SendMessage", planner.tools)
         self.assertIn("Skill", planner.tools)  # planner declares the audit-program skill
         self.assertIn("SEND TO", planner.system_prompt["append"])
         self.assertEqual(planner.setting_sources, ["project"])
         self.assertEqual(planner.permission_mode, "bypassPermissions")
         self.assertEqual(planner.model, config.MODEL)
-        qa = engine._agent_options(d, "qa-reviewer")
+        qa = engine._agent_options(d, "qa-reviewer", engine.RELAY_NOTE)
         self.assertEqual(sorted(qa.tools), ["Bash", "Read", "Write"])  # as in qa-reviewer.md, minus SendMessage
+
+
+class AnalystWaitTests(Base):
+    """The failed live run: the lead started the analysts in the background and the engine checked 6 s later."""
+
+    def _factory(self, d, log, delays, writes):
+        class Slow:
+            def __init__(self, name):
+                self.name = name
+
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, *a):
+                return False
+
+            async def query(self, prompt):
+                pass
+
+            async def receive_response(self):
+                from claude_agent_sdk import AssistantMessage, ResultMessage, TextBlock
+                log.append(("start", self.name))
+                await asyncio.sleep(delays[self.name])  # still working: no result yet
+                for f in writes[self.name]:
+                    (d / "outputs").mkdir(exist_ok=True)
+                    (d / "outputs" / f).write_text("{}")
+                log.append(("finish", self.name))
+                yield AssistantMessage(content=[TextBlock(text="report")], model="fake")
+                yield ResultMessage(subtype="success", duration_ms=1, duration_api_ms=1, is_error=False, num_turns=1,
+                                    session_id="s", total_cost_usd=0.01)
+
+        bodies = {n: engine.parse_agent_file(config.REPO_ROOT / ".claude" / "agents" / f"{n}.md")["body"][:200] for n in delays}
+
+        def factory(opts):
+            return Slow(next(n for n, b in bodies.items() if opts.system_prompt["append"].startswith(b)))
+        return factory
+
+    def test_engine_waits_for_both_analysts_and_runs_them_concurrently(self):
+        rid = runs.create()
+        d = runs.run_dir(rid)
+        log = []
+        writes = {"spend-analyst": ["analytics.json", "analytics-selfcheck.json"], "findings-analyst": ["history.json"]}
+        old = engine.client_factory
+        engine.client_factory = self._factory(d, log, {"spend-analyst": 0.4, "findings-analyst": 0.1}, writes)
+        try:
+            asyncio.run(engine.run_analysts(rid, d))  # returns only once the slow one has finished
+        finally:
+            engine.client_factory = old
+        self.assertEqual(sorted(log[:2]), [("start", "findings-analyst"), ("start", "spend-analyst")])  # concurrent
+        self.assertEqual(log[-1], ("finish", "spend-analyst"))  # the slower one finished last, before we returned
+        for f in ("analytics.json", "analytics-selfcheck.json", "history.json"):
+            self.assertTrue((d / "outputs" / f).exists())
+        self.assertAlmostEqual(runs.load_state(rid)["cost_usd"], 0.02)
+
+    def test_missing_output_after_both_finish_is_an_error(self):
+        rid = runs.create()
+        d = runs.run_dir(rid)
+        old = engine.client_factory
+        engine.client_factory = self._factory(d, [], {"spend-analyst": 0.0, "findings-analyst": 0.0},
+                                              {"spend-analyst": ["analytics.json"], "findings-analyst": []})
+        try:
+            with self.assertRaises(engine.EngineError):
+                asyncio.run(engine.run_analysts(rid, d))
+        finally:
+            engine.client_factory = old
+
+    def test_one_failing_analyst_fails_the_stage(self):
+        rid = runs.create()
+        d = runs.run_dir(rid)
+        old = engine.client_factory
+
+        def boom(opts):
+            raise RuntimeError("cli crashed")
+        engine.client_factory = boom
+        try:
+            with self.assertRaises(RuntimeError):
+                asyncio.run(engine.run_analysts(rid, d))
+        finally:
+            engine.client_factory = old
+
+    def test_sessions_cannot_background_work(self):
+        deny = asyncio.run(engine._no_background({"tool_name": "Agent", "tool_input": {}}, "id", None))
+        self.assertEqual(deny["hookSpecificOutput"]["permissionDecision"], "deny")
+        deny = asyncio.run(engine._no_background({"tool_name": "Bash", "tool_input": {"command": "x", "run_in_background": True}}, "id", None))
+        self.assertEqual(deny["hookSpecificOutput"]["permissionDecision"], "deny")
+        self.assertEqual(asyncio.run(engine._no_background({"tool_name": "Bash", "tool_input": {"command": "ls"}}, "id", None)), {})
+        for n in ("spend-analyst", "findings-analyst", "risk-assessor"):
+            rid = runs.create()
+            o = engine._agent_options(runs.run_dir(rid), n, engine.STANDALONE_NOTE)
+            self.assertNotIn("Agent", o.tools)
+            self.assertIn("foreground", o.system_prompt["append"])
+            self.assertIn("PreToolUse", o.hooks)
+        self.assertIn("Skill", engine._agent_options(d := runs.run_dir(runs.create()), "risk-assessor", "").tools)
+
+
+class PreflightTests(Base):
+    def test_run_copy_python_has_requirements_and_poppler_works(self):
+        rid = runs.create()
+        d = runs.run_dir(rid)
+        engine._preflight(d)  # raises if .venv/bin/python, pandas/openpyxl or poppler are missing
+        import subprocess
+        out = subprocess.run([str(d / ".venv" / "bin" / "python"), "-c", "import sys; print(sys.version_info[0])"],
+                             capture_output=True, text=True, cwd=d)
+        self.assertEqual(out.stdout.strip(), "3")
+        rc, _ = engine._py(d, ".claude/skills/extract-rules/verify_quotes.py", "--inventory")  # uses pdftotext on data/
+        self.assertEqual(rc, 0)
+
+    def test_preflight_names_the_missing_piece(self):
+        rid = runs.create()
+        d = runs.run_dir(rid)
+        (d / ".venv" / "bin" / "python").unlink()
+        with self.assertRaises(engine.EngineError) as cm:
+            engine._preflight(d)
+        self.assertIn(".venv/bin/python", str(cm.exception))
 
 
 if __name__ == "__main__":

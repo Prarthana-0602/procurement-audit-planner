@@ -41,9 +41,12 @@ def prepare(dest: Path) -> None:
     for item in list(scripts.iterdir()) if scripts.is_dir() else []:
         if item.name != "checks":  # the QA scripts are part of the method, not an analyst product
             shutil.rmtree(item) if item.is_dir() else item.unlink()
-    # The agent files call .venv/bin/python; point it at this interpreter.
-    (dest / ".venv" / "bin").mkdir(parents=True)
-    (dest / ".venv" / "bin" / "python").symlink_to(sys.executable)
+    # The agent files call .venv/bin/python. A wrapper that execs this interpreter (and so its installed
+    # requirements) works whether that is the container's Python or a venv; a symlink would lose pyvenv.cfg.
+    py = dest / ".venv" / "bin" / "python"
+    py.parent.mkdir(parents=True)
+    py.write_text(f'#!/bin/sh\nexec "{sys.executable}" "$@"\n')
+    py.chmod(0o755)
     # Runs relay the team themselves (see engine.py); do not enable native agent teams inside a run.
     (dest / ".claude" / "settings.json").write_text("{}\n")
 
