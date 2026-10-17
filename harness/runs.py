@@ -31,16 +31,12 @@ def run_dir(run_id: str) -> Path:
 
 
 def prepare(dest: Path) -> None:
-    """Copy the repo into dest and reset it to a fresh project: no outputs, no generated scripts."""
+    """Copy the repo into dest as a fresh project: every file is kept except the contents of outputs/."""
     config.RUNS_DIR.mkdir(parents=True, exist_ok=True)
     shutil.copytree(config.REPO_ROOT, dest, ignore=COPY_IGNORE)
-    # Part A results are not carried into a new run.
+    # Part A results are not carried into a new run. Nothing else is removed.
     shutil.rmtree(dest / "outputs", ignore_errors=True)
     (dest / "outputs").mkdir()
-    scripts = dest / "scripts"
-    for item in list(scripts.iterdir()) if scripts.is_dir() else []:
-        if item.name != "checks":  # the QA scripts are part of the method, not an analyst product
-            shutil.rmtree(item) if item.is_dir() else item.unlink()
     # The agent files call .venv/bin/python. A wrapper that execs this interpreter (and so its installed
     # requirements) works whether that is the container's Python or a venv; a symlink would lose pyvenv.cfg.
     py = dest / ".venv" / "bin" / "python"
@@ -129,3 +125,14 @@ def mark_interrupted() -> None:
     for s in list_runs():
         if s["status"] == "running":
             update(s["id"], status="failed", error="interrupted by a server restart")
+
+
+def missing_from_copy(dest: Path) -> list[str]:
+    """Files the repo has (outside outputs/ and the ignored dirs) that the run copy lacks."""
+    skip = {".git", ".venv", "__pycache__", "harness", "history-work", "runs", ".DS_Store", "outputs"}
+    missing = []
+    for p in config.REPO_ROOT.rglob("*"):
+        rel = p.relative_to(config.REPO_ROOT)
+        if p.is_file() and not (set(rel.parts) & skip) and not (dest / rel).exists():
+            missing.append(str(rel))
+    return sorted(missing)

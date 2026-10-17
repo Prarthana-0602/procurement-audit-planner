@@ -93,7 +93,12 @@ class RunCopyTests(Base):
         self.assertEqual(list((dest / "outputs").iterdir()), [])
         self.assertTrue((dest / "CLAUDE.md").exists() and (dest / ".claude" / "agents" / "planner.md").exists())
         self.assertTrue((dest / ".claude" / "skills" / "audit-program" / "build_pack.py").exists())
-        self.assertEqual(sorted(p.name for p in (dest / "scripts").iterdir()), ["checks"])
+        # every committed file is in the copy, scripts included; only outputs/ starts empty
+        self.assertEqual(runs.missing_from_copy(dest), [])
+        for f in engine.REQUIRED_SCRIPTS:
+            self.assertTrue((dest / f).is_file(), f)
+        self.assertEqual(sorted(p.name for p in (dest / "scripts").iterdir()),
+                         sorted(p.name for p in (config.REPO_ROOT / "scripts").iterdir() if p.name != "__pycache__"))
         self.assertTrue((dest / ".venv" / "bin" / "python").exists())
         self.assertFalse((dest / "harness").exists() or (dest / ".git").exists())
         self.assertEqual((dest / ".claude" / "settings.json").read_text().strip(), "{}")
@@ -341,6 +346,15 @@ class PreflightTests(Base):
         self.assertEqual(out.stdout.strip(), "3")
         rc, _ = engine._py(d, ".claude/skills/extract-rules/verify_quotes.py", "--inventory")  # uses pdftotext on data/
         self.assertEqual(rc, 0)
+
+    def test_preflight_fails_fast_on_a_missing_script(self):
+        for victim in engine.REQUIRED_SCRIPTS + ["scripts/clean.py"]:  # a required script, and any other repo file
+            rid = runs.create()
+            d = runs.run_dir(rid)
+            (d / victim).unlink()
+            with self.assertRaises(engine.EngineError) as cm:
+                engine._preflight(d)
+            self.assertIn(Path(victim).name, str(cm.exception))
 
     def test_preflight_names_the_missing_piece(self):
         rid = runs.create()

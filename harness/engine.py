@@ -168,9 +168,25 @@ async def _agent_session(run_id: str, d: Path, name: str, prompt: str) -> str:
     return text
 
 
+# Scripts the pipeline calls by path: the verifiers, the builders and the QA runner.
+REQUIRED_SCRIPTS = [
+    ".claude/skills/extract-rules/verify_quotes.py",
+    "scripts/verify_history.py",
+    ".claude/skills/risk-assessment/build_register.py",
+    ".claude/skills/audit-program/build_pack.py",
+    "scripts/checks/run_checks.py",
+]
+
+
 def _preflight(d: Path) -> None:
-    """Fail before any API spend if the tools the agents call are missing."""
+    """Fail before any API spend if a script or tool the pipeline calls is missing."""
     import shutil
+    absent = [f for f in REQUIRED_SCRIPTS if not (d / f).is_file()]
+    if absent:
+        raise EngineError("pipeline script(s) missing from the run copy: " + ", ".join(absent))
+    lost = runs.missing_from_copy(d)
+    if lost:
+        raise EngineError(f"{len(lost)} repo file(s) missing from the run copy, e.g. " + ", ".join(lost[:5]))
     py = d / ".venv" / "bin" / "python"
     if not py.exists():
         raise EngineError(".venv/bin/python is missing in the run copy")
