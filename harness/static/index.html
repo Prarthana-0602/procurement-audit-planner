@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Procurement Audit Harness</title>
+<style>
+  :root { --bg:#fafaf8; --fg:#1d2430; --muted:#5d6675; --line:#d9dce2; --accent:#1f5fae; --card:#fff; --warn:#a15c00; --bad:#b3261e; --ok:#1d7a3a; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#14171c; --fg:#e6e9ee; --muted:#9aa3b2; --line:#2c323c; --accent:#6aa5ee; --card:#1b1f26; --warn:#e0a040; --bad:#f08a82; --ok:#6fcf8e; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.5 system-ui, sans-serif; }
+  main { max-width: 1000px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 20px; margin: 8px 0 2px; } .sub { color: var(--muted); margin: 0 0 12px; }
+  nav { display:flex; gap:8px; border-bottom:1px solid var(--line); margin-bottom:16px; }
+  nav button { background:none; border:0; border-bottom:3px solid transparent; padding:8px 12px; font:inherit; color:var(--muted); cursor:pointer; }
+  nav button.on { color:var(--fg); border-color:var(--accent); font-weight:600; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px; margin-bottom:14px; }
+  .tabs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .tabs button { border:1px solid var(--line); background:var(--card); color:var(--fg); padding:4px 10px; border-radius:16px; cursor:pointer; font:inherit; }
+  .tabs button.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .doc { overflow-x:auto; } .doc table { border-collapse:collapse; font-size:13px; } .doc th, .doc td { border:1px solid var(--line); padding:4px 8px; vertical-align:top; }
+  input, select, textarea, button.act { font:inherit; padding:6px 8px; border:1px solid var(--line); border-radius:6px; background:var(--card); color:var(--fg); }
+  button.act { background:var(--accent); color:#fff; border-color:var(--accent); cursor:pointer; } button.act:disabled { opacity:.5; cursor:default; }
+  button.alt { background:var(--card); color:var(--fg); border-color:var(--line); }
+  textarea { width:100%; } label { display:block; margin:6px 0 2px; color:var(--muted); font-size:13px; }
+  #log { background:#0e1116; color:#d6dbe4; font:12px/1.45 ui-monospace, monospace; padding:10px; border-radius:6px; max-height:360px; overflow:auto; white-space:pre-wrap; }
+  .err { color:var(--bad); } .okc { color:var(--ok); } .note { color:var(--muted); font-size:13px; }
+  .risk { border-top:1px solid var(--line); padding:10px 0; } .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .badge { font-size:12px; padding:2px 8px; border-radius:10px; border:1px solid var(--line); }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Procurement Audit Harness &mdash; West Berkshire Council</h1>
+  <p class="sub">Risk indicators to investigate, not findings of wrongdoing. Completed run = our committed Part A outputs.</p>
+  <nav><button id="nav-done" class="on">Completed run</button><button id="nav-new">New run</button></nav>
+
+  <section id="v-done">
+    <div class="tabs" id="done-tabs"></div>
+    <div class="card doc" id="done-doc">Loading&hellip;</div>
+  </section>
+
+  <section id="v-new" hidden>
+    <div class="card">
+      <div class="row">
+        <input id="code" type="password" placeholder="Access code" autocomplete="off">
+        <button class="act" id="start">Start new run</button>
+        <button class="act alt" id="abandon" hidden>Abandon run</button>
+        <span id="cfg" class="note"></span>
+      </div>
+      <p class="note">A run calls the Claude API and costs money. It works on its own copy of the repo; committed outputs are never changed. One run at a time.</p>
+      <div id="msg" class="err"></div>
+    </div>
+    <div class="card" id="run-card" hidden>
+      <div class="row"><strong id="run-id"></strong><span class="badge" id="run-stage"></span><span class="badge" id="run-cost"></span></div>
+      <p id="run-msg" class="note"></p>
+      <div id="log"></div>
+    </div>
+    <div class="card" id="gate1" hidden>
+      <h3>Gate 1: the auditor decides each risk</h3>
+      <div class="doc" id="g1-register"></div>
+      <label>Reviewer name</label><input id="g1-name" placeholder="Your name">
+      <div id="g1-rows"></div>
+      <p><button class="act" id="g1-submit">Save decisions and revise the register</button></p>
+    </div>
+    <div class="card" id="team" hidden>
+      <h3>Agent team</h3>
+      <p class="note">Runs planner, challenger and qa-reviewer on the approved risks.</p>
+      <button class="act" id="team-start">Run the agent team</button>
+    </div>
+    <div class="card" id="gate2" hidden>
+      <h3>Gate 2: QA verdict and sign-off</h3>
+      <p>Verdict: <strong id="g2-verdict"></strong></p>
+      <div class="tabs" id="run-tabs"></div>
+      <div class="doc" id="g2-doc"></div>
+      <label>Auditor name</label><input id="g2-name" placeholder="Your name">
+      <label>Decision</label>
+      <select id="g2-decision"><option>signed off</option><option>returned</option></select>
+      <label>Comment (a reason is required when returning)</label><textarea id="g2-comment" rows="3"></textarea>
+      <p><button class="act" id="g2-submit">Record sign-off in review.md</button></p>
+    </div>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let runId = null, lastEvent = -1, timer = null, shownStage = null;
+
+function show(view) {
+  $('v-done').hidden = view !== 'done'; $('v-new').hidden = view !== 'new';
+  $('nav-done').classList.toggle('on', view === 'done'); $('nav-new').classList.toggle('on', view === 'new');
+  if (view === 'new') initNew();
+}
+$('nav-done').onclick = () => show('done'); $('nav-new').onclick = () => show('new');
+
+function tabs(el, target, docs) {
+  el.innerHTML = '';
+  docs.forEach((d, i) => {
+    const b = document.createElement('button'); b.textContent = d.title;
+    b.onclick = () => { [...el.children].forEach(c => c.classList.remove('on')); b.classList.add('on'); target.innerHTML = d.html; };
+    el.appendChild(b); if (i === 0) b.click();
+  });
+}
+fetch('/api/completed').then(r => r.json()).then(j => tabs($('done-tabs'), $('done-doc'), j.docs))
+  .catch(() => { $('done-doc').textContent = 'Could not load the completed run.'; });
+
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json', 'X-Access-Code': $('code').value };
+  const r = await fetch(path, { ...opts, headers });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.detail || ('HTTP ' + r.status));
+  return j;
+}
+const fail = e => { $('msg').textContent = e.message; };
+
+async function initNew() {
+  const c = await fetch('/api/config').then(r => r.json());
+  $('cfg').textContent = c.runs_enabled ? 'Model: ' + c.model : 'Runs are disabled on this server.';
+  if (c.active_run && !runId) { runId = c.active_run; $('abandon').hidden = false; poll(); }
+}
+
+$('start').onclick = async () => {
+  $('msg').textContent = '';
+  try { const j = await api('/api/runs', { method: 'POST' }); runId = j.id; lastEvent = -1; $('log').textContent = ''; shownStage = null; poll(); }
+  catch (e) { fail(e); }
+};
+$('abandon').onclick = async () => { try { await api('/api/runs/' + runId + '/abandon', { method: 'POST' }); poll(); } catch (e) { fail(e); } };
+
+async function poll() {
+  clearTimeout(timer);
+  if (!runId) return;
+  try {
+    const s = await fetch('/api/runs/' + runId).then(r => r.json());
+    const ev = await fetch('/api/runs/' + runId + '/events?after=' + lastEvent).then(r => r.json());
+    ev.events.forEach(e => {
+      lastEvent = e.n;
+      const line = document.createElement('div'); if (e.kind === 'error') line.className = 'err';
+      line.textContent = e.t.slice(11, 19) + ' [' + (e.who || e.kind) + '] ' + e.text; $('log').appendChild(line);
+    });
+    if (ev.events.length) $('log').scrollTop = $('log').scrollHeight;
+    $('run-card').hidden = false; $('run-id').textContent = 'Run ' + s.id;
+    $('run-stage').textContent = s.stage + ' / ' + s.status; $('run-cost').textContent = '$' + s.cost_usd.toFixed(2);
+    $('run-msg').textContent = s.error ? 'Error: ' + s.error : s.message;
+    $('abandon').hidden = s.status !== 'waiting';
+    $('start').disabled = ['running', 'waiting'].includes(s.status);
+    ['gate1', 'team', 'gate2'].forEach(k => $(k).hidden = true);
+    if (s.status === 'waiting' && s.stage === 'gate1') await loadGate1(s);
+    if (s.status === 'waiting' && s.stage === 'team_ready') $('team').hidden = false;
+    if (s.status === 'waiting' && s.stage === 'gate2') await loadGate2(s);
+    if (s.status === 'running') timer = setTimeout(poll, 2000);
+    else if (s.status === 'waiting') timer = setTimeout(poll, 8000);
+  } catch (e) { fail(e); }
+}
+
+async function loadGate1(s) {
+  $('gate1').hidden = false;
+  if (shownStage === 'gate1') return;
+  shownStage = 'gate1';
+  const g = await fetch('/api/runs/' + s.id + '/gate1').then(r => r.json());
+  $('g1-register').innerHTML = g.register_html;
+  $('g1-rows').innerHTML = '';
+  g.risks.forEach(r => {
+    const d = document.createElement('div'); d.className = 'risk'; d.dataset.id = r.id;
+    d.innerHTML = '<strong></strong> <span class="note"></span><div class="row">' +
+      '<select class="dec"><option>Approve</option><option>Amend</option><option>Reject</option></select>' +
+      '<span class="amend" hidden>L <select class="lik"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select> ' +
+      'I <select class="imp"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></span></div>' +
+      '<input class="cmt" style="width:100%;margin-top:6px" placeholder="Comment (required for Amend and Reject)">';
+    d.querySelector('strong').textContent = r.id + ': ' + r.title; d.querySelector('.note').textContent = r.rating;
+    d.querySelector('.dec').onchange = e => { d.querySelector('.amend').hidden = e.target.value !== 'Amend'; };
+    $('g1-rows').appendChild(d);
+  });
+}
+$('g1-submit').onclick = async () => {
+  $('msg').textContent = '';
+  const decisions = [...document.querySelectorAll('#g1-rows .risk')].map(d => ({
+    id: d.dataset.id, decision: d.querySelector('.dec').value, comment: d.querySelector('.cmt').value,
+    likelihood: parseInt(d.querySelector('.lik').value) || null, impact: parseInt(d.querySelector('.imp').value) || null }));
+  try { await api('/api/runs/' + runId + '/gate1', { method: 'POST', body: JSON.stringify({ reviewer: $('g1-name').value, decisions }) }); shownStage = null; poll(); }
+  catch (e) { fail(e); }
+};
+$('team-start').onclick = async () => { $('msg').textContent = ''; try { await api('/api/runs/' + runId + '/team', { method: 'POST' }); poll(); } catch (e) { fail(e); } };
+
+async function loadGate2(s) {
+  $('gate2').hidden = false;
+  if (shownStage === 'gate2') return;
+  shownStage = 'gate2';
+  const g = await fetch('/api/runs/' + s.id + '/gate2').then(r => r.json());
+  $('g2-verdict').textContent = g.verdict; $('g2-verdict').className = g.verdict === 'READY FOR SIGN-OFF' ? 'okc' : 'err';
+  const docs = await fetch('/api/runs/' + s.id + '/docs').then(r => r.json());
+  const order = ['review', ...docs.docs.map(d => d.key).filter(k => k !== 'review')];
+  tabs($('run-tabs'), $('g2-doc'), order.map(k => docs.docs.find(d => d.key === k)));
+}
+$('g2-submit').onclick = async () => {
+  $('msg').textContent = '';
+  try { await api('/api/runs/' + runId + '/gate2', { method: 'POST', body: JSON.stringify({ auditor: $('g2-name').value, decision: $('g2-decision').value, comment: $('g2-comment').value }) }); shownStage = null; poll(); }
+  catch (e) { fail(e); }
+};
+</script>
+</body>
+</html>

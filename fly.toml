@@ -1,0 +1,33 @@
+# Set a globally unique name before the first deploy: fly launch --no-deploy --copy-config
+app = "procurement-audit-harness"
+primary_region = "lax"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  HARNESS_DATA = "/data"
+  HARNESS_MODEL = "sonnet"
+
+[mounts]
+  source = "data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "off"    # long runs must not be stopped
+  auto_start_machines = false
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    method = "GET"
+    path = "/healthz"
+    interval = "15s"
+    timeout = "5s"
+    grace_period = "20s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "2gb"
