@@ -159,3 +159,50 @@ Guide: https://procurement-audit-planner.vercel.app/ (step titles as we supplied
 8. **Gate 2:** complete the sign-off block at the end of `outputs/review.md`.
 
 Unit tests: `test_verify_quotes.py`, `test_build_register.py`, `test_build_pack.py`, `scripts/checks/test_checks.py` and `scripts/test_verify_history.py`. Re-run the QA checks any time with `.venv/bin/python scripts/checks/run_checks.py`.
+
+## 8. Part B: Deployed agent harness
+
+**Live at https://procurement-audit-harness-prarthana.fly.dev/** (source in `harness/`, plus `Dockerfile`, `fly.toml` and `.dockerignore` at the repo root).
+
+### Architecture
+
+- **App:** FastAPI (`harness/app.py`) serving one HTML page (`harness/static/index.html`, no build step) and a JSON API. Runs execute as background tasks, and the page polls their progress.
+- **Engine** (`harness/engine.py`): Python with the Claude Agent SDK (`claude-agent-sdk`), loading this repo's own `CLAUDE.md`, `.claude/agents` and `.claude/skills` as project settings. We did not rewrite any skill or agent. The model is a Sonnet alias (`HARNESS_MODEL`, default `sonnet`), with a per-session budget cap (`HARNESS_MAX_BUDGET_USD`, default 5). It authenticates with the `ANTHROPIC_API_KEY` environment variable, which is never logged or returned: progress text is redacted before it is stored.
+- **Fly.io** (`fly.toml`): app `procurement-audit-harness-prarthana` in `lax`, one `shared-cpu-1x` machine with 2GB RAM, a 1GB volume `data` mounted at `/data`, internal port 8080, `auto_stop_machines = "off"` and `min_machines_running = 1` so long runs are not stopped, and an HTTP health check on `/healthz` every 15 seconds. `ANTHROPIC_API_KEY` and `RUN_ACCESS_CODE` are Fly secrets.
+- **Image** (`Dockerfile`): Python 3.12 slim with `poppler-utils` for the quote verifiers, our requirements, and no Node, because the SDK bundles the Claude Code CLI. The app runs as an unprivileged user (`harness/entrypoint.sh` fixes ownership of `/data`, then drops root), because Claude Code refuses `bypassPermissions` as root.
+- **Per-run repo copies:** every run works in `/data/runs/<id>`, a copy of the repo in which every committed file is kept and only `outputs/` starts empty, so the committed Part A outputs are never overwritten. In the copy, `.venv/bin/python` is a wrapper that runs the container's Python (the agent files call that path) and `.claude/settings.json` is `{}` (a run relays the team itself rather than enabling native agent teams). One run is active at a time. Before any API spend, a preflight checks that the five pipeline scripts, every other repo file, pandas, openpyxl, `pdftotext` and `pdfinfo` are present.
+
+### Views
+
+1. **Completed run:** renders our committed Part A outputs (risk register, auditor decisions, planning memo, risk-control matrix, audit program, challenges, review with sign-off). It makes no API calls and needs no access code.
+2. **New run:** runs `/extract-rules`, then the spend-analyst and findings-analyst as two concurrent sessions, then the risk-assessor, streaming progress to the page. Each agent runs as its own SDK session built from its `.claude/agents/<name>.md` file (same system prompt, same tools), and the engine waits for each to finish before checking its outputs.
+
+### Human gates in the browser
+
+- **Gate 1:** the page shows the register and one row per risk: Approve, Amend (with likelihood and/or impact 1 to 5) or Reject, plus a comment and the reviewer's name. Every risk needs a decision, and Amend and Reject need a comment. On submit the harness writes `auditor-comments.md` in the same format as Part A (`Reviewer: <name>, <date>. L=3. <comment>`), runs the risk-assessor revision, and confirms the gate check (`build_pack.py --gate`) passes. We then start the agent team with a separate button.
+- **Gate 2:** the page shows the QA verdict, the check results and every document, with a sign-off form (auditor name, "signed off" or "returned", comment). The harness writes the sign-off block at the end of `review.md`. It refuses "signed off" unless the verdict is READY FOR SIGN-OFF, and refuses "returned" without a reason.
+
+### Agent team: relay orchestrator
+
+The SDK has no team API, and we did not try native agent teams, because that needs paid calls. `run_team` in `harness/engine.py` is therefore a relay orchestrator: one SDK session each for planner, challenger and qa-reviewer, built from the same agent files with the same tools minus `SendMessage`, and with the `audit-program` skill for the planner. Agents write `SEND TO <name>:` lines, and the orchestrator delivers them as the next turn of the recipient's session. The protocol is unchanged: `PACK READY vN`, `CHALLENGE #n`, `RESPONSE #n`, `QA vN: PASS | FAIL`, then `PLANNER DONE`, `CHALLENGER DONE` and `QA DONE`. A new `PACK READY` clears earlier DONE messages, and the relay only finishes when all three DONE messages have arrived. If the team goes quiet it sends status checks and fails after three unanswered ones. Every session has a hook that refuses sub-agent launches and background commands, so no turn ends while work is still running.
+
+### Access code
+
+Starting a run, submitting either gate, starting the team and abandoning a run all require the access code (header `X-Access-Code`, checked against the `RUN_ACCESS_CODE` secret). A wrong or missing code gets 403 and creates nothing. If `RUN_ACCESS_CODE` is not set on the server, runs are disabled (503). Starting also needs `ANTHROPIC_API_KEY` to be set.
+
+### Bugs found and fixed during the first live runs
+
+| Bug | What happened | Fix |
+|---|---|---|
+| Dockerfile requirements overwrite | The first deploy failed: both `COPY` sources landed as `./requirements.txt`, so `pip` could not open `harness/requirements.txt`. | `bed7c6b`: the two files are copied under separate names. |
+| Background sub-agents not awaited | In the first live run, the lead launched the spend-analyst and findings-analyst in the background and ended its turn. Six seconds later the engine raised "expected output missing: analytics.json, analytics-selfcheck.json, history.json". | `6cca422`: each analyst, and the risk-assessor for both the build and the revision, runs as its own awaited SDK session, the two analysts concurrently. A hook refuses background work, and a preflight was added. A test with a fake session that finishes late proves the engine waits. |
+| Committed scripts missing from run copies | In the second live run, `verify_history.py` exited 2 with "No such file or directory". The image was complete; our run-copy code deleted everything in `scripts/` except `checks/`. | `232cfb6`: every committed file is kept and only `outputs/` starts empty. The preflight now fails fast if a pipeline script or any repo file is missing, and we probed a fresh run copy inside the live container. |
+
+### One full live run
+
+Run `20261017-075222-4d89` went through every stage on the deployed harness. It reached **READY FOR SIGN-OFF** with **all 4 QA checks passing** (pack v2, 8 sample files, 312 distinct sampled transactions), was **signed off** by Prarthana Patel in the browser on 2026-10-17, and cost **$2.28** in API calls. It is a fresh regeneration from the model, not a copy of Part A, so its figures differ from the Part A results in section 5 (for example 68 rules extracted rather than 74).
+
+### Tests and deploy
+
+- Tests that make no API calls (the page, access code, gates, run copies, relay logic, waiting for slow sessions, preflight): `.venv/bin/python -m unittest discover -s harness/tests -t .`
+- Deploy: `fly deploy --app procurement-audit-harness-prarthana --remote-only` (secrets are set in the Fly dashboard). More detail is in `harness/README.md`.
