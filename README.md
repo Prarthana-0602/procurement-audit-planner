@@ -206,3 +206,7 @@ Run `20261017-075222-4d89` went through every stage on the deployed harness. It 
 
 - Tests that make no API calls (the page, access code, gates, run copies, relay logic, waiting for slow sessions, preflight): `.venv/bin/python -m unittest discover -s harness/tests -t .`
 - Deploy: `fly deploy --app procurement-audit-harness-prarthana --remote-only` (secrets are set in the Fly dashboard). More detail is in `harness/README.md`.
+
+## Second team run: Shivathmika Ramanathan
+
+As a team, we produced two runs of Part A from the same guide and the same West Berkshire Council data, which let us compare results across builds. The second run, completed by team member Shivathmika Ramanathan, is at https://github.com/shramanathan/procurement-audit-planner. Its extract-rules skill produced 78 testable rules with verified verbatim quotes, 41 excluded clauses and 21 drafting notes. Its risk-assessor rated 10 risks on the council's own 5×5 scoring method; after six auditor revisions, 9 risks were approved and 1 (grants) was rejected for a separate review. Its agent team produced pack v5 with 22 controls, 16 tests and 14 sample files covering 3,955 sampled payments, resolved 7 of 8 challenges (1 declined with a documented reason), and passed all five QA checks before auditor sign-off on 18 October 2026. The second run offers broader risk coverage, while this run provides a more targeted fieldwork sample; this repository remains the team's primary submission because the deployed Part B harness is built from it.
